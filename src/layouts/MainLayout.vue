@@ -12,29 +12,10 @@
         />
 
         <q-toolbar-title>
-          
+          Admin
         </q-toolbar-title>
 
-        <q-btn-dropdown stretch flat label="M. Iqbal">
-          <q-list>
-            <q-item clickable v-close-popup tabindex="0" to="/profile">
-              <q-item-section avatar>
-                <q-avatar text-color="grey" icon="account_box" />
-              </q-item-section>
-
-              <q-item-section>Shop Profile</q-item-section>
-            </q-item>
-
-            <q-item clickable v-close-popup tabindex="1">
-              <q-item-section avatar>
-                <q-avatar text-color="grey" icon="logout" />
-              </q-item-section>
-
-              <q-item-section @click="onClickLogout">Logout</q-item-section>
-            </q-item>
-
-          </q-list>
-        </q-btn-dropdown>
+        <div>v0.01</div>
       </q-toolbar>
     </q-header>
 
@@ -57,22 +38,59 @@
 import EssentialLink from 'components/EssentialLink.vue'
 import Sidebar from './Sidebar'
 
+const linksData = [
+  {
+    title: 'Docs',
+    caption: 'quasar.dev',
+    icon: 'school',
+    link: 'https://quasar.dev'
+  },
+  {
+    title: 'Github',
+    caption: 'github.com/quasarframework',
+    icon: 'code',
+    link: 'https://github.com/quasarframework'
+  },
+  {
+    title: 'Discord Chat Channel',
+    caption: 'chat.quasar.dev',
+    icon: 'chat',
+    link: 'https://chat.quasar.dev'
+  },
+  {
+    title: 'Forum',
+    caption: 'forum.quasar.dev',
+    icon: 'record_voice_over',
+    link: 'https://forum.quasar.dev'
+  },
+  {
+    title: 'Twitter',
+    caption: '@quasarframework',
+    icon: 'rss_feed',
+    link: 'https://twitter.quasar.dev'
+  },
+  {
+    title: 'Facebook',
+    caption: '@QuasarFramework',
+    icon: 'public',
+    link: 'https://facebook.quasar.dev'
+  },
+  {
+    title: 'Quasar Awesome',
+    caption: 'Community Quasar projects',
+    icon: 'favorite',
+    link: 'https://awesome.quasar.dev'
+  }
+];
+
 export default {
   name: 'MainLayout',
   components: { Sidebar },
   data () {
     return {
       leftDrawerOpen: false,
+      essentialLinks: linksData
     }
-  },
-
-  methods: {
-    onClickLogout() {
-      this.$store.dispatch('Logout')
-        .then(res => {
-          this.$router.push('/login')
-        })
-    }
-  },
+  }
 }
 </script>

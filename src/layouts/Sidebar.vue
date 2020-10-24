@@ -1,30 +1,12 @@
 <template>
   <div>
-    <q-list class="q-pt-md">
-
-      <q-item clickable to="/profile">
-        <q-item-section side top>
-          <q-avatar color="primary" />
-        </q-item-section>
-        <q-item-section lines="2">
-          <q-item-label><span class="text-weight-medium text-uppercase">{{ name }}</span></q-item-label>
-          <q-item-label>
-            <span class="text-caption">Click to display profile</span>
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-
-      <q-separator spaced inset />
-
-      <q-item clickable v-ripple>
-        <q-item-section>New Messages</q-item-section>
-        <q-item-section side>
-          <q-badge color="warning">0</q-badge>
-        </q-item-section>
-      </q-item>
-
-      <q-separator spaced inset />
-    
+    <q-list>
+      <q-item-label
+        header
+        class="text-grey-8"
+      >
+        Essential Links
+      </q-item-label>
       <EssentialLink
         v-for="link in menus"
         :key="link.meta.title"
@@ -50,7 +32,6 @@ export default {
 
   computed: {
     ...mapGetters([
-      'name',
       'menus'
     ])
   },

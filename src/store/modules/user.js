@@ -7,9 +7,6 @@ const user = {
     token: getToken(process.env.MAIN_BE_TOKEN),
     roles: [],
     session: '',
-    name: '',
-    email: '',
-    mobile: ''
   },
 
   mutations: {
@@ -29,22 +26,6 @@ const user = {
 
     SET_SESSION: (state, session) => {
       state.session = session
-    },
-
-    SET_USER: (state, userId) => {
-      state.userId = userId
-    },
-
-    SET_EMAIL: (state, data) => {
-      state.email = data
-    },
-
-    SET_MOBILE: (state, data) => {
-      state.mobile = data
-    },
-
-    SET_NAME: (state, data) => {
-      state.name = data
     }
   },
 
@@ -72,10 +53,6 @@ const user = {
             const data = res.data
             commit('SET_ROLES', data.roles)
             commit('SET_SESSION', data.session)
-            commit('SET_USER', data.user)
-            commit('SET_NAME', data.name)
-            commit('SET_EMAIL', data.email)
-            commit('SET_MOBILE', data.mobile)
             resolve(data)
           })
           .catch(err => {
@@ -90,10 +67,6 @@ const user = {
         this.$repository.user.logout()
         commit('SET_ROLES', [])
         commit('SET_SESSION', '')
-        commit('SET_USER', '')
-        commit('SET_NAME', '')
-        commit('SET_EMAIL', '')
-        commit('SET_MOBILE', '')
         commit('LOGOUT')
         resolve()
       })
@@ -120,6 +93,18 @@ const user = {
             resolve(res.data)
             User.insert({ data: res.data })
             dispatch('GetAllUsers')
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
+    RegisterIndividual({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.register(data)
+          .then(res => {
+            resolve(res.data)
           })
           .catch(err => {
             reject(err)

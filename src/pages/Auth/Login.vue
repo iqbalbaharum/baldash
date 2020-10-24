@@ -1,78 +1,71 @@
 <template>
   <div>
-    <div class="fullscreen row">
-      <div class="col" style="height: 100vh">
-        <div class="column items-center justify-center q-gutter-y-md" style="height: 100vh">
-          <div class="text-h1">Hello, Friend</div>
-          <div class="text-body q-mt-sm">Enter your personal information and start your journey</div>
-          <q-btn
-            color="primary"
-            text-color="white"
-            label="Register"
-            to="/register"
-            size="md"
-            padding="sm xl"
-            rounded
-          />
-        </div>
+    <div class="fullscreen column bg-blue text-white">
+      <div class="col-2 q-pa-lg flex flex-center">
+        BALJS
       </div>
-      <div class="col bg-gradient">
-        <div class="row items-center justify-center" style="height: 100vh">
-          <form class="column q-pa-md items-center q-gutter-y-sm" style="width: 400px;">
-            <div class="text-h4 q-mb-md">Welcome</div>
+      <div class="col item-centers text-center q-pa-md flex flex-center">
+        <div>
+          <form class="q-col-gutter-y-md">
+           <q-input
+            dark
+            outlined
+            standout
+            label="Email"
+            color="text-white"
+            v-model.trim="form.email"
+            ref="email"
+            :error="$v.form.email.$error"
+            error-message="Need a valid email"
+          />
 
-            <q-input
-              filled
-              standout
-              label="Email"
-              color="text-white"
-              v-model.trim="form.email"
-              ref="email"
-              :error="$v.form.email.$error"
-              error-message="Need a valid email"
-              class="full-width"
-            />
+          <q-input
+            dark
+            outlined
+            standout
+            label="Password"
+            color="text-white"
+            v-model="form.password"
+            :type=type
+            ref="password"
+            @keyup.enter="login"
+            :error="$v.form.password.$error"
+            error-message="Password is required"
+            bottom-slots
+          >
+            <template v-slot:append>
+              <q-btn round flat icon="remove_red_eye" @click="onClickShowPassword" />
+            </template>
 
-            <q-input
-              filled
-              standout
-              label="Password"
-              color="text-white"
-              v-model="form.password"
-              :type="type"
-              ref="password"
-              @keyup.enter="login"
-              :error="$v.form.password.$error"
-              error-message="Password is required"
-              bottom-slots
-              class="full-width"
-            >
+          </q-input>
 
-              <template v-slot:append>
-                <q-btn round flat icon="remove_red_eye" @click="onClickShowPassword" />
-              </template>
-
-            </q-input>
-
+          <div class="q-gutter-sm">
             <q-btn
-              color="primary"
-              text-color="white"
+              color="white"
+              text-color="blue"
               label="Sign In"
-              class="full-width"
+              no-caps
               @click="login"
-              padding="md"
-              rounded
             />
-
-            <div class="q-mt-sm">
-              <q-btn
-                color="white"
-                text-color="white"
-                flat
-                to="/forget"
-                label="I forgot my password"
-                no-caps />
-            </div>
+            <q-btn
+              color="white"
+              text-color="white"
+              outline
+              unelevated
+              to="/register"
+              label="Create Account"
+              no-caps
+            />
+          </div>
+          <div class="q-mt-sm">
+            <q-btn
+              color="white"
+              text-color="white"
+              flat
+              to="/forget"
+              label="I forgot my password"
+              no-caps />
+          </div>
 
           </form>
         </div>

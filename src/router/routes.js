@@ -6,12 +6,9 @@ const routes = [
     component: MainLayout,
     children: [
       {
-        path: '/',
+        path: '',
         meta: {
-          title: 'Home',
-          roles: [],
-          sidebar: true,
-          icon: 'user'
+          sidebar: false
         },
         component: () => import('pages/Index.vue')
       },
@@ -36,32 +33,16 @@ const routes = [
         component: () => import('pages/User.vue')
       },
       {
-        path: 'postage',
+        path: 'asset',
         meta: {
-          title: 'Postage',
+          title: 'Asset Management',
           roles: [],
           sidebar: true,
           icon: 'school'
         },
-        component: () => import('pages/Postage.vue')
-      },
-      {
-        path: 'product',
-        meta: {
-          title: 'Product Management',
-          roles: [],
-          sidebar: true,
-          icon: 'school'
-        },
-        component: () => import('pages/Product.vue')
-      },
-      {
-        path: '/profile',
-        meta: {
-          sidebar: false,
-        },
-        component: () => import('pages/User/Profile.vue')
-      },
+        component: () => import('pages/Assets.vue')
+      }
+
     ]
   },
 
@@ -76,11 +57,21 @@ const routes = [
   },
 
 
+  // {
+  //   path: '/first-time-registration',
+  //   meta: {
+  //     title: 'First Time Registration',
+  //     roles: [],
+  //     sidebar: false
+  //   },
+  //   component: () => import('pages/Auth/FirstTimeRegister.vue')
+  // },
+
   {
     path: '/register',
     meta: {
       title: 'Registration',
-      roles: [],
+      roles: ['user'],
       sidebar: false
     },
     component: () => import('pages/Auth/Register.vue')

@@ -19,7 +19,6 @@
           v-model="data.tabs"
           class="text-primary"
         >
-          <q-tab name="profile" label="Profile" />
           <q-tab name="list" label="Users" />
           <q-tab name="session" label="Session" />
           <q-tab name="role" label="Roles" />

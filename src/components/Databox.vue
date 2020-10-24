@@ -1,12 +1,11 @@
 <template>
-  <div style="width: 1000px">
-    <!-- <div class="text-3" v-if="title">{{ title }}</div> -->
+  <div style="min-width: 800px">
+    <div class="text-3" v-if="title">{{ title }}</div>
 
     <div class="q-pa-md">
       <q-table
         :data="rows"
         :columns="columns"
-        row-key="name"
       >
 
         <template v-slot:top-left>
@@ -55,9 +54,6 @@
         <template v-slot:body="props">
           
           <q-tr :props="props">
-            <q-td v-if="expandable">
-              <q-btn auto-width v-if="props.row[expandableFlag]" size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-            </q-td>
             <q-td v-for="(col, index) in props.cols" :key="col.field">
               <template v-if="index == (props.cols.length - 1) && crud.includes('delete')">
                 <q-btn flat round icon="more_vert">
@@ -86,11 +82,6 @@
                 </q-popup-edit>
               </template>
 
-            </q-td>
-          </q-tr>
-          <q-tr v-show="props.expand" :props="props">
-            <q-td colspan="100%">
-              <slot name="expand-body" />
             </q-td>
           </q-tr>
 
@@ -154,17 +145,6 @@ export default {
     menus: {
       type: Array,
       default: () => []
-    },
-    expandable: {
-      type: Boolean,
-      default: false
-    },
-    expandableFlag: {
-      type: String
-    },
-    rowKey: {
-      type: String,
-      default: ''
     }
   },
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <databox 
-			title="Delivery Covered Area" 
+			title="Zone" 
 			:crud="['create', 'update', 'delete', 'read']" 
 			:editablescol="[]"
 			:rows="zones" 

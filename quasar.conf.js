@@ -35,7 +35,7 @@ module.exports = function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      'fontawesome-v5',
+      // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
@@ -124,7 +124,7 @@ cfg.module.rules.push({
       manifest: {
         name: `BalAdmin App`,
         short_name: `BalAdmin App`,
-        description: `BalAdmin for AcceptBy Admin`,
+        description: `BalAdmin for BalJS`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

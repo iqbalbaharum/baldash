@@ -7,11 +7,8 @@ import database from '../database'
 import user from './modules/user'
 import app from './modules/app'
 import session from './modules/session'
-import category from './modules/category'
 import zone from './modules/zone'
 import role from './modules/role'
-import product from './modules/product'
-import courier from './modules/courier'
 
 Vue.use(Vuex)
 
@@ -30,11 +27,8 @@ export default function (/* { ssrContext } */) {
       user,
       app,
       session,
-      category,
       zone,
-      role,
-      product,
-      courier
+      role
     },
     getters,
     plugins: [VuexORM.install(database)],

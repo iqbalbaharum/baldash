@@ -1,6 +1,6 @@
 # BalAdmin App (baladmin)
 
-BalAdmin for AcceptBy Admin
+BalAdmin for BalJS
 
 ## Install the dependencies
 ```bash
