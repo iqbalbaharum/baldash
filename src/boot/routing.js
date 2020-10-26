@@ -1,6 +1,6 @@
 import { getToken } from './../datasources/localstorage.storage'
 import generateSidebarLinks from './sidebar'
-// import { hasPermission } from '../utils'
+import { hasPermission } from '../utils'
 
 export default async({ app, router, store, Vue }) => {
   // URLs which gonna be public access
