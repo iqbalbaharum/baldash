@@ -3,20 +3,19 @@
     <q-list>
       <q-item-label
         header
-        class="text-grey-8"
+        class="text-grey-1 bg-teal-6 text-h5 text-center"
+        
       >
-        Essential Links
+        Material
       </q-item-label>
       <EssentialLink
         v-for="link in menus"
         :key="link.meta.title"
         :title="link.meta.title"
-        :caption="link.meta.title"
         :link="link.path"
         :icon="link.meta.icon"
       />
     </q-list>
-
   </div>
 </template>
 

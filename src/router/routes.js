@@ -12,35 +12,65 @@ const routes = [
         },
         component: () => import('pages/Index.vue')
       },
+      // {
+      //   path: 'session',
+      //   meta: {
+      //     title: 'Session Management',
+      //     roles: [],
+      //     sidebar: true,
+      //     icon: 'school'
+      //   },
+      //   component: () => import('pages/Session.vue')
+      // },
+      // {
+      //   path: 'user',
+      //   meta: {
+      //     title: 'User Management',
+      //     roles: [],
+      //     sidebar: true,
+      //     icon: 'school'
+      //   },
+      //   component: () => import('pages/User.vue')
+      // },
+      // {
+      //   path: 'asset',
+      //   meta: {
+      //     title: 'Asset Management',
+      //     roles: [],
+      //     sidebar: true,
+      //     icon: 'school'
+      //   },
+      //   component: () => import('pages/Assets.vue')
+      // },
       {
-        path: 'session',
+        path: 'dashboard',
         meta: {
-          title: 'Session Management',
+          title: 'Dashboard',
           roles: [],
           sidebar: true,
-          icon: 'school'
+          icon: 'home'
         },
-        component: () => import('pages/Session.vue')
+        component: () => import('pages/Dashboard.vue')
       },
       {
-        path: 'user',
+        path: 'dashboard',
         meta: {
-          title: 'User Management',
+          title: 'Customizer',
           roles: [],
           sidebar: true,
-          icon: 'school'
+          icon: 'home'
         },
-        component: () => import('pages/User.vue')
+        component: () => import('pages/Dashboard.vue')
       },
       {
-        path: 'asset',
+        path: 'dashboard',
         meta: {
-          title: 'Asset Management',
+          title: 'Material UI',
           roles: [],
           sidebar: true,
-          icon: 'school'
+          icon: 'home'
         },
-        component: () => import('pages/Assets.vue')
+        component: () => import('pages/Dashboard.vue')
       }
 
     ]
