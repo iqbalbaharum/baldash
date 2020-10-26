@@ -4,7 +4,6 @@
       <q-item-label
         header
         class="text-grey-1 bg-teal-6 text-h5 text-center"
-        
       >
         Material
       </q-item-label>
@@ -24,6 +23,10 @@ import EssentialLink from '../components/EssentialLink'
 import { mapGetters } from 'vuex'
 
 export default {
+  components: {
+    EssentialLink
+  },
+
   data() {
     return {
     }
@@ -35,8 +38,5 @@ export default {
     ])
   },
 
-  components: {
-    EssentialLink
-  }
 }
 </script>

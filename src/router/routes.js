@@ -12,36 +12,6 @@ const routes = [
         },
         component: () => import('pages/Index.vue')
       },
-      // {
-      //   path: 'session',
-      //   meta: {
-      //     title: 'Session Management',
-      //     roles: [],
-      //     sidebar: true,
-      //     icon: 'school'
-      //   },
-      //   component: () => import('pages/Session.vue')
-      // },
-      // {
-      //   path: 'user',
-      //   meta: {
-      //     title: 'User Management',
-      //     roles: [],
-      //     sidebar: true,
-      //     icon: 'school'
-      //   },
-      //   component: () => import('pages/User.vue')
-      // },
-      // {
-      //   path: 'asset',
-      //   meta: {
-      //     title: 'Asset Management',
-      //     roles: [],
-      //     sidebar: true,
-      //     icon: 'school'
-      //   },
-      //   component: () => import('pages/Assets.vue')
-      // },
       {
         path: 'dashboard',
         meta: {
@@ -51,6 +21,36 @@ const routes = [
           icon: 'home'
         },
         component: () => import('pages/Dashboard.vue')
+      },
+      {
+        path: 'session',
+        meta: {
+          title: 'Session Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/Session.vue')
+      },
+      {
+        path: 'user',
+        meta: {
+          title: 'User Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/User.vue')
+      },
+      {
+        path: 'asset',
+        meta: {
+          title: 'Asset Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/Assets.vue')
       },
       {
         path: 'dashboard',
@@ -85,7 +85,6 @@ const routes = [
     },
     component: () => import('pages/Auth/Login.vue')
   },
-
 
   // {
   //   path: '/first-time-registration',

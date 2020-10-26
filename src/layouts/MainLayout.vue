@@ -10,30 +10,25 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-item clickable v-ripple>
+        <q-item v-ripple clickable>
           <q-item-section>
-            <q-avatar icon="mail">
-            </q-avatar>
-            </q-item-section>
+            <q-avatar icon="mail" />
+          </q-item-section>
         </q-item>
 
-        <q-toolbar-title>
+        <q-toolbar-title />
 
-        </q-toolbar-title>
-
-
-        <q-item clickable v-ripple>
+        <q-item v-ripple clickable>
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white">
-                R
-              </q-avatar>
-            </q-item-section>
-        </q-item>
-        <q-item clickable v-ripple>
-          <q-item-section>
-            <q-avatar icon="flag">
+              R
             </q-avatar>
-            </q-item-section>
+          </q-item-section>
+        </q-item>
+        <q-item v-ripple clickable>
+          <q-item-section>
+            <q-avatar icon="flag" />
+          </q-item-section>
         </q-item>
       </q-toolbar>
     </q-header>
@@ -55,7 +50,6 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
 import Sidebar from './Sidebar'
 
 const linksData = [
@@ -101,12 +95,12 @@ const linksData = [
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
   }
-];
+]
 
 export default {
   name: 'MainLayout',
   components: { Sidebar },
-  data () {
+  data() {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData

@@ -173,7 +173,6 @@ export default {
   },
   mounted() {
     this.fillData()
-    console.log(this.leads)
   },
 
   methods: {
