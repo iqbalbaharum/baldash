@@ -2,6 +2,7 @@
   <q-item
     clickable
     tag="a"
+    class="text-grey"
     :to="{ path: link }"
   >
     <q-item-section

@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="lHh Lpr lFf" class="bg-grey-3">
+    <q-header elevated class="bg-white text-black">
       <q-toolbar>
         <q-btn
           flat
@@ -10,12 +10,31 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
+        <q-item clickable v-ripple>
+          <q-item-section>
+            <q-avatar icon="mail">
+            </q-avatar>
+            </q-item-section>
+        </q-item>
 
         <q-toolbar-title>
-          Admin
+
         </q-toolbar-title>
 
-        <div>v0.01</div>
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white">
+                R
+              </q-avatar>
+            </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple>
+          <q-item-section>
+            <q-avatar icon="flag">
+            </q-avatar>
+            </q-item-section>
+        </q-item>
       </q-toolbar>
     </q-header>
 
@@ -23,7 +42,8 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-1"
+      content-class="bg-blue-grey-10 text-grey-5"
+      :width="240"
     >
       <sidebar />
     </q-drawer>
