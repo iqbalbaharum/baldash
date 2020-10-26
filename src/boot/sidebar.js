@@ -3,7 +3,6 @@ import { hasPermission } from '../utils'
 // Generate sidebar list based on user roles and router configuration
 
 export default async({ router, store }) => {
-  console.log('sidebar')
   const links = []
 
   const routes = router.options.routes.filter(element => element.path === '/')

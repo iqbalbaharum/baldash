@@ -14,7 +14,6 @@ export default async({ app, router, store, Vue }) => {
         if (store.getters.roles.length === 0) {
           try {
             await store.dispatch('GetInfo')
-            console.log('info')
             generateSidebarLinks({ router, store })
 
             next({ ...to, replace: true })
