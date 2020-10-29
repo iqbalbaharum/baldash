@@ -5,8 +5,8 @@
         401
       </div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. You are not authorized to view this page.
+      <div class="text-h3" style="opacity:.4">
+        Oops. You are not authorized.
       </div>
 
       <q-btn
