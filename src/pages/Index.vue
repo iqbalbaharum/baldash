@@ -9,6 +9,9 @@
 
 <script>
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  created() {
+    this.$router.replace('/dashboard')
+  }
 }
 </script>

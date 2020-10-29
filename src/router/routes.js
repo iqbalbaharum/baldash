@@ -67,46 +67,6 @@ const routes = [
         component: () => import('pages/User.vue')
       },
       {
-        path: 'asset',
-        meta: {
-          title: 'Asset Management',
-          roles: ['admin', 'master'],
-          sidebar: true,
-          icon: 'school'
-        },
-        component: () => import('pages/Assets.vue')
-      },
-      {
-        path: 'dashboard',
-        meta: {
-          title: 'Session Management',
-          roles: ['admin', 'master'],
-          sidebar: true,
-          icon: 'school'
-        },
-        component: () => import('pages/Session.vue')
-      },
-      {
-        path: 'user',
-        meta: {
-          title: 'User Management',
-          roles: ['admin', 'master'],
-          sidebar: true,
-          icon: 'school'
-        },
-        component: () => import('pages/User.vue')
-      },
-      {
-        path: 'asset',
-        meta: {
-          title: 'Asset Management',
-          roles: ['admin', 'master'],
-          sidebar: true,
-          icon: 'school'
-        },
-        component: () => import('pages/Assets.vue')
-      },
-      {
         path: 'myprofile',
         meta: {
           title: 'Customizer',
@@ -147,6 +107,11 @@ const routes = [
       sidebar: false
     },
     component: () => import('pages/Auth/Register.vue')
+  },
+
+  {
+    path: '/401',
+    component: () => import('pages/Error401.vue')
   },
 
   // Always leave this as last one,
