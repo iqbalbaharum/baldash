@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { minLength, required, email } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   data() {
@@ -121,7 +121,7 @@ export default {
       this.$v.form.$touch()
 
       try {
-        const res = await this.$store.dispatch('RegisterIndividual', this.form)
+        // const res = await this.$store.dispatch('RegisterIndividual', this.form)
         this.$router.push('/login')
       } catch (err) {
 

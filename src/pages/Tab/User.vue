@@ -163,7 +163,7 @@ export default {
     async manageRole(id) {
       this.dialog.roleArr = []
 
-      const user = User.query().whereId(id).with('roles').first()
+      // const user = User.query().whereId(id).with('roles').first()
 
       for await (const arole of this.roles) {
         this.dialog.roleArr.push({
