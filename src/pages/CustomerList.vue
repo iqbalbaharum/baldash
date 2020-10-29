@@ -1,9 +1,5 @@
 <template>
-
-
-
   <div>
-
     <!-- <div  class="text-right q-pb-md">
         <q-btn
           color="teal-6"
@@ -13,7 +9,7 @@
         />
     </div> -->
 
-        <!-- <q-table
+    <!-- <q-table
           title="Leads"
           :data="leads"
           :columns="columns"
@@ -169,16 +165,6 @@ export default {
   data() {
     return {
 
-      columns: [
-        { name: 'orderid', required: true, label: 'Order ID', align: 'left', field: row => row.orderid, sortable: true },
-        { name: 'branch', label: 'Branch Location', align: 'left', field: 'branch', sortable: true },
-        { name: 'branchCode', label: 'Branch Code', align: 'left', field: 'branchCode', sortable: true },
-        { name: 'name', label: 'Lead Name', align: 'left', field: 'name', sortable: true },
-        { name: 'contact', label: 'Contact', align: 'left', field: 'contact', sortable: true },
-        { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
-        { name: 'person_inc', label: 'Sales Person', align: 'left', field: 'person_inc' },
-        { name: 'status', label: 'Status', field: 'status', align: 'left', sortable: true },
-      ],
       leads: [
         {
           name: 'Iman Irfan',
@@ -201,7 +187,6 @@ export default {
           status: 'Qualified',
         }
       ],
-
 
       columns: [
         { name: 'id', align: 'left', label: 'ID', field: 'uuid' },

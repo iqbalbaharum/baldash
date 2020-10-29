@@ -1,19 +1,23 @@
 <template>
-<div class="row justify-evenly">
-  <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
-  <apexchart width="500" type="line" :options="options" :series="series"></apexchart>
-</div>
+  <div class="row justify-evenly">
+    <apexchart
+      width="500"
+      type="bar"
+      :options="options"
+      :series="series"
+    />
+    <apexchart
+      width="500"
+      type="line"
+      :options="options"
+      :series="series"
+    />
+  </div>
 </template>
-
 
 <script>
 
-    import VueApexCharts from 'vue-apexcharts'
 export default {
-
-
-
-
 
   data: function() {
     return {
