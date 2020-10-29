@@ -77,6 +77,36 @@ const routes = [
         component: () => import('pages/Assets.vue')
       },
       {
+        path: 'dashboard',
+        meta: {
+          title: 'Session Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/Session.vue')
+      },
+      {
+        path: 'user',
+        meta: {
+          title: 'User Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/User.vue')
+      },
+      {
+        path: 'asset',
+        meta: {
+          title: 'Asset Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/Assets.vue')
+      },
+      {
         path: 'myprofile',
         meta: {
           title: 'Customizer',
@@ -98,6 +128,7 @@ const routes = [
     },
     component: () => import('pages/Auth/Login.vue')
   },
+
   // {
   //   path: '/first-time-registration',
   //   meta: {
