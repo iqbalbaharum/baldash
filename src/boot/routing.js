@@ -44,7 +44,8 @@ export default async({ router, store }) => {
     }
 
     if (!hasPermission(userRoles, to.meta.roles)) {
-      // Redirect to 402
+      next({ path: '/401' })
+      return
     }
 
     next()
