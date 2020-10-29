@@ -2,39 +2,51 @@ import { getToken } from './../datasources/localstorage.storage'
 import generateSidebarLinks from './sidebar'
 import { hasPermission } from '../utils'
 
-export default async({ app, router, store, Vue }) => {
+export default async({ router, store }) => {
   // URLs which gonna be public access
-  const whiteListURL = ['/login', '/register', '/user', '/session', '/user', '/asset', '/dashboard']
+  const whiteListURL = ['/login', '/register']
 
   router.beforeEach(async(to, from, next) => {
-    if (getToken(process.env.MAIN_BE_TOKEN)) {
-      if (to.path === '/login') {
-        next({ path: '/' })
-      } else {
-        if (store.getters.roles.length === 0) {
-          try {
-            await store.dispatch('GetInfo')
-            generateSidebarLinks({ router, store })
-
-            next({ ...to, replace: true })
-          } catch (err) {
-            console.log(err)
-            store.dispatch('Logout')
-              .then(() => {
-                console.log('logout')
-                next({ path: '/login' })
-              })
-          }
-        } else {
-          next()
-        }
-      }
-    } else {
+    // No token stored (not logged in)
+    if (!getToken(process.env.MAIN_BE_TOKEN)) {
       if (whiteListURL.includes(to.path)) {
         next()
-      } else {
-        next('/login')
+        return
       }
+      next('/login')
+      return
     }
+
+    // Redirect to index page if user wants to access login page after already logged in
+    if (to.path === '/login') {
+      next({ path: '/' })
+      return
+    }
+
+    const userRoles = store.getters.roles
+
+    if (userRoles.length === 0) {
+      try {
+        await store.dispatch('GetInfo')
+        generateSidebarLinks({ router, store })
+
+        next({ ...to, replace: true })
+      } catch (err) {
+        // Logout if jwt token has expired
+        console.log(err)
+        await store.dispatch('Logout')
+
+        console.log('logout')
+        next({ path: '/login' })
+      }
+
+      return
+    }
+
+    if (!hasPermission(userRoles, to.meta.roles)) {
+      // Redirect to 402
+    }
+
+    next()
   })
 }

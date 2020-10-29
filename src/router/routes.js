@@ -149,6 +149,11 @@ const routes = [
     component: () => import('pages/Auth/Register.vue')
   },
 
+  {
+    path: '/401',
+    component: () => import('pages/Error401.vue')
+  },
+
   // Always leave this as last one,
   // but you can also remove i
   {
