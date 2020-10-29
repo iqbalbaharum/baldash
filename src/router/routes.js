@@ -1,6 +1,30 @@
 import MainLayout from 'layouts/MainLayout'
+import SKLayout2 from 'layouts/SKLayout2'
 
 const routes = [
+
+  {
+    path: '/sklayout2',
+    meta: {
+      title: 'Website',
+      sidebar: false,
+      roles: []
+    },
+    component: SKLayout2,
+    children: [
+
+      {
+        path: '/customerlist',
+        component: () => import('pages/CustomerList.vue')
+      },
+      {
+        path: '/graph',
+        component: () => import('pages/Graph.vue')
+      },
+
+    ]
+  },
+
   {
     path: '/',
     component: MainLayout,
@@ -12,36 +36,6 @@ const routes = [
         },
         component: () => import('pages/Index.vue')
       },
-      // {
-      //   path: 'session',
-      //   meta: {
-      //     title: 'Session Management',
-      //     roles: [],
-      //     sidebar: true,
-      //     icon: 'school'
-      //   },
-      //   component: () => import('pages/Session.vue')
-      // },
-      // {
-      //   path: 'user',
-      //   meta: {
-      //     title: 'User Management',
-      //     roles: [],
-      //     sidebar: true,
-      //     icon: 'school'
-      //   },
-      //   component: () => import('pages/User.vue')
-      // },
-      // {
-      //   path: 'asset',
-      //   meta: {
-      //     title: 'Asset Management',
-      //     roles: [],
-      //     sidebar: true,
-      //     icon: 'school'
-      //   },
-      //   component: () => import('pages/Assets.vue')
-      // },
       {
         path: 'dashboard',
         meta: {
@@ -53,26 +47,45 @@ const routes = [
         component: () => import('pages/Dashboard.vue')
       },
       {
-        path: 'dashboard',
+        path: 'session',
+        meta: {
+          title: 'Session Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/Session.vue')
+      },
+      {
+        path: 'user',
+        meta: {
+          title: 'User Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/User.vue')
+      },
+      {
+        path: 'asset',
+        meta: {
+          title: 'Asset Management',
+          roles: ['admin', 'master'],
+          sidebar: true,
+          icon: 'school'
+        },
+        component: () => import('pages/Assets.vue')
+      },
+      {
+        path: 'myprofile',
         meta: {
           title: 'Customizer',
           roles: [],
           sidebar: true,
           icon: 'home'
         },
-        component: () => import('pages/Dashboard.vue')
-      },
-      {
-        path: 'dashboard',
-        meta: {
-          title: 'Material UI',
-          roles: [],
-          sidebar: true,
-          icon: 'home'
-        },
-        component: () => import('pages/Dashboard.vue')
+        component: () => import('pages/Profile.vue')
       }
-
     ]
   },
 
@@ -85,8 +98,6 @@ const routes = [
     },
     component: () => import('pages/Auth/Login.vue')
   },
-
-
   // {
   //   path: '/first-time-registration',
   //   meta: {
