@@ -57,7 +57,7 @@ export default class UserRepository extends Repository {
   async logout() {
     await datasource({
       method: 'post',
-      url: `${User.entity}/user/logout`,
+      url: `${User.entity}/logout`,
     })
   }
 
