@@ -10,6 +10,8 @@
  */
 export function hasPermission(userRoles, routeRoles) {
   if (!routeRoles) return true
+  if (typeof routeRoles === 'undefined') return true
+  if (Array.isArray(routeRoles) && routeRoles.length === 0) return true
 
   return userRoles.some(role => routeRoles.includes(role))
 }
