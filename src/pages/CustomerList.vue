@@ -1,306 +1,233 @@
 <template>
-  <div>
-    <!-- <div  class="text-right q-pb-md">
-        <q-btn
-          color="teal-6"
-          text-color="white"
-          :label="`New Customer`"
-          @click="isCreateDialogOpened = !isCreateDialogOpened"
-        />
-    </div> -->
-
-    <!-- <q-table
-          title="Leads"
-          :data="leads"
-          :columns="columns"
-          row-key="orderid"
-          binary-state-sort
-        >
-          <template v-slot:body="props">
-            <q-tr :props="props">
-              <q-td key="orderid" :props="props">
-                {{ props.row.orderid }}
-              </q-td>
-              <q-td key="branch" :props="props">
-                {{ props.row.branch }}
-              </q-td>
-              <q-td key="branchCode" :props="props">
-                {{ props.row.branchCode }}
-              </q-td>
-              <q-td key="name" :props="props">
-                {{ props.row.name }}
-                <q-popup-edit v-model="props.row.name">
-                  <q-input
-                    v-model="props.row.name"
-                    dense
-                    autofocus
-                    counter
-                  />
-                </q-popup-edit>
-              </q-td>
-              <q-td key="contact" :props="props">
-                {{ props.row.contact }}
-                <q-popup-edit v-model="props.row.contact">
-                  <q-input
-                    v-model="props.row.contact"
-                    dense
-                    autofocus
-                    counter
-                  />
-                </q-popup-edit>
-              </q-td>
-              <q-td key="email" :props="props">
-                {{ props.row.email }}
-                <q-popup-edit v-model="props.row.email">
-                  <q-input
-                    v-model="props.row.email"
-                    dense
-                    autofocus
-                    counter
-                  />
-                </q-popup-edit>
-              </q-td>
-              <q-td key="person_inc" :props="props">
-                {{ props.row.person_inc }}
-              </q-td>
-              <q-td key="status" :props="props">
-                {{ props.row.status }}
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table> -->
-
-    <databox
-      title="Customer"
-      :crud="['create', 'update', 'delete', 'read']"
-      :editablescol="['mobile', 'email']"
-      :rows="users"
+  <div class="q-pa-md">
+    <q-table
+      title="Leads"
+      :data="leads"
       :columns="columns"
-      :menus="menus"
-      @delete="onDelete"
-      @onAdd="onAddUser"
+      row-key="orderid"
+      binary-state-sort
+      virtual-scroll
+      :rows-per-page-options="[0]"
     >
-      <template v-slot:create-dialog-body>
-        <div class="row q-gutter-sm">
-          <div class="col">
-            <q-input
-              v-model="form.name"
-              outlined
-              label="Name"
-            />
-          </div>
-          <div class="col">
-            <q-input
-              v-model="form.mobile"
-              outlined
-              label="Mobile"
-            />
-          </div>
-          <div class="col">
-            <q-input
-              v-model="form.email"
-              outlined
-              label="Email"
-            />
-          </div>
-          <div class="col">
-            <q-input
-              v-model="form.address"
-              outlined
-              type="address"
-              label="Address"
-            />
-          </div>
-        </div>
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="name" :props="props">
+            {{ props.row.name }}
+          </q-td>
+          <q-td key="email" :props="props">
+            {{ props.row.email }}
+          </q-td>
+          <q-td key="contact" :props="props">
+            {{ props.row.contact }}
+          </q-td>
+          <q-td key="location" :props="props">
+            {{ props.row.location }}
+            <q-popup-edit v-model="props.row.location">
+              <q-input
+                v-model="props.row.location"
+                dense
+                autofocus
+                counter
+              />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="propertytype" :props="props">
+            {{ props.row.propertytype }}
+            <q-popup-edit v-model="props.row.propertytype">
+              <q-input
+                v-model="props.row.propertytype"
+                dense
+                autofocus
+                counter
+              />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="age" :props="props">
+            {{ props.row.age }}
+            <q-popup-edit v-model="props.row.age">
+              <q-input
+                v-model="props.row.age"
+                dense
+                autofocus
+                counter
+              />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="propertyvalue" :props="props">
+            {{ props.row.propertyvalue }}
+          </q-td>
+          <q-td key="appointment" :props="props">
+            {{ props.row.appointment }}
+          </q-td>
+          <q-td key="source" :props="props">
+            {{ props.row.source }}
+          </q-td>
+          <q-td key="channel" :props="props">
+            {{ props.row.channel }}
+          </q-td>
+          <q-td key="campaign" :props="props">
+            {{ props.row.campaign }}
+          </q-td>
+        </q-tr>
       </template>
-    </databox>
-
-    <q-dialog v-model="dialog.show">
-      <q-card style="min-width: 300px;">
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">
-            Assigning Roles
-          </div>
-          <q-space />
-          <q-btn
-            icon="close"
-            flat
-            round
-            dense
-            @click="onClickCancel"
-          />
-        </q-card-section>
-
-        <q-card-section>
-          <q-list separator bordered>
-            <q-item v-for="(role, index) in roles" :key="role.$id">
-              <q-item-section>
-                <q-item-label>{{ role.name }}</q-item-label>
-              </q-item-section>
-              <q-item-section side top>
-                <q-checkbox
-                  v-if="dialog.roleArr[index]"
-                  v-model="dialog.roleArr[index].value"
-                  @input="assignRole(index)"
-                />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    </q-table>
   </div>
 </template>
 
 <script>
-import Databox from '../components/Databox'
-import User from '../models/User'
-import Role from '../models/Role'
 
 export default {
 
   components: {
-    Databox
+
   },
   data() {
     return {
-
-      leads: [
-        {
-          name: 'Iman Irfan',
-          branch: 'Petaling Jaya',
-          branchCode: 'PJF',
-          orderid: '3443447-6d36-4eb2-dcb8-043dasd8106ce',
-          person_inc: 'Faris Sufyan',
-          contact: '0123432424',
-          email: 'imnirfn@yahoo.com',
-          status: 'Online',
-        },
-        {
-          name: 'Muaz Wazir',
-          branch: 'Johor Bahru',
-          branchCode: 'DJB',
-          orderid: '30301447-6d36-4eb2-bcb8-043d758106ce',
-          person_inc: 'Khairunuqman',
-          contact: '01542343242',
-          email: 'muazwazir@gmail.com',
-          status: 'Qualified',
-        }
-      ],
+      datacollection: null,
+      data: {
+        tabs: 'list'
+      },
 
       columns: [
-        { name: 'id', align: 'left', label: 'ID', field: 'uuid' },
-        { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
-        { name: 'email', align: 'left', label: 'Email', field: 'email', sortable: true },
-        { name: 'mobile', align: 'center', label: 'Mobile', field: 'mobile' },
-        { name: 'action', align: 'center', label: 'Status' }
+        { name: 'name', required: true, label: 'Customer Name', align: 'left', field: row => row.orderid, sortable: true },
+        { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
+        { name: 'contact', label: 'Mobile No.', align: 'left', field: 'contact', sortable: true },
+        { name: 'location', label: 'Property Location', align: 'left', field: 'location', sortable: true },
+        { name: 'propertytype', label: 'Property Type', align: 'left', field: 'propertytype', sortable: true },
+        { name: 'age', label: 'Age Group', align: 'left', field: 'age' },
+        { name: 'propertyvalue', label: 'Property Value', field: 'propertyvalue', align: 'left', sortable: true },
+        { name: 'appointment', label: 'Appointment Time', field: 'appointment', align: 'left', sortable: true },
+        { name: 'source', label: 'Lead Source', field: 'source', align: 'left', sortable: true },
+        { name: 'channel', label: 'Contact Channel', field: 'channel', align: 'left', sortable: true },
+        { name: 'campaign', label: 'Campaign Name', field: 'campaign', align: 'left', sortable: true },
       ],
-      menus: [
+      leads: [
         {
-          label: 'Manage Roles',
-          trigger: this.manageRole
-        }
+          name: 'Arif Kadir',
+          email: 'muhammad.arif.kadir@gmail.com',
+          contact: '0176194601',
+          location: 'NEGERI SEMBILAN',
+          propertytype: 'Landed - Link',
+          age: '30-39',
+          propertyvalue: 'BELOW 500K',
+          appointment: '8am-10am',
+          source: 'Google',
+          channel: 'SK Website',
+          campaign: 'Triple Value Promo',
+        },
+        {
+          name: 'Haizlene Abd Halim',
+          email: 'kuchaizz@gmail.com',
+          contact: '0123133500',
+          location: 'SHAH ALAM',
+          propertytype: 'Landed - Semi-D / Banglow House',
+          age: '30-39',
+          propertyvalue: '',
+          appointment: '',
+          source: 'Google',
+          channel: 'SK Website',
+          campaign: 'General inquiries 2020',
+        },
+        {
+          name: 'Nellieezzd',
+          email: 'natalieyan18@gmail.com',
+          contact: '0103724983',
+          location: 'PERAK',
+          propertytype: 'Landed - Semi-D / Banglow House',
+          age: '29 and below',
+          propertyvalue: '',
+          appointment: '',
+          source: 'Instagram',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+        {
+          name: 'Chin Ai Vye',
+          email: 'aivyechin@gmail.com',
+          contact: '0192238830',
+          location: 'BANGSAR',
+          propertytype: 'Landed - Semi-D / Banglow House',
+          age: '50 and above',
+          propertyvalue: '',
+          appointment: '',
+          source: 'Google',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+        {
+          name: 'purushoth',
+          email: 'purushothlavan96@gmail.com',
+          contact: '01115540416',
+          location: 'NEGERI SEMBILAN',
+          propertytype: 'Landed - Semi-D / Banglow House',
+          age: '29 and below',
+          propertyvalue: '',
+          appointment: '',
+          source: '',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+
+        {
+          name: 'Vivian lee',
+          email: 'vivianleecw@gmail.com',
+          contact: '0122328248',
+          location: 'JOHOR',
+          propertytype: 'Landed - Semi-D / Banglow House',
+          age: '30-39',
+          propertyvalue: 'Google',
+          appointment: '',
+          source: '',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+
+        {
+          name: 'fadhil',
+          email: 'fadhilrasul@gmail.com',
+          contact: '0193380807',
+          location: 'KUALA LUMPUR',
+          propertytype: 'Condominium',
+          age: '30-39',
+          propertyvalue: '',
+          appointment: '',
+          source: 'Instagram',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+
+        {
+          name: 'Zenn Lee',
+          email: 'lycutely@gmail.com',
+          contact: '0122629527',
+          location: 'SELANGOR',
+          propertytype: 'Landed - Link',
+          age: '30-39',
+          propertyvalue: '',
+          appointment: '',
+          source: 'Google',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+
+        {
+          name: 'Khair izwan',
+          email: 'khairizwan.khudzari@outlook.com',
+          contact: '0133369745',
+          location: 'SELANGOR',
+          propertytype: 'Landed - Link',
+          age: '30-39',
+          propertyvalue: '',
+          appointment: '',
+          source: 'Instagram',
+          channel: 'SK Website',
+          campaign: 'October 2020',
+        },
+
       ],
-      options: {
-        roles: []
-      },
-      dialog: {
-        show: false,
-        userId: '',
-        roleArr: []
-      },
-      form: {
-        mobile: '',
-        name: '',
-        email: '',
-        address: ''
-      }
     }
   },
 
-  computed: {
-    users() {
-      return User.query().withAll().get()
-    },
-    roles() {
-      return Role.all()
-    }
-  },
-
-  created() {
-    this.$store.dispatch('GetAllUsers')
-  },
-
-  mounted() {
-    this.loadAllRoles()
-  },
-
-  methods: {
-    async loadAllRoles() {
-      const loadRoles = await this.$store.dispatch('GetAllRoles')
-      loadRoles.forEach(role => {
-        this.options.roles.push({
-          value: role.uuid,
-          label: role.name
-        })
-      })
-    },
-    onDelete(id) {
-      this.$store.dispatch('DeleteUser', id)
-    },
-    onAddUser() {
-      this.$store.dispatch('RegisterUser', this.form)
-        .then(res => {
-        })
-    },
-
-    async manageRole(id) {
-      this.dialog.roleArr = []
-
-      // const user = User.query().whereId(id).with('roles').first()
-
-      for await (const arole of this.roles) {
-        this.dialog.roleArr.push({
-          id: arole.uuid,
-          value: false
-        })
-      }
-
-      const userRoles = await this.$store.dispatch('GetUserRoles', id)
-      for await (const urole of userRoles) {
-        const u = this.dialog.roleArr.find(element => element.id === urole.uuid)
-        if (u) {
-          console.log(u.id)
-          u.value = true
-        }
-      }
-
-      this.dialog.userId = id
-      this.dialog.show = true
-    },
-
-    onClickSave() {
-
-    },
-
-    onClickCancel() {
-      this.dialog.roleArr = []
-      this.dialog.userId = ''
-      this.dialog.show = false
-    },
-
-    assignRole(index) {
-      const data = {
-        roleId: this.dialog.roleArr[index].id,
-        userId: this.dialog.userId
-      }
-
-      if (this.dialog.roleArr[index].value) {
-        this.$store.dispatch('AssignUserRole', data)
-      } else {
-        this.$store.dispatch('UnassignUserRole', data)
-      }
-    }
-  }
 }
 </script>
+
