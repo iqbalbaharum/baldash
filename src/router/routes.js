@@ -1,27 +1,21 @@
 import MainLayout from 'layouts/MainLayout'
-import SKLayout2 from 'layouts/SKLayout2'
+import SKLayout from 'layouts/SKLayout'
 
 const routes = [
 
   {
-    path: '/sklayout2',
+    path: '/',
     meta: {
       title: 'Website',
       sidebar: false,
       roles: []
     },
-    component: SKLayout2,
+    component: SKLayout,
     children: [
-
       {
-        path: '/customerlist',
+        path: '/',
         component: () => import('pages/CustomerList.vue')
-      },
-      {
-        path: '/graph',
-        component: () => import('pages/Graph.vue')
-      },
-
+      }
     ]
   },
 
