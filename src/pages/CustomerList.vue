@@ -11,6 +11,9 @@
     >
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td key="check" :props="props">
+            {{ props.row.name }}
+          </q-td>
           <q-td key="name" :props="props">
             {{ props.row.name }}
           </q-td>
@@ -98,8 +101,7 @@ export default {
         { name: 'propertyvalue', label: 'Property Value', field: 'propertyvalue', align: 'left', sortable: true },
         { name: 'appointment', label: 'Appointment Time', field: 'appointment', align: 'left', sortable: true },
         { name: 'source', label: 'Lead Source', field: 'source', align: 'left', sortable: true },
-        { name: 'channel', label: 'Contact Channel', field: 'channel', align: 'left', sortable: true },
-        { name: 'campaign', label: 'Campaign Name', field: 'campaign', align: 'left', sortable: true },
+        { name: 'channel', label: 'Contact Channel', field: 'channel', align: 'left', sortable: true }
       ],
       leads: [
         {
@@ -227,6 +229,12 @@ export default {
       ],
     }
   },
+
+  methods: {
+    addColumn() {
+      this.columns.push({ name: 'campaign', label: 'Campaign Name', field: 'campaign', align: 'left', sortable: true },)
+    }
+  }
 
 }
 </script>

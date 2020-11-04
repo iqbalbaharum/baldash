@@ -8,7 +8,7 @@
       flat
       :active="link === link.name"
       active-class="text-primary"
-      class="font-weight-light"
+      class="font-weight-light text-negative"
       padding="sm md"
       @click="onButtonClick(link.name)"
     >

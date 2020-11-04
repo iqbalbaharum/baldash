@@ -69,6 +69,10 @@ export default {
           label: 'SK Management'
         },
         {
+          name: 'branch',
+          label: 'Branch'
+        },
+        {
           name: 'onlineleads',
           label: 'Online Leads'
         },
@@ -103,6 +107,79 @@ export default {
                   disabled: false
                 },
                 {
+                  name: 'deleteuser',
+                  icon: 'fas fa-trash-alt',
+                  label: 'Delete',
+                  disabled: false
+                },
+              ]
+            },
+            {
+              category: 'Access',
+              tos: [
+                {
+                  name: 'assignrole',
+                  icon: 'fas fa-user-tag',
+                  label: 'Scope',
+                  disabled: false
+                }
+              ]
+            },
+            {
+              category: 'Assign',
+              tos: [
+                {
+                  name: 'assignrole',
+                  icon: 'fas fa-plus',
+                  label: 'Assign Role',
+                  disabled: false
+                },
+                {
+                  name: 'assignbranch',
+                  icon: 'fas fa-plus',
+                  label: 'Assign Branch',
+                  disabled: false
+                }
+              ]
+            },
+            {
+              category: 'Filter',
+              tos: [
+                {
+                  name: 'filterbyrole',
+                  icon: 'fas fa-filter',
+                  label: 'By Role',
+                  disabled: false
+                },
+                {
+                  name: 'filterbybranch',
+                  icon: 'fas fa-filter',
+                  label: 'By Branch',
+                  disabled: false
+                },
+                {
+                  name: 'customfilter',
+                  icon: 'fas fa-filter',
+                  label: 'Filter',
+                  disabled: false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          name: 'branch',
+          buttons: [
+            {
+              category: 'Management',
+              tos: [
+                {
+                  name: 'addbranch',
+                  icon: 'fas fa-user-plus',
+                  label: 'Add Branch',
+                  disabled: false
+                },
+                {
                   name: 'edituser',
                   icon: 'fas fa-edit',
                   label: 'Edit',
@@ -114,23 +191,17 @@ export default {
                   label: 'Delete',
                   disabled: false
                 },
-                {
-                  name: 'filteruser',
-                  icon: 'fas fa-filter',
-                  label: 'Filter',
-                  disabled: false
-                },
               ]
             },
             {
-              category: 'Branch',
+              category: 'User',
               tos: [
                 {
-                  name: 'addbranch',
-                  icon: 'fas fa-plus',
-                  label: 'Add Branch',
+                  name: 'adduser',
+                  icon: 'fas fa-user-plus',
+                  label: 'Add User',
                   disabled: false
-                }
+                },
               ]
             }
           ]
@@ -138,6 +209,17 @@ export default {
         {
           name: 'onlineleads',
           buttons: [
+            {
+              category: 'Data',
+              tos: [
+                {
+                  name: 'assign',
+                  icon: 'fas fa-upload',
+                  label: 'Import',
+                  disabled: false
+                }
+              ]
+            },
             {
               category: 'Leads',
               tos: [
