@@ -34,7 +34,7 @@ export default {
 
   methods: {
     onButtonClick(btnName) {
-      this.$root.$emit('header-btn-clicked', btnName)
+      this.$store.dispatch('ModalOpen', btnName)
     }
   },
 }

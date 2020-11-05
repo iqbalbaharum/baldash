@@ -6,6 +6,7 @@ import database from '../database'
 
 import user from './modules/user'
 import app from './modules/app'
+import modal from './modules/modal'
 import session from './modules/session'
 import zone from './modules/zone'
 import role from './modules/role'
@@ -26,6 +27,7 @@ export default function(/* { ssrContext } */) {
     modules: {
       user,
       app,
+      modal,
       session,
       zone,
       role

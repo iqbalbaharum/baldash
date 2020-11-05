@@ -73,24 +73,20 @@
         </q-tr>
       </template>
     </q-table>
-    <sk-import-online-leads-dialog
-      :show-dialog="showImportOnlineLeadsDialog"
-      @close="showImportOnlineLeadsDialog = false"
-    />
+    <dialog-plugins />
   </div>
 </template>
 
 <script>
-import skImportOnlineLeadsDialog from '../components/SkImportOnlineLeadsDialog'
+import DialogPlugins from '../components/Dialogs'
 
 export default {
 
   components: {
-    skImportOnlineLeadsDialog
+    DialogPlugins
   },
   data() {
     return {
-      showImportOnlineLeadsDialog: false,
       datacollection: null,
       data: { tabs: 'list'
       },
