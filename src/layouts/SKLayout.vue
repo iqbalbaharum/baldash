@@ -213,7 +213,7 @@ export default {
               category: 'Data',
               tos: [
                 {
-                  name: 'assign',
+                  name: 'importonlineleads',
                   icon: 'fas fa-upload',
                   label: 'Import',
                   disabled: false
@@ -248,6 +248,6 @@ export default {
       ]
       ,
     }
-  }
+  },
 }
 </script>

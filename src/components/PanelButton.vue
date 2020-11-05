@@ -33,8 +33,8 @@ export default {
   },
 
   methods: {
-    onButtonClick(string) {
-      this.$emit('value', string)
+    onButtonClick(btnName) {
+      this.$root.$emit('header-btn-clicked', btnName)
     }
   },
 }
