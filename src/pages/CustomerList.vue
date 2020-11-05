@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import DialogPlugins from '../components/Dialogs'
+import DialogPlugins from '../components/Dialogs/Index'
 
 export default {
 
