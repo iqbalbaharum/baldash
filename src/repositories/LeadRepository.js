@@ -8,6 +8,14 @@ export default class LeadRepository extends Repository {
   }
 
   async upload(file) {
-    return await this.datasource.post(`containers/upload/customer`, file)
+    const formData = new FormData()
+    formData.append('file', file)
+    const ret = await this.datasource.post(`containers/upload/customer`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    return ret
   }
 }
