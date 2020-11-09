@@ -9,13 +9,23 @@ export default class User extends Model {
 
   static fields() {
     return {
-      uuid: this.attr(null),
-      name: this.attr(''),
-      email: this.attr(''),
-      mobile: this.attr(''),
       createdAt: this.attr(''),
+      updatedAt: this.attr(''),
+      deletedAt: this.attr(''),
+      uuid: this.attr('null'),
+      username: this.attr(''),
+      name: this.attr(''),
+      SCCode: this.attr(''),
+      mobile: this.attr(''),
+      email: this.attr(''),
+      status: this.attr(''),
+      module_access: this.attr(''),
+      designCAD_access: this.attr(''),
+      branchId: this.attr(''),
+      password: this.attr(''),
 
       roles: this.belongsToMany(Role, UserRole, 'userId', 'roleId')
     }
   }
 }
+
