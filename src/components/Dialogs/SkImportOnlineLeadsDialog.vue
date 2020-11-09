@@ -13,10 +13,6 @@
       <q-card-section>
         <q-uploader
           ref="leadsUploader"
-          <<<<<<<
-          h-e-a-d="======"
-        >
-          >>>>>> 9815e6f12eb045a603f621bf907b3d8d40248b1f
           label="Upload file"
           :factory="factoryFn"
           full-width
@@ -27,9 +23,7 @@
           bordered
           @added="fileAdded"
           @rejected="onRejected"
-          />
-        </q-uploader @rejected="onRejected"/>
-        </q-uploader>
+        />
       </q-card-section>
       <q-card-section align="right">
         <q-btn
