@@ -12,6 +12,11 @@
 
       <q-card-section>
         <q-uploader
+          ref="leadsUploader"
+          <<<<<<<
+          h-e-a-d="======"
+        >
+          >>>>>> 9815e6f12eb045a603f621bf907b3d8d40248b1f
           label="Upload file"
           :factory="factoryFn"
           full-width
@@ -22,7 +27,9 @@
           bordered
           @added="fileAdded"
           @rejected="onRejected"
-        />
+          />
+        </q-uploader @rejected="onRejected"/>
+        </q-uploader>
       </q-card-section>
       <q-card-section align="right">
         <q-btn
@@ -57,11 +64,22 @@ export default {
         message: `${rejectedEntries.length} file(s) did not pass validation constraints`
       })
     },
+
     fileAdded(files) {
       console.log(files)
     },
-    factoryFn(files) {
-      console.log(this.$repository.lead.upload(files[0]))
+
+    async factoryFn(files) {
+      const leadsUploader = this.$refs.leadsUploader
+      const file = files[0]
+
+      try {
+        const res = await this.$repository.lead.upload(file)
+        leadsUploader.removeFile(file)
+        console.log('Upload leads res:', res)
+      } catch (e) {
+        console.log('Failed to upload leads file:', e)
+      }
     }
   }
 }

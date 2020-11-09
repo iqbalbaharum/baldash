@@ -210,13 +210,25 @@ export default {
           name: 'onlineleads',
           buttons: [
             {
-              category: 'Data',
+              category: 'Template',
               tos: [
                 {
-                  name: 'assign',
+                  name: 'importonlineleads',
                   icon: 'fas fa-upload',
                   label: 'Import',
+                  disabled: false,
+                },
+                {
+                  name: 'downloadsample',
+                  icon: 'fas fa-download',
+                  label: 'Download',
                   disabled: false
+                },
+                {
+                  name: 'importonlineleadshistory',
+                  icon: 'fas fa-history',
+                  label: 'Import History',
+                  disabled: false,
                 }
               ]
             },
@@ -248,6 +260,6 @@ export default {
       ]
       ,
     }
-  }
+  },
 }
 </script>

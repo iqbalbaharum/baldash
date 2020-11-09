@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      title="Leads"
       :data="leads"
       :columns="columns"
       row-key="orderid"
@@ -74,21 +73,22 @@
         </q-tr>
       </template>
     </q-table>
+    <dialog-plugins />
   </div>
 </template>
 
 <script>
+import DialogPlugins from '../components/Dialogs/Index'
 
 export default {
 
   components: {
-
+    DialogPlugins
   },
   data() {
     return {
       datacollection: null,
-      data: {
-        tabs: 'list'
+      data: { tabs: 'list'
       },
 
       columns: [
@@ -230,12 +230,22 @@ export default {
     }
   },
 
+  created() {
+    this.$root.$on('header-btn-clicked', this.onHeaderBtnClicked)
+  },
+  beforeDestroy() {
+    this.$root.$off('header-btn-clicked', this.onHeaderBtnClicked)
+  },
+
   methods: {
     addColumn() {
       this.columns.push({ name: 'campaign', label: 'Campaign Name', field: 'campaign', align: 'left', sortable: true },)
+    },
+    onHeaderBtnClicked(btnName) {
+      if (btnName !== 'importonlineleads') return
+      this.showImportOnlineLeadsDialog = true
     }
-  }
-
+  },
 }
 </script>
 
