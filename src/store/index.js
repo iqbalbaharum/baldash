@@ -10,6 +10,7 @@ import modal from './modules/modal'
 import session from './modules/session'
 import zone from './modules/zone'
 import role from './modules/role'
+import branch from './modules/branch'
 
 Vue.use(Vuex)
 
@@ -30,7 +31,8 @@ export default function(/* { ssrContext } */) {
       modal,
       session,
       zone,
-      role
+      role,
+      branch
     },
     getters,
     plugins: [VuexORM.install(database)],
