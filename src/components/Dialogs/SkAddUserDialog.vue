@@ -160,10 +160,11 @@ export default {
       this.$store.dispatch('DeleteUser', id)
     },
     onAddUser() {
-      this.form.role = this.form.role.value
-      this.form.branchId = this.form.branchId.value
+      const user = { ...this.form }
+      user.role = user.role.value
+      user.branchId = user.branchId.value
 
-      this.$store.dispatch('RegisterUser', this.form)
+      this.$store.dispatch('RegisterUser', user)
       this.$store.dispatch('GetAllUsers')
     },
     async loadRoleOptions() {
