@@ -13,12 +13,11 @@
 
       <q-card-actions align="right" class="bg-white text-dark">
         <q-btn
+          v-close-popup
           flat
           label="Cancel"
-          @click="onClickCancel"
         />
         <q-btn
-
           label="Delete"
           color="negative"
           @click="onClickDelete"
@@ -36,10 +35,6 @@ export default {
     ModalDialog
   },
   methods: {
-    onClickCancel() {
-      this.dialog.id = ''
-      this.dialog.confirm = false
-    },
     onClickDelete() {
       this.$emit('delete', this.dialog.id)
       this.dialog.id = ''

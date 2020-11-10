@@ -54,9 +54,10 @@
               />
             </div>
             <div class="col">
-              <q-input
+              <q-select
                 v-model="form.branchId"
                 outlined
+                :options="options.branches"
                 label="Branch"
               />
             </div>
@@ -85,10 +86,10 @@
             </div> -->
             <div align="right">
               <q-btn
+                v-close-popup
                 flat
                 color="primary"
                 label="Cancel"
-                @click="isCreateDialogOpened = false"
               />
               <q-btn
                 color="primary"
@@ -135,6 +136,7 @@ export default {
         module_access: '',
         designCAD_access: '',
         branchId: '',
+        role: '',
       }
     }
   },
@@ -149,11 +151,8 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('GetAllUsers')
-  },
-
-  mounted() {
-    this.loadAllRoles()
+    this.loadRoleOptions()
+    this.loadBranchOptions()
   },
 
   methods: {
@@ -161,11 +160,13 @@ export default {
       this.$store.dispatch('DeleteUser', id)
     },
     onAddUser() {
+      this.form.role = this.form.role.value
+      this.form.branchId = this.form.branchId.value
+
       this.$store.dispatch('RegisterUser', this.form)
-        .then(res => {
-        })
+      this.$store.dispatch('GetAllUsers')
     },
-    async loadAllRoles() {
+    async loadRoleOptions() {
       const loadRoles = await this.$store.dispatch('GetAllRoles')
       loadRoles.forEach(role => {
         this.options.roles.push({
@@ -174,6 +175,16 @@ export default {
         })
       })
     },
+
+    async loadBranchOptions() {
+      const branches = await this.$store.dispatch('GetAllBranches')
+      branches.forEach(branch => {
+        this.options.branches.push({
+          value: branch.uuid,
+          label: branch.name,
+        })
+      })
+    }
   }
 }
 </script>

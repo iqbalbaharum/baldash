@@ -80,6 +80,10 @@ export default {
         return this.activeMenu
       }
     }
+  },
+  async created() {
+    await this.$store.dispatch('GetAllBranches')
+    this.currentTab = 'usermanagement'
   }
 }
 </script>
