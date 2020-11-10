@@ -1,5 +1,6 @@
 import { Model } from '@vuex-orm/core'
 import Role from './Role'
+import Branch from './Branch'
 import UserRole from './UserRole'
 
 export default class User extends Model {
@@ -21,15 +22,20 @@ export default class User extends Model {
       branchId: this.attr(''),
       password: this.attr(''),
 
-      roles: this.belongsToMany(Role, UserRole, 'userId', 'roleId')
+      roles: this.belongsToMany(Role, UserRole, 'userId', 'roleId'),
+      branch: this.belongsTo(Branch, 'branchId'),
     }
   }
 
+  get branch_name() {
+    if (this.branch) { return this.branch.name }
+  }
+
   static columns = [
-    { name: 'name', required: true, label: 'Customer Name', align: 'left', field: row => row.orderid, sortable: true },
+    { name: 'name', required: true, label: 'User Name', align: 'left', field: 'name', sortable: true },
     { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
     { name: 'contact', label: 'Mobile No.', align: 'left', field: 'mobile', sortable: true },
-    { name: 'branch', label: 'Branch', align: 'left', field: 'branchId', sortable: true },
+    { name: 'branch', label: 'Branch', align: 'left', field: 'branch_name', sortable: true },
     { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
     { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
   ]

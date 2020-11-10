@@ -4,6 +4,7 @@ import Session from '../models/Session'
 import Zone from '../models/Zone'
 import Role from '../models/Role'
 import Branch from '../models/Branch'
+import Lead from '../models/Lead'
 // Relation
 import UserRole from '../models/UserRole'
 
@@ -14,6 +15,7 @@ database.register(Session)
 database.register(Zone)
 database.register(Role)
 database.register(Branch)
+database.register(Lead)
 //
 database.register(UserRole)
 

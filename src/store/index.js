@@ -11,6 +11,7 @@ import session from './modules/session'
 import zone from './modules/zone'
 import role from './modules/role'
 import branch from './modules/branch'
+import lead from './modules/lead'
 
 Vue.use(Vuex)
 
@@ -32,7 +33,8 @@ export default function(/* { ssrContext } */) {
       session,
       zone,
       role,
-      branch
+      branch,
+      lead,
     },
     getters,
     plugins: [VuexORM.install(database)],

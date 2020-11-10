@@ -1,4 +1,4 @@
-import User from './../../models/User'
+// import User from './../../models/User'
 
 const app = {
   state: {
@@ -124,6 +124,8 @@ const app = {
       {
         name: 'onlineleads',
         label: 'Online Leads',
+        default_data: 'GetAllLeads',
+        default_datatab_title: 'Leads',
         buttons: [
           {
             category: 'Template',
@@ -205,6 +207,13 @@ const app = {
     TOGGLE_DIALOG: (state, name) => {
       state.dialog = name
     },
+    UPDATE_TAB: (state, tab) => {
+      let tabToUpdate = state.datatabs.find(datatab => datatab.name === tab.name)
+
+      if(typeof tabToUpdate !== 'undefined') {
+        tabToUpdate.data = tab.data
+      }
+    },
     SET_ACTIVE_DATATAB: (state, index) => {
 			state.activeDataTab = index
     },
@@ -240,6 +249,9 @@ const app = {
     NewTab({ commit }, tab) {
 			commit('NEW_TAB', tab)
 		},
+    UpdateTab({ commit }, tab) {
+      commit('UPDATE_TAB', tab)
+    },
 		CloseTab({ commit }, index) {
 			commit('CLOSE_TAB', index)
 		},
