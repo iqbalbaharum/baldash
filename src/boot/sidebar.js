@@ -26,5 +26,5 @@ export default async({ router, store }) => {
     )
   }
 
-  store.dispatch('SetMenu', links)
+  // store.dispatch('SetMenu', links)
 }

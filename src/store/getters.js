@@ -6,6 +6,8 @@ const getters = {
   allOpen: state => state.modal.open,
   //
   menus: state => state.app.menus,
+  datatabs: state => state.app.datatabs,
+  activeDataTab: state => state.app.activeDataTab,
 }
 
 export default getters

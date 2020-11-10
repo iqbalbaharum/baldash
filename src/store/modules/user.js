@@ -71,11 +71,18 @@ const user = {
       })
     },
 
-    GetAllUsers() {
+    GetAllUsers({ commit, dispatch }, tabName) {
       return new Promise((resolve, reject) => {
         this.$repository.user.listing()
           .then(res => {
             User.insert({ data: res.data })
+            if(tabName) {
+              dispatch('NewTab', {
+                name: tabName,
+                columns: User.columns,
+                data: res.data
+              })
+            }
             resolve(res.data)
           })
           .catch(err => {

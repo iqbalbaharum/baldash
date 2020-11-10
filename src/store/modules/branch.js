@@ -12,11 +12,18 @@ const branch = {
 
   actions: {
 
-    GetAllBranch() {
+    GetAllBranches({ dispatch }, tabName) {
       return new Promise((resolve, reject) => {
         this.$repository.branch.listing()
           .then(res => {
             Branch.insert({ data: res.data })
+            if(tabName) {
+              dispatch('NewTab', {
+                name: tabName,
+                columns: Branch.columns,
+                data: res.data
+              })
+            }
             resolve(res.data)
           })
           .catch(err => {
@@ -32,7 +39,7 @@ const branch = {
           .then(res => {
             resolve(res.data)
             Branch.insert({ data: res.data })
-            dispatch('GetAllBranch')
+            dispatch('GetAllBranches')
           })
           .catch(err => {
             reject(err)
@@ -47,7 +54,7 @@ const branch = {
           .then(res => {
             resolve(res)
             Branch.delete(id)
-            dispatch('GetAllBranch')
+            dispatch('GetAllBranches')
           })
           .catch(err => {
             reject(err)

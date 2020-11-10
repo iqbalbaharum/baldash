@@ -61,19 +61,14 @@
               />
             </div>
             <div class="col">
-              <q-input
+              <q-select
                 v-model="form.role"
                 outlined
-                label="Role"
+                :options="options.roles"
+                label="Roles"
               />
             </div>
-            <div class="col">
-              <q-input
-                v-model="form.status"
-                outlined
-                label="Status"
-              />
-            </div>
+            <!--
             <div class="col">
               <q-input
                 v-model="form.access"
@@ -87,7 +82,7 @@
                 outlined
                 label="DesignCad Access"
               />
-            </div>
+            </div> -->
             <div align="right">
               <q-btn
                 flat
@@ -111,6 +106,7 @@
 <script>
 
 import User from './../../models/User'
+import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
 
 export default {
@@ -120,18 +116,10 @@ export default {
   },
   data() {
     return {
-      columns: [
-        { name: 'id', align: 'left', label: 'ID', field: 'uuid' },
-        { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
-        { name: 'code', align: 'left', label: 'SC Code', field: 'code', sortable: true },
-        { name: 'mobile', align: 'left', label: 'Mobile No.', field: 'mobile', sortable: true },
-        { name: 'email', align: 'left', label: 'Eamil', field: 'email', sortable: true },
-        { name: 'status', align: 'left', label: 'Status', field: 'status', sortable: true },
-        { name: 'module_access', align: 'left', label: 'Address', field: 'address2', sortable: true },
-        { name: 'module_access', align: 'left', label: 'Module Access', field: 'module_access', sortable: true },
-        { name: 'designCAD_access', align: 'left', label: 'DesignCAD Access', field: 'designCAD_access', sortable: true },
-        { name: 'branchId', align: 'left', label: 'BranchId', field: 'branchId', sortable: true },
-      ],
+      options: {
+        roles: [],
+        branches: [],
+      },
       dialog: {
         show: false,
         userId: '',
@@ -143,7 +131,7 @@ export default {
         SCCode: '',
         mobile: '',
         email: '',
-        status: '',
+        status: true,
         module_access: '',
         designCAD_access: '',
         branchId: '',
@@ -155,10 +143,17 @@ export default {
     users() {
       return User.query().withAll().get()
     },
+    roles() {
+      return Role.all()
+    }
   },
 
   created() {
     this.$store.dispatch('GetAllUsers')
+  },
+
+  mounted() {
+    this.loadAllRoles()
   },
 
   methods: {
@@ -169,6 +164,15 @@ export default {
       this.$store.dispatch('RegisterUser', this.form)
         .then(res => {
         })
+    },
+    async loadAllRoles() {
+      const loadRoles = await this.$store.dispatch('GetAllRoles')
+      loadRoles.forEach(role => {
+        this.options.roles.push({
+          value: role.uuid,
+          label: role.name.charAt(0).toUpperCase() + role.name.slice(1)
+        })
+      })
     },
   }
 }

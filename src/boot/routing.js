@@ -1,14 +1,13 @@
-// import { getToken } from './../datasources/localstorage.storage'
-// import generateSidebarLinks from './sidebar'
-// import { hasPermission } from '../utils'
+import { getToken } from './../datasources/localstorage.storage'
+import generateSidebarLinks from './sidebar'
+import { hasPermission } from '../utils'
 
 export default async({ router, store }) => {
   // URLs which gonna be public access
-  // const whiteListURL = ['/login', '/register']
+  const whiteListURL = ['/login']
 
   router.beforeEach(async(to, from, next) => {
     // No token stored (not logged in)
-    /**
     if (!getToken(process.env.MAIN_BE_TOKEN)) {
       if (whiteListURL.includes(to.path)) {
         next()
@@ -48,7 +47,6 @@ export default async({ router, store }) => {
       next({ path: '/401' })
       return
     }
-    **/
 
     next()
   })

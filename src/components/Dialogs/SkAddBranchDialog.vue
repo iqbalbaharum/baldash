@@ -187,7 +187,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('GetAllBranch')
+    this.$store.dispatch('GetAllBranches')
   },
 
   methods: {

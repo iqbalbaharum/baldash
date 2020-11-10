@@ -13,19 +13,25 @@ export default class User extends Model {
       updatedAt: this.attr(''),
       deletedAt: this.attr(''),
       uuid: this.attr('null'),
-      username: this.attr(''),
       name: this.attr(''),
       SCCode: this.attr(''),
       mobile: this.attr(''),
       email: this.attr(''),
       status: this.attr(''),
-      module_access: this.attr(''),
-      designCAD_access: this.attr(''),
       branchId: this.attr(''),
       password: this.attr(''),
 
       roles: this.belongsToMany(Role, UserRole, 'userId', 'roleId')
     }
   }
+
+  static columns = [
+    { name: 'name', required: true, label: 'Customer Name', align: 'left', field: row => row.orderid, sortable: true },
+    { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
+    { name: 'contact', label: 'Mobile No.', align: 'left', field: 'mobile', sortable: true },
+    { name: 'branch', label: 'Branch', align: 'left', field: 'branchId', sortable: true },
+    { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
+    { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
+  ]
 }
 
