@@ -80,7 +80,8 @@ const user = {
               dispatch('NewTab', {
                 name: tabName,
                 columns: User.columns,
-                data: User.all()
+                data: User.all(),
+                remove_action: 'DeleteUser'
               })
             } else {
               dispatch('UpdateTab', {

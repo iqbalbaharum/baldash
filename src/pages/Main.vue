@@ -30,7 +30,17 @@
       @update:fullscreen="(value) => isTableFullscreen = value"
     >
       <template v-slot:top="props">
+        <q-btn
+          v-show="selected.length !== 0 && datatabs[activeDataTab].remove_action"
+          color="negative"
+          size="sm"
+          icon="fas fa-trash-alt"
+          label="Delete Selected"
+          @click="removeSelected"
+        />
+
         <q-space />
+
         <q-btn
           flat
           round
@@ -88,6 +98,12 @@ export default {
   methods: {
     onChangeTab(newTab) {
       console.log(newTab)
+    },
+    removeSelected() {
+      const actionName = this.datatabs[this.activeDataTab].remove_action
+      this.selected.forEach(data => {
+        this.$store.dispatch(actionName, data.uuid)
+      })
     }
   },
 }
