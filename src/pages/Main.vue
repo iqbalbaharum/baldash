@@ -101,9 +101,20 @@ export default {
     },
     removeSelected() {
       const actionName = this.datatabs[this.activeDataTab].remove_action
-      this.selected.forEach(data => {
-        this.$store.dispatch(actionName, data.uuid)
+      const success = []
+
+      this.selected.forEach(async data => {
+        try {
+          await this.$store.dispatch(actionName, data.uuid)
+          this.$notify('success', 'Delete item successful!')
+          success.push(true)
+        } catch (e) {
+          const message = e.response.data.error.message
+          this.$notify('error', `Error: ${message}`)
+        }
       })
+
+      this.selected = []
     }
   },
 }

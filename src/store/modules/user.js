@@ -124,7 +124,7 @@ const user = {
       })
     },
 
-    DeleteUser({ commit }, id) {
+    DeleteUser({ commit, dispatch }, id) {
       return new Promise((resolve, reject) => {
         this.$repository.user.delete(id)
           .then(res => {

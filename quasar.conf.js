@@ -20,6 +20,7 @@ module.exports = function(/* ctx */) {
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
       'axios',
+      'notify',
       'vuelidate',
       'repository',
       'routing',
@@ -105,7 +106,8 @@ module.exports = function(/* ctx */) {
       // Quasar plugins
       plugins: [
         'LocalStorage',
-        'SessionStorage'
+        'SessionStorage',
+        'Notify'
       ]
     },
 
