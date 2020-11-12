@@ -1,5 +1,5 @@
 <template>
-  <modal-dialog name="adduser">
+  <modal-dialog ref="dialog" name="adduser">
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
@@ -159,13 +159,19 @@ export default {
     onDelete(id) {
       this.$store.dispatch('DeleteUser', id)
     },
-    onAddUser() {
+    async onAddUser() {
       const user = { ...this.form }
       user.role = user.role.value
       user.branchId = user.branchId.value
 
-      this.$store.dispatch('RegisterUser', user)
-      this.$store.dispatch('GetAllUsers')
+      try {
+        await this.$store.dispatch('RegisterUser', user)
+        this.$refs.dialog.$children[0].hide()
+        this.$notify('success', `User with name ${user.name} created!`)
+      } catch (e) {
+        const message = e.response.message.error
+        this.$notify('error', message)
+      }
     },
     async loadRoleOptions() {
       const loadRoles = await this.$store.dispatch('GetAllRoles')

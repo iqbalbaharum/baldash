@@ -98,13 +98,14 @@ const user = {
       })
     },
 
-    RegisterUser({ commit }, data) {
+    RegisterUser({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.user.register(data)
           .then(res => {
             resolve(res.data)
-            User.insert({ data: res.data })
-            dispatch('GetAllUsers')
+            User.insert({ data: res.data }).then(
+              dispatch('GetAllUsers')
+            )
           })
           .catch(err => {
             reject(err)
