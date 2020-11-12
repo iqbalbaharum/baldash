@@ -82,8 +82,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch('GetAllBranches')
-    this.currentTab = 'usermanagement'
+    await this.$store.dispatch('InitializePage')
   }
 }
 </script>

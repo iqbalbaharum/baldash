@@ -6,7 +6,10 @@ const app = {
       {
         name: 'usermanagement',
         label: 'SK Management',
-        default_data: 'GetAllUsers',
+        request: {
+          get: 'GetAllUsers',
+          delete: 'DeleteUser'
+        },
         default_datatab_title: 'Users',
         buttons: [
           {
@@ -19,7 +22,7 @@ const app = {
                 disabled: false
               },
               {
-                name: 'deleteuser',
+                name: 'delete',
                 icon: 'fas fa-trash-alt',
                 label: 'Delete',
                 disabled: false
@@ -82,7 +85,10 @@ const app = {
       {
         name: 'branch',
         label: 'Branch',
-        default_data: 'GetAllBranches',
+        request: {
+          get: 'GetAllBranches',
+          delete: 'DeleteBranch'
+        },
         default_datatab_title: 'Branches',
         buttons: [
           {
@@ -101,7 +107,7 @@ const app = {
                 disabled: false
               },
               {
-                name: 'deleteuser',
+                name: 'delete',
                 icon: 'fas fa-trash-alt',
                 label: 'Delete',
                 disabled: false
@@ -193,9 +199,10 @@ const app = {
       },
     ],
     activeMenu: 'usermanagement',
+    tableSelection: [],
     dialog: '',
     datatabs: [],
-		activeDataTab: 0,
+    activeDataTab: 0,
   },
   mutations: {
     SET_MENUS: (state, menus) => {
@@ -203,6 +210,7 @@ const app = {
     },
     SET_ACTIVE_MENU: (state, activeMenu) => {
       state.activeMenu = activeMenu
+      state.tableSelection = []
     },
     TOGGLE_DIALOG: (state, name) => {
       state.dialog = name
@@ -225,23 +233,34 @@ const app = {
 		},
 		CLOSE_TAB: (state, index) => {
 			state.datatabs.splice(index , 1)
-		},
+    },
+    SELECT_TABLE_ITEM: (state, selection) => {
+      state.tableSelection = selection
+    }
   },
   actions: {
     SetMenu({ commit }, menus) {
       commit('SET_MENUS', menus)
     },
-    async SetActiveMenu({ commit, state, dispatch }, activeMenu) {
+    async SetActiveMenu({ commit, dispatch }, activeMenu) {
       commit('SET_ACTIVE_MENU', activeMenu)
       commit('RESET_DATATABS')
-
-      const menu = state.menus.filter(element => element.name === activeMenu)
-      if (menu[0].default_data) {
-        await dispatch(menu[0].default_data, menu[0].default_datatab_title)
-      }
+      dispatch('GetData')
 
       // reset datatab index to 0 everytime change tab
       commit('SET_ACTIVE_DATATAB', 0)
+    },
+    async GetData({ state, dispatch }) {
+      const menu = state.menus.filter(element => element.name === state.activeMenu)
+      if (menu[0].request.get) {
+        await dispatch(menu[0].request.get, menu[0].default_datatab_title)
+      }
+    },
+    async DeleteData({ state, dispatch }, id) {
+      const menu = state.menus.filter(element => element.name === state.activeMenu)
+      if (menu[0].request.delete) {
+        await dispatch(menu[0].request.delete, id)
+      }
     },
     OpenDialog({ commit }, dialogName) {
       commit('TOGGLE_DIALOG', dialogName)
@@ -249,7 +268,11 @@ const app = {
     NewTab({ commit }, tab) {
 			commit('NEW_TAB', tab)
 		},
-    UpdateTab({ commit }, tab) {
+    UpdateTab({ commit, state }, tab) {
+      if(!tab.name) {
+        const menu = state.menus.filter(element => element.name === state.activeMenu)
+        tab.name = menu[0].default_datatab_title
+      }
       commit('UPDATE_TAB', tab)
     },
 		CloseTab({ commit }, index) {
@@ -259,6 +282,15 @@ const app = {
       commit('SET_ACTIVE_DATATAB', index)
       commit('NEW_TAB', [])
     },
+    OnTableSelection({ commit }, selection) {
+      commit('SELECT_TABLE_ITEM', selection)
+    },
+    InitializePage({ state, dispatch }) {
+      if(state.menus.length > 0) {
+        dispatch('SetActiveMenu', state.menus[0].name)
+      }
+      
+    }
   }
 }
 

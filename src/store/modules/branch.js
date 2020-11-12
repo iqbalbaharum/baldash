@@ -21,7 +21,7 @@ const branch = {
               dispatch('NewTab', {
                 name: tabName,
                 columns: Branch.columns,
-                data: res.data
+                data: Branch.all()
               })
             }
             resolve(res.data)
