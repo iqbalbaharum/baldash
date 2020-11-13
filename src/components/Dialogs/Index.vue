@@ -10,7 +10,7 @@
 <script>
 import skImportOnlineLeadsDialog from './SkImportOnlineLeadsDialog'
 import skAddUserDialog from './SkAddUserDialog'
-import skDeleteDialog from './skDeleteDialog'
+import skDeleteDialog from './SkDeleteDialog'
 import skAddBranchDialog from './SkAddBranchDialog'
 
 export default {
