@@ -25,20 +25,11 @@
       :style="{ height: computedTableHeight }"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      :selected.sync="selection"
       :pagination.sync="pagination"
       @update:fullscreen="(value) => isTableFullscreen = value"
     >
       <template v-slot:top="props">
-        <q-btn
-          v-show="selected.length !== 0 && datatabs[activeDataTab].remove_action"
-          color="negative"
-          size="sm"
-          icon="fas fa-trash-alt"
-          label="Delete Selected"
-          @click="removeSelected"
-        />
-
         <q-space />
 
         <q-btn
@@ -66,7 +57,6 @@ export default {
   },
   data() {
     return {
-      selected: [],
       isTableFullscreen: false,
       pagination: {
         rowsPerPage: 0
@@ -77,10 +67,11 @@ export default {
   computed: {
     ...mapGetters([
       'datatabs',
-      'activeDataTab'
+      'activeDataTab',
     ]),
     ...mapState({
-      activeMenu: state => state.app.activeMenu
+      activeMenu: state => state.app.activeMenu,
+      tableSelection: state => state.app.tableSelection
     }),
     currentTab: {
       set(value) {
@@ -88,6 +79,15 @@ export default {
       },
       get() {
         return this.activeMenu
+      }
+    },
+    selection: {
+      set(selection) {
+        console.log(selection)
+        this.$store.dispatch('OnTableSelection', selection)
+      },
+      get() {
+        return this.tableSelection
       }
     },
     computedTableHeight: function() {
@@ -99,23 +99,6 @@ export default {
     onChangeTab(newTab) {
       console.log(newTab)
     },
-    removeSelected() {
-      const actionName = this.datatabs[this.activeDataTab].remove_action
-      const success = []
-
-      this.selected.forEach(async data => {
-        try {
-          await this.$store.dispatch(actionName, data.uuid)
-          this.$notify('success', 'Delete item successful!')
-          success.push(true)
-        } catch (e) {
-          const message = e.response.data.error.message
-          this.$notify('error', `Error: ${message}`)
-        }
-      })
-
-      this.selected = []
-    }
   },
 }
 </script>

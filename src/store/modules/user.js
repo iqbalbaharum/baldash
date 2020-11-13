@@ -80,15 +80,10 @@ const user = {
               dispatch('NewTab', {
                 name: tabName,
                 columns: User.columns,
-                data: User.all(),
-                remove_action: 'DeleteUser'
-              })
-            } else {
-              dispatch('UpdateTab', {
-                name: 'Users',
                 data: User.all()
               })
             }
+            
             resolve(res.data)
           })
           .catch(err => {
