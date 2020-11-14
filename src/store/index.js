@@ -12,6 +12,7 @@ import zone from './modules/zone'
 import role from './modules/role'
 import branch from './modules/branch'
 import lead from './modules/lead'
+import itemlist from './modules/itemlist'
 
 Vue.use(Vuex)
 

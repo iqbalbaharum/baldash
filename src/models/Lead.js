@@ -1,7 +1,7 @@
 import { Model } from '@vuex-orm/core'
 
 export default class Lead extends Model {
-  static entity = 'customers'
+  static entity = 'lead'
 
   static primaryKey = 'uuid'
 
