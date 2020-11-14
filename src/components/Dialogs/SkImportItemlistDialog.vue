@@ -7,7 +7,7 @@
         </div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        Upload a .xslx or .csv file which contain this leads data, and auto populate the online leads.
+        Upload a .xslx or .csv file which contain this master item data
       </q-card-section>
 
       <q-card-section>

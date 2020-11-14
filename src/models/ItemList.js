@@ -20,15 +20,15 @@ export default class Item extends Model {
       puom: this.attr(''),
       suom: this.attr(''),
       fraction: this.attr(''),
-      std_cost: this.attr(''),
+      stdcost: this.attr(''),
       markuprate: this.attr(''),
       part: this.attr(''),
       nonstdrate: this.attr(''),
       installationcharges: this.attr(''),
-      dealer_price: this.attr(''),
+      dealerprice: this.attr(''),
       active: this.attr(''),
       oversea: this.attr(''),
-      oversea_dealer_price: this.attr(''),
+      overseaDealerprice: this.attr(''),
     }
   }
 
@@ -46,15 +46,15 @@ export default class Item extends Model {
     { name: 'puom', label: 'Puom', field: 'puom', align: 'left', sortable: true },
     { name: 'suom', label: 'Suom', field: 'suom', align: 'left', sortable: true },
     { name: 'fraction', label: 'Fraction', field: 'fraction', align: 'left', sortable: true },
-    { name: 'std_cost', label: 'Std Cost', field: 'std_cost', align: 'left', sortable: true },
+    { name: 'stdcost', label: 'Std Cost', field: 'stdcost', align: 'left', sortable: true },
     { name: 'markuprate', label: 'Markup Rate', field: 'markuprate', align: 'left', sortable: true },
     { name: 'part', label: 'Part', field: 'part', align: 'left', sortable: true },
     { name: 'nonstdrate', label: 'Non Std-rate', field: 'nonstdrate', align: 'left', sortable: true },
     { name: 'installationcharges', label: 'Installation Charges', field: 'installationcharges', align: 'left', sortable: true },
-    { name: 'dealer_price', label: 'Dealer Price', field: 'dealer_price', align: 'left', sortable: true },
+    { name: 'dealerprice', label: 'Dealer Price', field: 'dealerprice', align: 'left', sortable: true },
     { name: 'active', label: 'Active', field: 'active', align: 'left', sortable: true },
     { name: 'oversea', label: 'Oversea', field: 'oversea', align: 'left', sortable: true },
-    { name: 'oversea_dealer_price', label: 'Oversea Dealer Price', field: 'oversea_dealer_price', align: 'left', sortable: true },
+    { name: 'overseaDealerprice', label: 'Oversea Dealer Price', field: 'overseaDealerprice', align: 'left', sortable: true },
 
   ]
 }
