@@ -36,6 +36,7 @@ export default function(/* { ssrContext } */) {
       role,
       branch,
       lead,
+      itemlist,
     },
     getters,
     plugins: [VuexORM.install(database)],

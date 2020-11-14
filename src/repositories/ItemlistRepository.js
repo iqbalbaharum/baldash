@@ -1,10 +1,10 @@
 import Repository from './Repository'
-import ItemList from './../models/ItemList'
+import Itemlist from './../models/ItemList'
 import datasource from '../datasources/baljs-rest-api'
 
 export default class ItemlistRepository extends Repository {
   constructor() {
-    super(ItemList, datasource)
+    super(Itemlist, datasource)
   }
 
   async upload(file) {

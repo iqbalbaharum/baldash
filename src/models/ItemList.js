@@ -1,7 +1,7 @@
 import { Model } from '@vuex-orm/core'
 
 export default class Item extends Model {
-  static entity = 'itemlist'
+  static entity = 'item-lists'
 
   static primaryKey = 'uuid'
 

@@ -38,20 +38,6 @@ const itemlist = {
       })
     },
 
-    AddLead({ commit }, data) {
-      return new Promise((resolve, reject) => {
-        this.$repository.itemlist.create(data)
-          .then(res => {
-            ItemList.insert({ data: res.data })
-            resolve(res.data)
-          })
-          .catch(err => {
-            console.log(err)
-            reject(err)
-          })
-      })
-    },
-
     DeleteLead({ commit }, id) {
       return new Promise(async(resolve, reject) => {
         this.$repository.itemlist.delete(id)
