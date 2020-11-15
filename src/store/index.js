@@ -12,6 +12,7 @@ import zone from './modules/zone'
 import role from './modules/role'
 import branch from './modules/branch'
 import lead from './modules/lead'
+import qualifiedleads from './modules/qualifiedleads'
 
 Vue.use(Vuex)
 
@@ -35,6 +36,7 @@ export default function(/* { ssrContext } */) {
       role,
       branch,
       lead,
+      qualifiedleads,
     },
     getters,
     plugins: [VuexORM.install(database)],
