@@ -18,9 +18,9 @@ export default class Branch extends Model {
       address2: this.attr(''),
       state: this.attr(''),
       country: this.attr(''),
-      SSMNo: this.attr(''),
-      GSTNo: this.attr(''),
-      logo: this.attr(''),
+      SSMNo: this.attr(0),
+      GSTNo: this.attr(0),
+      logo: this.attr(0),
       branchId: this.attr(''),
     }
   }

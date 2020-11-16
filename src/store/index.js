@@ -13,6 +13,7 @@ import role from './modules/role'
 import branch from './modules/branch'
 import lead from './modules/lead'
 import itemlist from './modules/itemlist'
+import qualifiedleads from './modules/qualifiedleads'
 
 Vue.use(Vuex)
 
@@ -37,6 +38,7 @@ export default function(/* { ssrContext } */) {
       branch,
       lead,
       itemlist,
+      qualifiedleads,
     },
     getters,
     plugins: [VuexORM.install(database)],
