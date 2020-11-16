@@ -5,6 +5,7 @@ import ZoneRepository from './ZoneRepository'
 import RoleRepository from './RoleRepository'
 import LeadRepository from './LeadRepository'
 import BranchRepository from './BranchRepository'
+import ItemlistRepository from './ItemlistRepository'
 import QualifiedLeadsRepository from './QualifiedLeadsRepository'
 
 export default {
@@ -15,5 +16,6 @@ export default {
   role: new RoleRepository(),
   lead: new LeadRepository(),
   branch: new BranchRepository(),
-  qualifiedleads: new QualifiedLeadsRepository()
+  itemlist: new ItemlistRepository(),
+  qualifiedleads: new QualifiedLeadsRepository(),
 }

@@ -83,6 +83,40 @@ const app = {
         ]
       },
       {
+        name: 'item',
+        label: 'Item List',
+        request: {
+          get: 'GetAllItems',
+          delete: 'DeleteBranch'
+        },
+        default_datatab_title: 'Item List',
+        buttons: [
+          {
+            category: 'Template',
+            tos: [
+              {
+                name: 'importitemlist',
+                icon: 'fas fa-upload',
+                label: 'Import',
+                disabled: false,
+              },
+              {
+                name: 'downloadsample',
+                icon: 'fas fa-download',
+                label: 'Download',
+                disabled: false
+              },
+              {
+                name: 'importitemhistory',
+                icon: 'fas fa-history',
+                label: 'Import History',
+                disabled: false,
+              }
+            ]
+          },
+        ]
+      },
+      {
         name: 'branch',
         label: 'Branch',
         request: {
