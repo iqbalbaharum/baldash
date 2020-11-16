@@ -5,11 +5,8 @@ import ZoneRepository from './ZoneRepository'
 import RoleRepository from './RoleRepository'
 import LeadRepository from './LeadRepository'
 import BranchRepository from './BranchRepository'
-<<<<<<< HEAD
 import ItemlistRepository from './ItemlistRepository'
-=======
 import QualifiedLeadsRepository from './QualifiedLeadsRepository'
->>>>>>> 080c1dfc6a78000e44e8b40f328d5a217188f99b
 
 export default {
   // userRepository: bind('userRepository', RepositoryInterface)
@@ -19,9 +16,6 @@ export default {
   role: new RoleRepository(),
   lead: new LeadRepository(),
   branch: new BranchRepository(),
-<<<<<<< HEAD
-  itemlist: new ItemlistRepository()
-=======
-  qualifiedleads: new QualifiedLeadsRepository()
->>>>>>> 080c1dfc6a78000e44e8b40f328d5a217188f99b
+  itemlist: new ItemlistRepository(),
+  qualifiedleads: new QualifiedLeadsRepository(),
 }
