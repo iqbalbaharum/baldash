@@ -10,7 +10,7 @@ export default class ItemlistRepository extends Repository {
   async upload(file) {
     const formData = new FormData()
     formData.append('file', file)
-    const ret = await this.datasource.post(`containers/uploads/item-lists`, formData, {
+    const ret = await this.datasource.post(`containers/upload/item-lists`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
