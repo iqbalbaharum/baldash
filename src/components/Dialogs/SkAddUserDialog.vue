@@ -69,21 +69,6 @@
                 label="Roles"
               />
             </div>
-            <!--
-            <div class="col">
-              <q-input
-                v-model="form.access"
-                outlined
-                label="Module Access"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="form.cadaccess"
-                outlined
-                label="DesignCad Access"
-              />
-            </div> -->
             <div align="right">
               <q-btn
                 v-close-popup

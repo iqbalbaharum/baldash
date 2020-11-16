@@ -5,6 +5,7 @@ import ZoneRepository from './ZoneRepository'
 import RoleRepository from './RoleRepository'
 import LeadRepository from './LeadRepository'
 import BranchRepository from './BranchRepository'
+import QualifiedLeadsRepository from './QualifiedLeadsRepository'
 
 export default {
   // userRepository: bind('userRepository', RepositoryInterface)
@@ -13,5 +14,6 @@ export default {
   zone: new ZoneRepository(),
   role: new RoleRepository(),
   lead: new LeadRepository(),
-  branch: new BranchRepository()
+  branch: new BranchRepository(),
+  qualifiedleads: new QualifiedLeadsRepository()
 }

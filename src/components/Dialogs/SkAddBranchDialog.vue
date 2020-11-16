@@ -1,5 +1,5 @@
 <template>
-  <modal-dialog name="addbranch">
+  <modal-dialog ref="dialog" name="addbranch">
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
@@ -82,28 +82,28 @@
             </div>
             <div class="col">
               <q-input
-                v-model="form.SSMNo"
+                v-model.number="form.SSMNo"
                 outlined
                 label="SSM No."
               />
             </div>
             <div class="col">
               <q-input
-                v-model="form.GSTNo"
+                v-model.number="form.GSTNo"
                 outlined
                 label="GST No"
               />
             </div>
             <div class="col">
               <q-input
-                v-model="form.logo"
+                v-model.number="form.logo"
                 outlined
                 label="Logo"
               />
             </div>
             <div class="col">
               <q-input
-                v-model="form.branchid"
+                v-model="form.branchId"
                 outlined
                 label="Branch ID"
               />
@@ -113,10 +113,10 @@
             </div>
             <div align="right">
               <q-btn
+                v-close-popup
                 flat
                 color="primary"
                 label="Cancel"
-                @click="isCreateDialogOpened = false"
               />
               <q-btn
                 color="primary"
@@ -142,23 +142,11 @@ export default {
   },
   data() {
     return {
-      columns: [
-        { name: 'id', align: 'left', label: 'ID', field: 'uuid' },
-        { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
-        { name: 'code', align: 'left', label: 'SC Code', field: 'code', sortable: true },
-        { name: 'type', align: 'left', label: 'Role Type', field: 'type', sortable: true },
-        { name: 'telno', align: 'left', label: 'Tel No.', field: 'telno', sortable: true },
-        { name: 'faxno', align: 'left', label: 'Fax No.', field: 'faxno', sortable: true },
-        { name: 'email', align: 'left', label: 'Eamil', field: 'email', sortable: true },
-        { name: 'address1', align: 'left', label: 'Address', field: 'address1', sortable: true },
-        { name: 'address2', align: 'left', label: 'Address', field: 'address2', sortable: true },
-        { name: 'state', align: 'left', label: 'State', field: 'state', sortable: true },
-        { name: 'country', align: 'left', label: 'Country', field: 'country', sortable: true },
-        { name: 'SSMNo', align: 'left', label: 'SSM No.', field: 'SSMNo', sortable: true },
-        { name: 'GSTNo', align: 'left', label: 'GST No.', field: 'GSTNo', sortable: true },
-        { name: 'logo', align: 'left', label: 'Logo', field: 'logo', sortable: true },
-        { name: 'branchId', align: 'left', label: 'Branch Id', field: 'branchId', sortable: true },
-      ],
+      dialog: {
+        show: false,
+        branchId: '',
+        roleArr: []
+      },
 
       form: {
         name: '',
@@ -175,13 +163,12 @@ export default {
         GSTNo: '',
         logo: '',
         branchId: ''
-
       }
     }
   },
 
   computed: {
-    users() {
+    branches() {
       return Branch.query().withAll().get()
     },
   },
@@ -194,11 +181,18 @@ export default {
     onDelete(id) {
       this.$store.dispatch('DeleteBranch', id)
     },
-    onAddBranch() {
-      this.$store.dispatch('RegisterBranch', this.form)
-        .then(res => {
-        })
+    async onAddBranch() {
+      const branch = { ...this.form }
+      try {
+        await this.$store.dispatch('RegisterBranch', branch)
+        this.$refs.dialog.$children[0].hide()
+        this.$notify('success', `Branch with name ${branch.name} created!`)
+      } catch (e) {
+        const message = e.response.message.error
+        this.$notify('error', message)
+      }
     },
   }
 }
+
 </script>
