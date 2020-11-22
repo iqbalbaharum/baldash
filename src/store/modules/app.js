@@ -164,8 +164,11 @@ const app = {
       {
         name: 'onlineleads',
         label: 'Online Leads',
-        default_data: 'GetAllLeads',
-        default_datatab_title: 'Leads',
+        request: {
+          get: 'GetOnlineLeads',
+          delete: 'DeleteLead'
+        },
+        default_datatab_title: 'Online Leads',
         buttons: [
           {
             category: 'Template',
@@ -217,7 +220,12 @@ const app = {
       },
       {
         name: 'qualifiedleads',
-        label: 'Qualified Leads'
+        label: 'Qualified Leads',
+        request: {
+          get: 'GetQualifiedLeads',
+          delete: 'DeleteLead'
+        },
+        default_datatab_title: 'Qualified Leads',
       },
       {
         name: 'designproposal',
