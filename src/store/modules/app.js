@@ -221,7 +221,22 @@ const app = {
       },
       {
         name: 'designproposal',
-        label: 'Design Proposal'
+        label: 'Design Proposal',
+        default_data: 'GetAllLeads',
+        default_datatab_title: 'DesignCAD',
+        buttons: [
+          {
+            category: 'Template',
+            tos: [
+              {
+                name: 'importonlineleads',
+                icon: 'fas fa-upload',
+                label: 'Open DesignCAD',
+                disabled: false,
+              },
+            ]
+          },
+        ]
       },
       {
         name: 'orderconfirmation',
