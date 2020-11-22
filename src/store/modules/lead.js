@@ -38,6 +38,74 @@ const lead = {
       })
     },
 
+    async GetQualifiedLeads({ dispatch }, tabName) {
+      await Lead.deleteAll()
+
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.listing({
+            where: {
+              status: 'qualified'
+            }
+        })
+          .then(res => {
+            Lead.insert({ data: res.data })
+
+            if(tabName) {
+              dispatch('NewTab', {
+                name: tabName,
+                columns: Lead.columns,
+                data: Lead.all()
+              })
+            } else {
+              dispatch('UpdateTab', {
+                name: 'Leads',
+                data: Lead.all()
+              })
+            }
+
+            resolve(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+            reject(err)
+          })
+      })
+    },
+
+    async GetOnlineLeads({ dispatch }, tabName) {
+      await Lead.deleteAll()
+
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.listing({
+            where: {
+              status: 'online'
+            }
+        })
+          .then(res => {
+            Lead.insert({ data: res.data })
+
+            if(tabName) {
+              dispatch('NewTab', {
+                name: tabName,
+                columns: Lead.columns,
+                data: Lead.all()
+              })
+            } else {
+              dispatch('UpdateTab', {
+                name: 'Leads',
+                data: Lead.all()
+              })
+            }
+
+            resolve(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+            reject(err)
+          })
+      })
+    },
+
     AddLead({ commit }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.lead.create(data)
