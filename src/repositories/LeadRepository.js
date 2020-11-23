@@ -18,4 +18,12 @@ export default class LeadRepository extends Repository {
 
     return ret
   }
+
+  async assignToBranch(lead, branchId) {
+    lead.branchId = branchId
+    lead.status = 'qualified'
+    delete lead.$id
+    delete lead.Timestamp
+    return await this.datasource.patch(`${this.model.entity}/${lead.uuid}`, lead)
+  }
 }

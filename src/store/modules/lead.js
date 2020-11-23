@@ -58,7 +58,7 @@ const lead = {
               })
             } else {
               dispatch('UpdateTab', {
-                name: 'Leads',
+                name: 'Qualified Leads',
                 data: Lead.all()
               })
             }
@@ -92,7 +92,7 @@ const lead = {
               })
             } else {
               dispatch('UpdateTab', {
-                name: 'Leads',
+                name: 'Online Leads',
                 data: Lead.all()
               })
             }
@@ -103,6 +103,24 @@ const lead = {
             console.log(err)
             reject(err)
           })
+      })
+    },
+
+    async AssignLeadToBranch({ dispatch }, { lead, branchId }) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.assignToBranch(lead, branchId).then(async res => {
+          await Lead.delete(lead.uuid)
+
+          dispatch('UpdateTab', {
+            name: 'Online Leads',
+            data: Lead.all()
+          })
+
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
       })
     },
 
