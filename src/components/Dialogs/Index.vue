@@ -6,6 +6,7 @@
     <sk-delete-dialog />
     <sk-add-branch-dialog />
     <sk-edit-branch-dialog />
+    <sk-add-lead-dialog />
     <sk-import-itemlist-dialog />
     <sk-assign-leads-to-branch-dialog />
   </div>
@@ -19,6 +20,7 @@ import skEditUserDialog from './SkEditUserDialog'
 import skDeleteDialog from './SkDeleteDialog'
 import skAddBranchDialog from './SkAddBranchDialog'
 import skEditBranchDialog from './SkEditBranchDialog'
+import skAddLeadDialog from './SkAddLeadDialog'
 import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
 
 export default {
@@ -31,6 +33,7 @@ export default {
     skAddBranchDialog,
     skImportItemlistDialog,
     skEditBranchDialog,
+    skAddLeadDialog,
     skAssignLeadsToBranchDialog,
   },
   data() {

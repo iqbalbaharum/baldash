@@ -44,7 +44,8 @@ const lead = {
       return new Promise((resolve, reject) => {
         this.$repository.lead.listing({
             where: {
-              status: 'qualified'
+              state: 'QL',
+              status: 'active'
             }
         })
           .then(res => {
@@ -78,7 +79,8 @@ const lead = {
       return new Promise((resolve, reject) => {
         this.$repository.lead.listing({
             where: {
-              status: 'online'
+              state: 'OL',
+              status: 'notactive'
             }
         })
           .then(res => {
@@ -124,7 +126,11 @@ const lead = {
       })
     },
 
-    AddLead({ commit }, data) {
+    AddLead({ commit, rootState }, data) {
+      data.branchId = rootState.user.branchId
+      data.userId = rootState.user.userId
+      data.state = 'QL'
+      data.status = 'active'
       return new Promise((resolve, reject) => {
         this.$repository.lead.create(data)
           .then(res => {

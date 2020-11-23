@@ -27,7 +27,7 @@ const app = {
               {
                 name: 'edituser',
                 icon: 'fas fa-edit',
-                label: 'Edit',
+                label: 'View/Edit',
                 disabled: false
               },
               {
@@ -53,13 +53,13 @@ const app = {
             category: 'Assign',
             tos: [
               {
-                name: 'assignrole',
+                name: 'userassignrole',
                 icon: 'fas fa-plus',
                 label: 'Assign Role',
                 disabled: false
               },
               {
-                name: 'assignbranch',
+                name: 'userassignbranch',
                 icon: 'fas fa-plus',
                 label: 'Assign Branch',
                 disabled: false
@@ -115,7 +115,7 @@ const app = {
               {
                 name: 'editbranch',
                 icon: 'fas fa-edit',
-                label: 'Edit',
+                label: 'View/Edit',
                 disabled: false
               },
               {
@@ -245,7 +245,7 @@ const app = {
             category: 'Leads',
             tos: [
               {
-                name: 'addlead',
+                name: 'walkinlead',
                 icon: 'fas fa-walking',
                 label: 'Walk In',
                 disabled: false
