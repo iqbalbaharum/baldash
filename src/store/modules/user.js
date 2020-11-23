@@ -108,6 +108,21 @@ const user = {
       })
     },
 
+    UpdateUser({ commit, dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        User.update({ where: data.uuid, data: data })
+        const user = User.find(data.uuid)
+        this.$repository.user.updateById(user.getId, user.getBodyRequest)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+            dispatch('GetAllUsers')
+          })
+      })
+    },
+
     RegisterIndividual({ commit }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.user.register(data)

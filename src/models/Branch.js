@@ -25,6 +25,29 @@ export default class Branch extends Model {
     }
   }
 
+  get getId() {
+    return this.$id
+  }
+
+  get getBodyRequest() {
+    return {
+      name: this.name,
+      code: this.code,
+      type: this.type,
+      telno: this.telno,
+      faxno: this.faxno,
+      email: this.email,
+      address1: this.address1,
+      address2: this.address2,
+      state: this.state,
+      country: this.country,
+      SSMNo: this.SSMNo,
+      GSTNo: this.GSTNo,
+      logo: this.logo,
+      branchId: this.branchId,
+    }
+  }
+
   static columns = [
     { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.orderid, sortable: true },
     { name: 'code', label: 'Code', align: 'left', field: 'code', sortable: true },

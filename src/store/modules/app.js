@@ -22,6 +22,12 @@ const app = {
                 disabled: false
               },
               {
+                name: 'edituser',
+                icon: 'fas fa-edit',
+                label: 'Edit',
+                disabled: false
+              },
+              {
                 name: 'delete',
                 icon: 'fas fa-trash-alt',
                 label: 'Delete',
@@ -83,6 +89,51 @@ const app = {
         ]
       },
       {
+        name: 'branch',
+        label: 'Branch',
+        request: {
+          get: 'GetAllBranches',
+          delete: 'DeleteBranch'
+        },
+        default_datatab_title: 'Branches',
+        buttons: [
+          {
+            category: 'Management',
+            tos: [
+              {
+                name: 'addbranch',
+                icon: 'fas fa-user-plus',
+                label: 'Add Branch',
+                disabled: false
+              },
+              {
+                name: 'editbranch',
+                icon: 'fas fa-edit',
+                label: 'Edit',
+                disabled: false
+              },
+              {
+                name: 'delete',
+                icon: 'fas fa-trash-alt',
+                label: 'Delete',
+                disabled: false
+              },
+            ]
+          },
+          {
+            category: 'User',
+            tos: [
+              {
+                name: 'adduser',
+                icon: 'fas fa-user-plus',
+                label: 'Add User',
+                disabled: false
+              },
+            ]
+          }
+        ]
+      },
+      {
         name: 'item',
         label: 'Item List',
         request: {
@@ -114,51 +165,6 @@ const app = {
               }
             ]
           },
-        ]
-      },
-      {
-        name: 'branch',
-        label: 'Branch',
-        request: {
-          get: 'GetAllBranches',
-          delete: 'DeleteBranch'
-        },
-        default_datatab_title: 'Branches',
-        buttons: [
-          {
-            category: 'Management',
-            tos: [
-              {
-                name: 'addbranch',
-                icon: 'fas fa-user-plus',
-                label: 'Add Branch',
-                disabled: false
-              },
-              {
-                name: 'edituser',
-                icon: 'fas fa-edit',
-                label: 'Edit',
-                disabled: false
-              },
-              {
-                name: 'delete',
-                icon: 'fas fa-trash-alt',
-                label: 'Delete',
-                disabled: false
-              },
-            ]
-          },
-          {
-            category: 'User',
-            tos: [
-              {
-                name: 'adduser',
-                icon: 'fas fa-user-plus',
-                label: 'Add User',
-                disabled: false
-              },
-            ]
-          }
         ]
       },
       {
