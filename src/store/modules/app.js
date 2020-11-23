@@ -11,6 +11,9 @@ const app = {
           delete: 'DeleteUser'
         },
         default_datatab_title: 'Users',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
           {
             category: 'User',
@@ -96,6 +99,9 @@ const app = {
           delete: 'DeleteBranch'
         },
         default_datatab_title: 'Branches',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
           {
             category: 'Management',
@@ -141,6 +147,9 @@ const app = {
           delete: 'DeleteBranch'
         },
         default_datatab_title: 'Item List',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
           {
             category: 'Template',
@@ -175,30 +184,10 @@ const app = {
           delete: 'DeleteLead'
         },
         default_datatab_title: 'Online Leads',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
-          {
-            category: 'Template',
-            tos: [
-              {
-                name: 'importonlineleads',
-                icon: 'fas fa-upload',
-                label: 'Import',
-                disabled: false,
-              },
-              {
-                name: 'downloadsample',
-                icon: 'fas fa-download',
-                label: 'Download',
-                disabled: false
-              },
-              {
-                name: 'importonlineleadshistory',
-                icon: 'fas fa-history',
-                label: 'Import History',
-                disabled: false,
-              }
-            ]
-          },
           {
             category: 'Leads',
             tos: [
@@ -210,10 +199,15 @@ const app = {
               },
               {
                 name: 'disqualify',
-                icon: 'fas fa-user-minus',
+                icon: 'far fa-star',
                 label: 'Disqualify',
                 disabled: false
-              },
+              }
+            ]
+          },
+          {
+            category: 'Filter',
+            tos: [
               {
                 name: 'filtercustomer',
                 icon: 'fas fa-filter',
@@ -232,20 +226,62 @@ const app = {
           delete: 'DeleteLead'
         },
         default_datatab_title: 'Qualified Leads',
+        config: {
+          selectiontype: 'single'
+        },
+        buttons: [
+          {
+            category: 'Assignment',
+            tos: [
+              {
+                name: 'assigntodesign',
+                icon: 'fas fa-check',
+                label: 'Select',
+                disabled: false,
+              },
+            ]
+          },
+          {
+            category: 'Leads',
+            tos: [
+              {
+                name: 'addlead',
+                icon: 'fas fa-walking',
+                label: 'Walk In',
+                disabled: false
+              },
+              {
+                name: 'requalifyqlead',
+                icon: 'fas fa-star',
+                label: 'Requalify',
+                disabled: false
+              },
+              {
+                name: 'disqualify',
+                icon: 'far fa-star',
+                label: 'Disqualify',
+                disabled: false
+              },
+            ]
+          }
+        ]
       },
       {
         name: 'designproposal',
         label: 'Design Proposal',
         default_data: 'GetAllLeads',
         default_datatab_title: 'DesignCAD',
+        config: {
+          selectiontype: 'single'
+        },
         buttons: [
           {
-            category: 'Template',
+            category: 'DesignCAD',
             tos: [
               {
                 name: 'importonlineleads',
-                icon: 'fas fa-upload',
-                label: 'Open DesignCAD',
+                icon: 'fas fa-pencil-ruler',
+                label: 'Open',
                 disabled: false,
               },
             ]
@@ -254,11 +290,17 @@ const app = {
       },
       {
         name: 'orderconfirmation',
-        label: 'Order Confirmation'
+        label: 'Order Confirmation',
+        config: {
+          selectiontype: 'single'
+        },
       },
       {
         name: 'servicereport',
-        label: 'Service Report'
+        label: 'Service Report',
+        config: {
+          selectiontype: 'single'
+        },
       },
     ],
     activeMenu: 'usermanagement',

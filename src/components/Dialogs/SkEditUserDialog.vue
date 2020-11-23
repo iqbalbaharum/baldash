@@ -1,5 +1,9 @@
 <template>
-  <modal-dialog ref="dialog" name="edituser">
+  <modal-dialog
+    ref="dialog"
+    name="edituser"
+    @close-dialog="reset"
+  >
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
@@ -167,6 +171,10 @@ export default {
   },
 
   methods: {
+    reset() {
+      this.selectedUserId = ''
+      this.form = {}
+    },
     async onUpdateUser() {
       try {
         await this.$store.dispatch('UpdateUser', this.form)

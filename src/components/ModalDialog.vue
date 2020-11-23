@@ -52,6 +52,7 @@ export default {
   methods: {
     onClose() {
       this.$store.dispatch('ModalClose', this.name)
+      this.$emit('close-dialog')
     }
   },
 }

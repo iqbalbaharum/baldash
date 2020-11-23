@@ -1,9 +1,5 @@
 <template>
-  <modal-dialog
-    ref="dialog"
-    name="editbranch"
-    @close-dialog="reset"
-  >
+  <modal-dialog ref="dialog" name="editbranch">
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
@@ -220,11 +216,12 @@ export default {
     }
   },
 
+  mounted() {
+    this.selectedBranchId = ''
+    this.form = {}
+  },
+
   methods: {
-    reset() {
-      this.selectedBranchId = ''
-      this.form = {}
-    },
     async onEditBranch() {
       const branch = { ...this.form }
       try {
