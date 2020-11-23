@@ -9,6 +9,7 @@
     <sk-add-lead-dialog />
     <sk-import-itemlist-dialog />
     <sk-assign-leads-to-branch-dialog />
+    <sk-assign-user-role />
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import skAddBranchDialog from './SkAddBranchDialog'
 import skEditBranchDialog from './SkEditBranchDialog'
 import skAddLeadDialog from './SkAddLeadDialog'
 import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
+import skAssignUserRole from './SkAssignUserRole'
 
 export default {
 
@@ -35,6 +37,7 @@ export default {
     skEditBranchDialog,
     skAddLeadDialog,
     skAssignLeadsToBranchDialog,
+    skAssignUserRole
   },
   data() {
     return {

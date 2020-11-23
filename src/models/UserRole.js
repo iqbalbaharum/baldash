@@ -1,6 +1,6 @@
 import { Model } from '@vuex-orm/core'
-// import Role from './Role'
-// import User from './User'
+import Role from './Role'
+import User from './User'
 
 export default class UserRole extends Model {
   static entity = 'userrole'
@@ -10,7 +10,11 @@ export default class UserRole extends Model {
   static fields() {
     return {
       userId: this.attr(''),
-      roleId: this.attr('')
+      roleId: this.attr(''),
+
+      //
+      user: this.belongsTo(User, 'userId'),
+      role: this.belongsTo(Role, 'roleId')
     }
   }
 }

@@ -13,7 +13,7 @@ export default class User extends Model {
       createdAt: this.attr(''),
       updatedAt: this.attr(''),
       deletedAt: this.attr(''),
-      uuid: this.attr('null'),
+      uuid: this.attr(null),
       name: this.attr(''),
       SCCode: this.attr(''),
       mobile: this.attr(''),

@@ -185,7 +185,6 @@ const user = {
     async GetUserRoles({ commit }, id) {
       const res = await this.$repository.user.getUserRoles(id)
       const data = res.data
-
       for (const role of data) {
         await UserRole.create({
           data: {

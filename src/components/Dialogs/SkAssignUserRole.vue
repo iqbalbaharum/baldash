@@ -8,7 +8,7 @@
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            User Role Assignment
+            User Role Edit
           </div>
         </q-card-section>
         <q-card-section>
@@ -30,57 +30,17 @@
 
             <template v-if="selectedUserId">
               <div class="text-weight-bold text-uppercase text-grey-5">
-                User detail
+                Select user roles
               </div>
+              <q-option-group
+                v-model="form.roles"
+                :options="rolesOpt"
+                label="Roles"
+                type="checkbox"
+              />
 
-              <div class="col">
-                <q-input
-                  v-model="form.name"
-                  outlined
-                  label="Fullname"
-                />
-              </div>
-              <div class="row ">
-                <q-input
-                  v-model="form.SCCode"
-                  class="col"
-                  outlined
-                  label="SC Code"
-                />
-                <q-input
-                  v-model="form.mobile"
-                  class="col q-pl-xs"
-                  outlined
-                  label="Telephone No."
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.email"
-                  outlined
-                  label="Email"
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.branchId"
-                  outlined
-                  :options="branches"
-                  label="Branch"
-                  emit-value
-                  map-options
-                  stack-label
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.role"
-                  outlined
-                  :options="roles"
-                  label="Roles"
-                  stack-label
-                />
-              </div>
+              <q-separator />
+
               <div align="right">
                 <q-btn
                   v-close-popup
@@ -105,7 +65,7 @@
 <script>
 
 import Role from '../../models/Role'
-import Branch from '../../models/Branch'
+import User from '../../models/User'
 import { mapGetters } from 'vuex'
 import ModalDialog from './../ModalDialog'
 
@@ -117,7 +77,9 @@ export default {
   data() {
     return {
       selectedUserId: '',
-      form: {},
+      form: {
+        roles: []
+      }
     }
   },
 
@@ -125,20 +87,10 @@ export default {
     ...mapGetters([
       'tableSelection'
     ]),
-    branches() {
-      const branches = Branch.all()
-      const opts = branches.map((branch) => {
-        const container = []
-        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
-        container.value = branch.uuid
-        return container
-      })
-      return opts
-    },
-    roles() {
+    rolesOpt() {
       const roles = Role.all()
       const opts = roles.map((role) => {
-        const container = []
+        const container = {}
         container.label = role.name.charAt(0).toUpperCase() + role.name.slice(1)
         container.value = role.uuid
         return container
@@ -151,6 +103,8 @@ export default {
         const container = []
         container.label = selection.name
         container.value = selection.uuid
+
+        this.loadUserRole(selection.uuid)
         return container
       })
 
@@ -160,20 +114,32 @@ export default {
 
   watch: {
     selectedUserId(newValue, oldValue) {
-      const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
-      this.form = { ...foundSelection }
+      const user = User.query().where('uuid', this.selectedUserId).withAll().first()
+      this.form.roles = []
+      if (user.roles) {
+        for (const ro of user.roles) {
+          this.form.roles.push(ro.uuid)
+        }
+      }
     }
   },
 
   async created() {
     await this.$store.dispatch('GetAllRoles')
-    await this.$store.dispatch('GetAllBranches')
   },
 
   methods: {
     reset() {
       this.selectedUserId = ''
       this.form = {}
+    },
+    async loadUserRole(id) {
+      try {
+        await this.$store.dispatch('GetUserRoles', id)
+      } catch (e) {
+        const message = e.response.message.error
+        this.$notify('error', message)
+      }
     },
     async onUpdateUser() {
       try {
