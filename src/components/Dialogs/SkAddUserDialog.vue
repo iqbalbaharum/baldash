@@ -15,20 +15,36 @@
                 class="col"
                 outlined
                 label="Username"
+                :error="$v.form.username.$error"
+                error-message="Username must be more than 8 characters"
               />
               <q-input
+                ref="password"
                 v-model="form.password"
                 class="col q-pl-xs"
                 outlined
-                type="password"
+                :type="type"
+                :error="$v.form.password.$error"
+                error-message="Password must be more than 4 characters"
                 label="Password"
-              />
+              >
+                <template v-slot:append>
+                  <q-btn
+                    round
+                    flat
+                    icon="remove_red_eye"
+                    @click="onClickShowPasswords"
+                  />
+                </template>
+              </q-input>
             </div>
             <div class="col">
               <q-input
                 v-model="form.name"
                 outlined
                 label="Fullname"
+                :error="$v.form.name.$error"
+                error-message="Fullname required"
               />
             </div>
             <div class="row ">
@@ -36,13 +52,20 @@
                 v-model="form.SCCode"
                 class="col"
                 outlined
+                :type="type2"
                 label="SC Code"
+                :error="$v.form.SCCode.$error"
+                error-message="Invalid Code"
               />
               <q-input
+                ref="mobile"
                 v-model="form.mobile"
                 class="col q-pl-xs"
                 outlined
+                :type="type2"
                 label="Telephone No."
+                :error="$v.form.mobile.$error"
+                error-message="Fill in Number (012-3456789)"
               />
             </div>
             <div class="col" />
@@ -51,6 +74,8 @@
                 v-model="form.email"
                 outlined
                 label="Email"
+                :error="$v.form.email.$error"
+                error-message="Need a valid email"
               />
             </div>
             <div class="col">
@@ -59,6 +84,8 @@
                 outlined
                 :options="options.branches"
                 label="Branch"
+                :error="$v.form.branchId.$error"
+                error-message="Select a branch"
               />
             </div>
             <div class="col">
@@ -67,6 +94,8 @@
                 outlined
                 :options="options.roles"
                 label="Roles"
+                :error="$v.form.role.$error"
+                error-message="Select a Role"
               />
             </div>
             <div align="right">
@@ -90,7 +119,7 @@
 </template>
 
 <script>
-
+import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
@@ -114,6 +143,7 @@ export default {
       form: {
         username: '',
         name: '',
+        password: '',
         SCCode: '',
         mobile: '',
         email: '',
@@ -122,7 +152,9 @@ export default {
         designCAD_access: '',
         branchId: '',
         role: '',
-      }
+      },
+      type: 'password',
+      type2: 'number',
     }
   },
 
@@ -140,11 +172,25 @@ export default {
     this.loadBranchOptions()
   },
 
+  validations: {
+    form: {
+      email: { required, email },
+      password: { required, minLength: minLength(4) },
+      mobile: { required, minLength: minLength(10) },
+      username: { required },
+      name: { required },
+      SCCode: { required },
+      branchId: { required },
+      role: { required }
+    }
+  },
+
   methods: {
     onDelete(id) {
       this.$store.dispatch('DeleteUser', id)
     },
     async onAddUser() {
+      this.$v.form.$touch()
       const user = { ...this.form }
       user.role = user.role.value
       user.branchId = user.branchId.value
@@ -176,6 +222,13 @@ export default {
           label: branch.name,
         })
       })
+    },
+    onClickShowPasswords() {
+      if (this.type === 'password') {
+        this.type = 'text'
+      } else {
+        this.type = 'password'
+      }
     }
   }
 }
