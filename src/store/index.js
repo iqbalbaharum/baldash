@@ -14,6 +14,7 @@ import branch from './modules/branch'
 import lead from './modules/lead'
 import itemlist from './modules/itemlist'
 import qualifiedleads from './modules/qualifiedleads'
+import container from './modules/container'
 
 Vue.use(Vuex)
 
@@ -39,6 +40,7 @@ export default function(/* { ssrContext } */) {
       lead,
       itemlist,
       qualifiedleads,
+      container
     },
     getters,
     plugins: [VuexORM.install(database)],

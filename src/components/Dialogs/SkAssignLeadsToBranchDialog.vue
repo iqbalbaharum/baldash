@@ -89,7 +89,6 @@ export default {
         container.value = branch.uuid
         return container
       })
-      console.log('opts', opts)
       return opts
     },
     selectedBranchName() {

@@ -7,6 +7,7 @@ import LeadRepository from './LeadRepository'
 import BranchRepository from './BranchRepository'
 import ItemlistRepository from './ItemlistRepository'
 import QualifiedLeadsRepository from './QualifiedLeadsRepository'
+import ContainerRepository from './ContainerRepository'
 
 export default {
   // userRepository: bind('userRepository', RepositoryInterface)
@@ -18,4 +19,5 @@ export default {
   branch: new BranchRepository(),
   itemlist: new ItemlistRepository(),
   qualifiedleads: new QualifiedLeadsRepository(),
+  container: new ContainerRepository()
 }
