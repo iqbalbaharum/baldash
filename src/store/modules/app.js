@@ -42,28 +42,17 @@ const app = {
             category: 'Access',
             tos: [
               {
-                name: 'assignrole',
+                name: 'assignuserscope',
                 icon: 'fas fa-user-tag',
                 label: 'Scope',
                 disabled: false
-              }
-            ]
-          },
-          {
-            category: 'Assign',
-            tos: [
+              },
               {
                 name: 'userassignrole',
-                icon: 'fas fa-plus',
+                icon: 'fas fa-user-tag',
                 label: 'Assign Role',
                 disabled: false
               },
-              {
-                name: 'userassignbranch',
-                icon: 'fas fa-plus',
-                label: 'Assign Branch',
-                disabled: false
-              }
             ]
           },
           {

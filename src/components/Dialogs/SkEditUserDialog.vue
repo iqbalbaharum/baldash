@@ -72,15 +72,6 @@
                   stack-label
                 />
               </div>
-              <div class="col">
-                <q-select
-                  v-model="form.role"
-                  outlined
-                  :options="roles"
-                  label="Roles"
-                  stack-label
-                />
-              </div>
               <div align="right">
                 <q-btn
                   v-close-popup
@@ -104,7 +95,6 @@
 
 <script>
 
-import Role from '../../models/Role'
 import Branch from '../../models/Branch'
 import { mapGetters } from 'vuex'
 import ModalDialog from './../ModalDialog'
@@ -135,16 +125,6 @@ export default {
       })
       return opts
     },
-    roles() {
-      const roles = Role.all()
-      const opts = roles.map((role) => {
-        const container = []
-        container.label = role.name.charAt(0).toUpperCase() + role.name.slice(1)
-        container.value = role.uuid
-        return container
-      })
-      return opts
-    },
     selections() {
       const selections = this.$store.getters.tableSelection
       const opts = selections.map((selection) => {
@@ -166,7 +146,6 @@ export default {
   },
 
   async created() {
-    await this.$store.dispatch('GetAllRoles')
     await this.$store.dispatch('GetAllBranches')
   },
 
