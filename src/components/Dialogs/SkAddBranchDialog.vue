@@ -4,7 +4,7 @@
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            New Branch
+            Add new branch
           </div>
         </q-card-section>
         <q-card-section>
@@ -14,6 +14,8 @@
                 v-model="form.name"
                 outlined
                 label="Branch Name"
+                :error="$v.form.name.$error"
+                error-message="Branch name required"
               />
             </div>
             <div class="row">
@@ -22,12 +24,16 @@
                 class="col"
                 outlined
                 label="Branch Code"
+                :error="$v.form.code.$error"
+                error-message="Branch Code required"
               />
               <q-input
                 v-model="form.type"
                 class="col q-pl-xs"
                 outlined
                 label="Branch Type"
+                :error="$v.form.type.$error"
+                error-message="Branch Type required"
               />
             </div>
             <div class="row">
@@ -36,12 +42,16 @@
                 class="col"
                 outlined
                 label="Telephone No."
+                :error="$v.form.telno.$error"
+                error-message="Telephone No. required"
               />
               <q-input
                 v-model="form.faxno"
                 class="col q-pl-xs"
                 outlined
                 label="Fax No."
+                :error="$v.form.faxno.$error"
+                error-message="Fax No. required"
               />
             </div>
             <div class="col">
@@ -49,6 +59,8 @@
                 v-model="form.email"
                 outlined
                 label="Email"
+                :error="$v.form.email.$error"
+                error-message="Email required"
               />
             </div>
             <div class="col">
@@ -57,9 +69,11 @@
                 outlined
                 label="Address"
                 aria-rowcount="2"
+                :error="$v.form.address1.$error"
+                error-message="Address required"
               />
             </div>
-            <div class="col">
+            <div class="col q-pb-md">
               <q-input
                 v-model="form.address2"
                 outlined
@@ -71,6 +85,8 @@
                 v-model="form.state"
                 outlined
                 label="State"
+                :error="$v.form.state.$error"
+                error-message="State required"
               />
             </div>
             <div class="col">
@@ -78,6 +94,8 @@
                 v-model="form.country"
                 outlined
                 label="Country"
+                :error="$v.form.country.$error"
+                error-message="Country required"
               />
             </div>
             <div class="col">
@@ -85,6 +103,8 @@
                 v-model.number="form.SSMNo"
                 outlined
                 label="SSM No."
+                :error="$v.form.SSMNo.$error"
+                error-message="SSM No. required"
               />
             </div>
             <div class="col">
@@ -92,6 +112,8 @@
                 v-model.number="form.GSTNo"
                 outlined
                 label="GST No"
+                :error="$v.form.GSTNo.$error"
+                error-message="GST No. required"
               />
             </div>
             <div class="col">
@@ -102,16 +124,22 @@
               />
             </div>
             <div class="col">
-              <q-select
+              <q-input
                 v-model="form.branchId"
                 outlined
-                :options="branches"
-                label="Branch"
-                emit-value
-                map-options
-                stack-label
+                label="Branch ID"
+                :error="$v.form.branchId.$error"
+                error-message="Branch ID required"
               />
             </div>
+            <q-uploader
+              ref="branchUploader"
+              :factory="factoryFn"
+              label="Upload branch logo"
+              accept=".jpg, image/*"
+              @added="fileAdded"
+              @rejected="onRejected"
+            />
             <div>
               <q-item-section />
             </div>
@@ -136,6 +164,7 @@
 </template>
 
 <script>
+import { minLength, required, email } from 'vuelidate/lib/validators'
 import Branch from './../../models/Branch'
 import ModalDialog from './../ModalDialog'
 
@@ -146,10 +175,11 @@ export default {
   },
   data() {
     return {
+
       form: {
         name: '',
         code: '',
-        type: 'dealer',
+        type: '',
         telno: '',
         faxno: '',
         email: '',
@@ -160,30 +190,45 @@ export default {
         SSMNo: '',
         GSTNo: '',
         logo: '',
-        branchId: ''
-      },
-      opts: ['home', 'dealer']
+        branchId: '',
+      }
     }
   },
 
   computed: {
     branches() {
-      const branches = Branch.all()
-      const opts = branches.map((branch) => {
-        const container = []
-        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
-        container.value = branch.uuid
-        return container
-      })
-      return opts
+      return Branch.query().withAll().get()
     },
   },
 
-  created() {
+  validations: {
+    form: {
+      password: { required, minLength: minLength(4) },
+      mobile: { required, minLength: minLength(10) },
+      username: { required },
+      SCCode: { required },
+      branchId: { required },
+      role: { required },
+      name: { required },
+      code: { required },
+      type: { required },
+      telno: { required },
+      faxno: { required },
+      email: { required, email },
+      address1: { required },
+      state: { required },
+      country: { required },
+      SSMNo: { required },
+      GSTNo: { required }
+    }
   },
 
   methods: {
+    onDelete(id) {
+      this.$store.dispatch('DeleteBranch', id)
+    },
     async onAddBranch() {
+      this.$v.form.$touch()
       const branch = { ...this.form }
       try {
         await this.$store.dispatch('RegisterBranch', branch)
@@ -194,7 +239,30 @@ export default {
         this.$notify('error', message)
       }
     },
+    onRejected(rejectedEntries) {
+      // Notify plugin needs to be installed
+      // https://quasar.dev/quasar-plugins/notify#Installation
+      this.$q.notify({
+        type: 'negative',
+        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      })
+    },
+    fileAdded(files) {
+      console.log(files)
+    },
+
+    async factoryFn(files) {
+      const branchUploader = this.$refs.branchUploader
+      const file = files[0]
+
+      try {
+        const res = await this.$repository.branch.upload(file)
+        branchUploader.removeFile(file)
+        console.log('Upload branch res:', res)
+      } catch (e) {
+        console.log('Failed to upload branch file:', e)
+      }
+    }
   }
 }
-
 </script>

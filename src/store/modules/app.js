@@ -22,6 +22,12 @@ const app = {
                 disabled: false
               },
               {
+                name: 'viewuser',
+                icon: 'fas fa-eye',
+                label: 'View User',
+                disabled: false
+              },
+              {
                 name: 'edituser',
                 icon: 'fas fa-edit',
                 label: 'Edit',
@@ -104,6 +110,12 @@ const app = {
                 name: 'addbranch',
                 icon: 'fas fa-user-plus',
                 label: 'Add Branch',
+                disabled: false
+              },
+              {
+                name: 'viewbranch',
+                icon: 'fas fa-eye',
+                label: 'View Branch',
                 disabled: false
               },
               {
@@ -232,6 +244,54 @@ const app = {
           delete: 'DeleteLead'
         },
         default_datatab_title: 'Qualified Leads',
+        buttons: [
+          {
+            category: 'Template',
+            tos: [
+              {
+                name: 'importonlineleads',
+                icon: 'fas fa-upload',
+                label: 'Import',
+                disabled: false,
+              },
+              {
+                name: 'downloadsample',
+                icon: 'fas fa-download',
+                label: 'Download',
+                disabled: false
+              },
+              {
+                name: 'importonlineleadshistory',
+                icon: 'fas fa-history',
+                label: 'Import History',
+                disabled: false,
+              }
+            ]
+          },
+          {
+            category: 'Leads',
+            tos: [
+              {
+                name: 'assign',
+                icon: 'fas fa-user-tag',
+                label: 'Assign To',
+                disabled: false
+              },
+              {
+                name: 'disqualify',
+                icon: 'fas fa-user-minus',
+                label: 'Disqualify',
+                disabled: false
+              },
+              {
+                name: 'filtercustomer',
+                icon: 'fas fa-filter',
+                label: 'Filter',
+                disabled: false
+              },
+            ]
+          }
+        ]
       },
       {
         name: 'designproposal',
