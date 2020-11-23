@@ -82,8 +82,12 @@ const user = {
                 columns: User.columns,
                 data: User.all()
               })
-            }
-            
+            }else {
+              dispatch('UpdateTab', {
+                name: 'Users',
+                data: User.all()
+              })
+            }            
             resolve(res.data)
           })
           .catch(err => {
