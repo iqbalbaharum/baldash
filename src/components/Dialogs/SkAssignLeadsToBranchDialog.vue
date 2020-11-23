@@ -114,6 +114,7 @@ export default {
           }
 
           await this.$store.dispatch('AssignLeadToBranch', data)
+          this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchName}`)
         } catch (e) {
           const message = e.response.message.error
           this.$notify('error', message)
