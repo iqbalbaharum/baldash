@@ -31,6 +31,20 @@ export default class User extends Model {
     if (this.branch) { return this.branch.name }
   }
 
+  get getId() {
+    return this.$id
+  }
+
+  get getBodyRequest() {
+    return {
+      name: this.name,
+      sccode: this.sccode,
+      email: this.email,
+      mobile: this.mobile,
+      branchId: this.branchId,
+    }
+  }
+
   static columns = [
     { name: 'name', required: true, label: 'User Name', align: 'left', field: 'name', sortable: true },
     { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },

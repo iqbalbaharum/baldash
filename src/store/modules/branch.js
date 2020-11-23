@@ -54,6 +54,21 @@ const branch = {
       })
     },
 
+    UpdateBranch({ commit, dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        Branch.update({ where: data.uuid, data: data })
+        const branch = Branch.find(data.uuid)
+        this.$repository.branch.updateById(branch.getId, branch.getBodyRequest)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+            dispatch('GetAllBranches')
+          })
+      })
+    },
+
     DeleteBranch({ commit, dispatch }, id) {
       return new Promise((resolve, reject) => {
         this.$repository.branch.delete(id)

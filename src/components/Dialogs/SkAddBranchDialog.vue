@@ -4,7 +4,7 @@
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            Add new Branch
+            New Branch
           </div>
         </q-card-section>
         <q-card-section>
@@ -102,10 +102,14 @@
               />
             </div>
             <div class="col">
-              <q-input
+              <q-select
                 v-model="form.branchId"
                 outlined
-                label="Branch ID"
+                :options="branches"
+                label="Branch"
+                emit-value
+                map-options
+                stack-label
               />
             </div>
             <div>
@@ -142,16 +146,10 @@ export default {
   },
   data() {
     return {
-      dialog: {
-        show: false,
-        branchId: '',
-        roleArr: []
-      },
-
       form: {
         name: '',
         code: '',
-        type: '',
+        type: 'dealer',
         telno: '',
         faxno: '',
         email: '',
@@ -163,24 +161,28 @@ export default {
         GSTNo: '',
         logo: '',
         branchId: ''
-      }
+      },
+      opts: ['home', 'dealer']
     }
   },
 
   computed: {
     branches() {
-      return Branch.query().withAll().get()
+      const branches = Branch.all()
+      const opts = branches.map((branch) => {
+        const container = []
+        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
+        container.value = branch.uuid
+        return container
+      })
+      return opts
     },
   },
 
   created() {
-    this.$store.dispatch('GetAllBranches')
   },
 
   methods: {
-    onDelete(id) {
-      this.$store.dispatch('DeleteBranch', id)
-    },
     async onAddBranch() {
       const branch = { ...this.form }
       try {
