@@ -23,7 +23,7 @@
       :columns="datatabs[activeDataTab].columns"
       :data="datatabs[activeDataTab].data"
       :style="{ height: computedTableHeight }"
-      row-key="name"
+      row-key="$id"
       selection="multiple"
       :selected.sync="selection"
       :pagination.sync="pagination"

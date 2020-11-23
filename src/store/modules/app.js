@@ -203,7 +203,7 @@ const app = {
             category: 'Leads',
             tos: [
               {
-                name: 'assign',
+                name: 'assignlead',
                 icon: 'fas fa-user-tag',
                 label: 'Assign To',
                 disabled: false
