@@ -8,6 +8,13 @@
       <q-header bordered class="bg-white">
         <q-toolbar class="bg-black">
           <img src="~assets/sklogo.png" width="100">
+          <q-space />
+          <q-btn
+            label="Logout"
+            flat
+            text-color="white"
+            @click="onClickLogout"
+          />
         </q-toolbar>
         <q-tabs
           v-model="currentTab"
@@ -83,6 +90,13 @@ export default {
   },
   async created() {
     await this.$store.dispatch('InitializePage')
-  }
+  },
+
+  methods: {
+    onClickLogout() {
+      this.$store.dispatch('Logout')
+      this.$router.push({ path: '/login' })
+    }
+  },
 }
 </script>
