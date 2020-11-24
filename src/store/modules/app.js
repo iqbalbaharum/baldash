@@ -268,7 +268,7 @@ const app = {
             category: 'DesignCAD',
             tos: [
               {
-                name: 'importonlineleads',
+                name: 'opendesigncad',
                 icon: 'fas fa-pencil-ruler',
                 label: 'Open',
                 disabled: false,

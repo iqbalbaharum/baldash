@@ -10,6 +10,7 @@
     <sk-import-itemlist-dialog />
     <sk-assign-leads-to-branch-dialog />
     <sk-assign-user-role />
+    <sk-open-kujiale-dialog />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import skEditBranchDialog from './SkEditBranchDialog'
 import skAddLeadDialog from './SkAddLeadDialog'
 import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
 import skAssignUserRole from './SkAssignUserRole'
+import SkOpenKujialeDialog from './SkOpenKujialeDialog.vue'
 
 export default {
 
@@ -37,7 +39,8 @@ export default {
     skEditBranchDialog,
     skAddLeadDialog,
     skAssignLeadsToBranchDialog,
-    skAssignUserRole
+    skAssignUserRole,
+    SkOpenKujialeDialog
   },
   data() {
     return {
