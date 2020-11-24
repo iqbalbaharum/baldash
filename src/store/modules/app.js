@@ -181,13 +181,13 @@ const app = {
             category: 'Leads',
             tos: [
               {
-                name: 'assignlead',
+                name: 'qualifyOL',
                 icon: 'fas fa-user-tag',
                 label: 'Assign To',
                 disabled: false
               },
               {
-                name: 'disqualify',
+                name: 'disqualifyOL',
                 icon: 'far fa-star',
                 label: 'Disqualify',
                 disabled: false

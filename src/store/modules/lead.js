@@ -80,7 +80,7 @@ const lead = {
         this.$repository.lead.listing({
             where: {
               state: 'OL',
-              status: 'notactive'
+              status: 'raw'
             }
         })
           .then(res => {
@@ -108,11 +108,35 @@ const lead = {
       })
     },
 
-    async AssignLeadToBranch({ dispatch }, { lead, branchId }) {
+    async AssignLeadToBranch({ dispatch }, data) {
       return new Promise((resolve, reject) => {
-        this.$repository.lead.assignToBranch(lead, branchId).then(async res => {
-          await Lead.delete(lead.uuid)
+        let leadState = {
+          state: 'QL',
+          status: 'active'
+        }
+        Lead.update({ where: data.uuid, data: leadState })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
+          dispatch('UpdateTab', {
+            name: 'Online Leads',
+            data: Lead.all()
+          })
 
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+    },
+
+    async DisqualifiedOnlineLead({ dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        data.state = 'OL'
+        data.status = 'disqualified'
+        Lead.update({ where: data.uuid, data: data })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
           dispatch('UpdateTab', {
             name: 'Online Leads',
             data: Lead.all()

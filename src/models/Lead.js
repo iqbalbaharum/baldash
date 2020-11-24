@@ -9,7 +9,7 @@ export default class Lead extends Model {
     return {
       uuid: this.attr(null),
       name: this.attr(''),
-      Timestamp: this.attr(''),
+      timestamp: this.attr(''),
       email: this.attr(''),
       phone: this.attr(''),
       location: this.attr(''),
@@ -20,7 +20,25 @@ export default class Lead extends Model {
       source_lead: this.attr(''),
       channel_contact: this.attr(''),
       campaign: this.attr(''),
+      state: this.attr(''),
+      status: this.attr(''),
       branchId: this.attr(''),
+      userId: this.attr(''),
+      rejectReason: this.attr('')
+    }
+  }
+
+  get getId() {
+    return this.$id
+  }
+
+  get getBodyRequest() {
+    return {
+      state: this.state,
+      status: this.status,
+      branchId: this.branchId ?? '',
+      userId: this.userId ?? '',
+      rejectReason: this.rejectReason
     }
   }
 

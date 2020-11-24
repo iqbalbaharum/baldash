@@ -11,6 +11,7 @@
     <sk-assign-leads-to-branch-dialog />
     <sk-assign-user-role />
     <sk-open-kujiale-dialog />
+    <sk-disqualified-o-l-dialog />
   </div>
 </template>
 
@@ -25,7 +26,8 @@ import skEditBranchDialog from './SkEditBranchDialog'
 import skAddLeadDialog from './SkAddLeadDialog'
 import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
 import skAssignUserRole from './SkAssignUserRole'
-import SkOpenKujialeDialog from './SkOpenKujialeDialog.vue'
+import SkOpenKujialeDialog from './SkOpenKujialeDialog'
+import skDisqualifiedOLDialog from './SkDisqualifiedOLDialog'
 
 export default {
 
@@ -40,7 +42,8 @@ export default {
     skAddLeadDialog,
     skAssignLeadsToBranchDialog,
     skAssignUserRole,
-    SkOpenKujialeDialog
+    SkOpenKujialeDialog,
+    skDisqualifiedOLDialog
   },
   data() {
     return {
