@@ -1,5 +1,9 @@
 <template>
-  <modal-dialog ref="dialog" name="editbranch">
+  <modal-dialog
+    ref="dialog"
+    name="editbranch"
+    @close-dialog="reset"
+  >
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
@@ -25,6 +29,28 @@
             <q-separator class="q-my-md" />
 
             <template v-if="selectedBranchId">
+              <div class="text-weight-bold text-uppercase text-grey-5">
+                Company Logo
+              </div>
+
+              <div class="col q-py-md q-gutter-y-md">
+                <q-img
+                  placeholder-src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWBAMAAADOL2zRAAAAG1BMVEXMzMyWlpaqqqq3t7fFxcW+vr6xsbGjo6OcnJyLKnDGAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABAElEQVRoge3SMW+DMBiE4YsxJqMJtHOTITPeOsLQnaodGImEUMZEkZhRUqn92f0MaTubtfeMh/QGHANEREREREREREREtIJJ0xbH299kp8l8FaGtLdTQ19HjofxZlJ0m1+eBKZcikd9PWtXC5DoDotRO04B9YOvFIXmXLy2jEbiqE6Df7DTleA5socLqvEFVxtJyrpZFWz/pHM2CVte0lS8g2eDe6prOyqPglhzROL+Xye4tmT4WvRcQ2/m81p+/rdguOi8Hc5L/8Qk4vhZzy08DduGt9eVQyP2qoTM1zi0/uf4hvBWf5c77e69Gf798y08L7j0RERERERERERH9P99ZpSVRivB/rgAAAABJRU5ErkJggg=="
+                  :src="logo"
+                  :ratio="16/9"
+                  style="height: 140px"
+                  contain
+                />
+                <q-file
+                  ref="fileupload"
+                  v-model="fileUpload"
+                  label="Change Logo"
+                  outlined
+                />
+              </div>
+
+              <q-separator class="q-my-md" />
+
               <div class="text-weight-bold text-uppercase text-grey-5">
                 Branch detail
               </div>
@@ -126,15 +152,15 @@
                   v-model="form.branchId"
                   outlined
                   :options="branches"
-                  label="Branch"
+                  label="Parent Branch"
                   emit-value
                   map-options
                   stack-label
                 />
               </div>
-              <div>
-                <q-item-section />
-              </div>
+
+              <q-separator class="q-my-md" />
+
               <div align="right">
                 <q-btn
                   v-close-popup
@@ -169,7 +195,9 @@ export default {
   data() {
     return {
       selectedBranchId: '',
-      form: {}
+      form: {},
+      fileUpload: null,
+      logo: ''
     }
   },
 
@@ -204,16 +232,33 @@ export default {
     selectedBranchId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
+      // TODO - This is temporary until can figure out to read image from api directly
+      this.logo = `${process.env.MAIN_BE_URL}/containers/download/${this.form.logo}`
     }
   },
 
   methods: {
+    reset() {
+      this.selectedBranchId = ''
+      this.form = {}
+    },
+    async loadImage(filename) {
+      if (!filename) {
+        return
+      }
+
+      await this.$store.dispatch('GetImage', filename)
+    },
     async onEditBranch() {
-      const branch = { ...this.form }
+      if (this.fileUpload) {
+        const res = await this.$store.dispatch('UploadFile', this.fileUpload)
+        this.form.logo = res.name
+      }
+
       try {
-        await this.$store.dispatch('UpdateBranch', branch)
+        await this.$store.dispatch('UpdateBranch', this.form)
         this.$refs.dialog.$children[0].hide()
-        this.$notify('success', `Branch with name ${branch.name} updated!`)
+        this.$notify('success', `Branch with name ${this.form.name} updated!`)
       } catch (e) {
         const message = e.response.message.error
         this.$notify('error', message)

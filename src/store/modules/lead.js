@@ -44,7 +44,8 @@ const lead = {
       return new Promise((resolve, reject) => {
         this.$repository.lead.listing({
             where: {
-              status: 'qualified'
+              state: 'QL',
+              status: 'active'
             }
         })
           .then(res => {
@@ -78,7 +79,8 @@ const lead = {
       return new Promise((resolve, reject) => {
         this.$repository.lead.listing({
             where: {
-              status: 'online'
+              state: 'OL',
+              status: 'raw'
             }
         })
           .then(res => {
@@ -106,11 +108,15 @@ const lead = {
       })
     },
 
-    async AssignLeadToBranch({ dispatch }, { lead, branchId }) {
+    async AssignLeadToBranch({ dispatch }, data) {
       return new Promise((resolve, reject) => {
-        this.$repository.lead.assignToBranch(lead, branchId).then(async res => {
-          await Lead.delete(lead.uuid)
-
+        let leadState = {
+          state: 'QL',
+          status: 'active'
+        }
+        Lead.update({ where: data.uuid, data: leadState })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
           dispatch('UpdateTab', {
             name: 'Online Leads',
             data: Lead.all()
@@ -124,7 +130,31 @@ const lead = {
       })
     },
 
-    AddLead({ commit }, data) {
+    async DisqualifiedOnlineLead({ dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        data.state = 'OL'
+        data.status = 'disqualified'
+        Lead.update({ where: data.uuid, data: data })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
+          dispatch('UpdateTab', {
+            name: 'Online Leads',
+            data: Lead.all()
+          })
+
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+    },
+
+    AddLead({ commit, rootState }, data) {
+      data.branchId = rootState.user.branchId
+      data.userId = rootState.user.userId
+      data.state = 'QL'
+      data.status = 'active'
       return new Promise((resolve, reject) => {
         this.$repository.lead.create(data)
           .then(res => {
