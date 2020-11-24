@@ -270,9 +270,9 @@ const app = {
               {
                 name: 'opendesigncad',
                 icon: 'fas fa-pencil-ruler',
-                label: 'Open',
+                label: 'Open External',
                 disabled: false,
-              },
+              }
             ]
           },
         ]
