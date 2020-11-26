@@ -6,10 +6,14 @@
     <sk-delete-dialog />
     <sk-add-branch-dialog />
     <sk-edit-branch-dialog />
+    <sk-add-lead-dialog />
     <sk-import-itemlist-dialog />
     <sk-assign-leads-to-branch-dialog />
     <sk-view-user-dialog />
     <sk-view-branch-dialog />
+    <sk-assign-user-role />
+    <sk-open-kujiale-dialog />
+    <sk-disqualified-o-l-dialog />
   </div>
 </template>
 
@@ -21,9 +25,13 @@ import skEditUserDialog from './SkEditUserDialog'
 import skDeleteDialog from './SkDeleteDialog'
 import skAddBranchDialog from './SkAddBranchDialog'
 import skEditBranchDialog from './SkEditBranchDialog'
+import skAddLeadDialog from './SkAddLeadDialog'
 import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
 import skViewUserDialog from './SkViewUserDialog'
 import skViewBranchDialog from './SkViewBranchDialog'
+import skAssignUserRole from './SkAssignUserRole'
+import SkOpenKujialeDialog from './SkOpenKujialeDialog'
+import skDisqualifiedOLDialog from './SkDisqualifiedOLDialog'
 
 export default {
 
@@ -35,9 +43,13 @@ export default {
     skAddBranchDialog,
     skImportItemlistDialog,
     skEditBranchDialog,
+    skAddLeadDialog,
     skAssignLeadsToBranchDialog,
     skViewUserDialog,
     skViewBranchDialog,
+    skAssignUserRole,
+    SkOpenKujialeDialog,
+    skDisqualifiedOLDialog
   },
   data() {
     return {

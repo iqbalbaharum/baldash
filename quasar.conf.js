@@ -23,6 +23,7 @@ module.exports = function(/* ctx */) {
       'notify',
       'vuelidate',
       'repository',
+      'services',
       'routing',
       'sidebar',
       'plugins'

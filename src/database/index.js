@@ -9,6 +9,8 @@ import ItemList from '../models/ItemList'
 import QualifiedLeads from '../models/QualifiedLeads'
 // Relation
 import UserRole from '../models/UserRole'
+// Other
+import Container from '../models/Container'
 
 const database = new Database()
 
@@ -23,5 +25,7 @@ database.register(QualifiedLeads)
 
 //
 database.register(UserRole)
+//
+database.register(Container)
 
 export default database

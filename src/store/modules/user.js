@@ -7,6 +7,11 @@ const user = {
     token: getToken(process.env.MAIN_BE_TOKEN),
     roles: [],
     session: '',
+    userId: '',
+    branchId: '',
+    email: '',
+    mobile: '',
+    name: ''
   },
 
   mutations: {
@@ -26,6 +31,26 @@ const user = {
 
     SET_SESSION: (state, session) => {
       state.session = session
+    },
+    
+    SET_USER: (state, userId) => {
+      state.userId = userId
+    },
+
+    SET_BRANCH: (state, branchId) => {
+      state.branchId = branchId
+    },
+
+    SET_EMAIL: (state, data) => {
+      state.email = data
+    },
+
+    SET_MOBILE: (state, data) => {
+      state.mobile = data
+    },
+
+    SET_NAME: (state, data) => {
+      state.name = data
     }
   },
 
@@ -52,6 +77,10 @@ const user = {
             const data = res.data
             commit('SET_ROLES', data.roles)
             commit('SET_SESSION', data.session)
+            commit('SET_USER', data.user)
+            commit('SET_NAME', data.name)
+            commit('SET_EMAIL', data.email)
+            commit('SET_MOBILE', data.mobile)
             resolve(data)
           })
           .catch(err => {
@@ -66,6 +95,10 @@ const user = {
         this.$repository.user.logout()
         commit('SET_ROLES', [])
         commit('SET_SESSION', '')
+        commit('SET_USER', '')
+        commit('SET_NAME', '')
+        commit('SET_EMAIL', '')
+        commit('SET_MOBILE', '')
         commit('LOGOUT')
         resolve()
       })
@@ -156,7 +189,6 @@ const user = {
     async GetUserRoles({ commit }, id) {
       const res = await this.$repository.user.getUserRoles(id)
       const data = res.data
-
       for (const role of data) {
         await UserRole.create({
           data: {

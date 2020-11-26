@@ -11,6 +11,9 @@ const app = {
           delete: 'DeleteUser'
         },
         default_datatab_title: 'Users',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
           {
             category: 'User',
@@ -30,7 +33,7 @@ const app = {
               {
                 name: 'edituser',
                 icon: 'fas fa-edit',
-                label: 'Edit',
+                label: 'View/Edit',
                 disabled: false
               },
               {
@@ -45,28 +48,17 @@ const app = {
             category: 'Access',
             tos: [
               {
-                name: 'assignrole',
+                name: 'assignuserscope',
                 icon: 'fas fa-user-tag',
                 label: 'Scope',
                 disabled: false
-              }
-            ]
-          },
-          {
-            category: 'Assign',
-            tos: [
+              },
               {
-                name: 'assignrole',
-                icon: 'fas fa-plus',
+                name: 'userassignrole',
+                icon: 'fas fa-user-tag',
                 label: 'Assign Role',
                 disabled: false
               },
-              {
-                name: 'assignbranch',
-                icon: 'fas fa-plus',
-                label: 'Assign Branch',
-                disabled: false
-              }
             ]
           },
           {
@@ -102,6 +94,9 @@ const app = {
           delete: 'DeleteBranch'
         },
         default_datatab_title: 'Branches',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
           {
             category: 'Management',
@@ -121,7 +116,7 @@ const app = {
               {
                 name: 'editbranch',
                 icon: 'fas fa-edit',
-                label: 'Edit',
+                label: 'View/Edit',
                 disabled: false
               },
               {
@@ -153,6 +148,9 @@ const app = {
           delete: 'DeleteBranch'
         },
         default_datatab_title: 'Item List',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
           {
             category: 'Template',
@@ -187,45 +185,30 @@ const app = {
           delete: 'DeleteLead'
         },
         default_datatab_title: 'Online Leads',
+        config: {
+          selectiontype: 'multiple'
+        },
         buttons: [
-          {
-            category: 'Template',
-            tos: [
-              {
-                name: 'importonlineleads',
-                icon: 'fas fa-upload',
-                label: 'Import',
-                disabled: false,
-              },
-              {
-                name: 'downloadsample',
-                icon: 'fas fa-download',
-                label: 'Download',
-                disabled: false
-              },
-              {
-                name: 'importonlineleadshistory',
-                icon: 'fas fa-history',
-                label: 'Import History',
-                disabled: false,
-              }
-            ]
-          },
           {
             category: 'Leads',
             tos: [
               {
-                name: 'assignlead',
+                name: 'qualifyOL',
                 icon: 'fas fa-user-tag',
                 label: 'Assign To',
                 disabled: false
               },
               {
-                name: 'disqualify',
-                icon: 'fas fa-user-minus',
+                name: 'disqualifyOL',
+                icon: 'far fa-star',
                 label: 'Disqualify',
                 disabled: false
-              },
+              }
+            ]
+          },
+          {
+            category: 'Filter',
+            tos: [
               {
                 name: 'filtercustomer',
                 icon: 'fas fa-filter',
@@ -244,28 +227,19 @@ const app = {
           delete: 'DeleteLead'
         },
         default_datatab_title: 'Qualified Leads',
+        config: {
+          selectiontype: 'single'
+        },
         buttons: [
           {
-            category: 'Template',
+            category: 'Assignment',
             tos: [
               {
-                name: 'importonlineleads',
-                icon: 'fas fa-upload',
-                label: 'Import',
+                name: 'assigntodesign',
+                icon: 'fas fa-check',
+                label: 'Select',
                 disabled: false,
               },
-              {
-                name: 'downloadsample',
-                icon: 'fas fa-download',
-                label: 'Download',
-                disabled: false
-              },
-              {
-                name: 'importonlineleadshistory',
-                icon: 'fas fa-history',
-                label: 'Import History',
-                disabled: false,
-              }
             ]
           },
           {
@@ -287,6 +261,23 @@ const app = {
                 name: 'filtercustomer',
                 icon: 'fas fa-filter',
                 label: 'Filter',
+              },
+              {
+                name: 'walkinlead',
+                icon: 'fas fa-walking',
+                label: 'Walk In',
+                disabled: false
+              },
+              {
+                name: 'requalifyqlead',
+                icon: 'fas fa-star',
+                label: 'Requalify',
+                disabled: false
+              },
+              {
+                name: 'disqualify',
+                icon: 'far fa-star',
+                label: 'Disqualify',
                 disabled: false
               },
             ]
@@ -298,27 +289,36 @@ const app = {
         label: 'Design Proposal',
         default_data: 'GetAllLeads',
         default_datatab_title: 'DesignCAD',
+        config: {
+          selectiontype: 'single'
+        },
         buttons: [
           {
-            category: 'Template',
+            category: 'DesignCAD',
             tos: [
               {
-                name: 'importonlineleads',
-                icon: 'fas fa-upload',
-                label: 'Open DesignCAD',
+                name: 'opendesigncad',
+                icon: 'fas fa-pencil-ruler',
+                label: 'Open External',
                 disabled: false,
-              },
+              }
             ]
           },
         ]
       },
       {
         name: 'orderconfirmation',
-        label: 'Order Confirmation'
+        label: 'Order Confirmation',
+        config: {
+          selectiontype: 'single'
+        },
       },
       {
         name: 'servicereport',
-        label: 'Service Report'
+        label: 'Service Report',
+        config: {
+          selectiontype: 'single'
+        },
       },
     ],
     activeMenu: 'usermanagement',
