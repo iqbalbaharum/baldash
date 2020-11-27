@@ -125,7 +125,7 @@
               />
             </div>
             <div class="col">
-              <q-input
+              <q-select
                 v-model="form.branchId"
                 outlined
                 :options="branches"
