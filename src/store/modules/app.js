@@ -25,12 +25,6 @@ const app = {
                 disabled: false
               },
               {
-                name: 'viewuser',
-                icon: 'fas fa-eye',
-                label: 'View User',
-                disabled: false
-              },
-              {
                 name: 'edituser',
                 icon: 'fas fa-edit',
                 label: 'View/Edit',
@@ -105,12 +99,6 @@ const app = {
                 name: 'addbranch',
                 icon: 'fas fa-user-plus',
                 label: 'Add Branch',
-                disabled: false
-              },
-              {
-                name: 'viewbranch',
-                icon: 'fas fa-eye',
-                label: 'View Branch',
                 disabled: false
               },
               {
@@ -245,23 +233,6 @@ const app = {
           {
             category: 'Leads',
             tos: [
-              {
-                name: 'assign',
-                icon: 'fas fa-user-tag',
-                label: 'Assign To',
-                disabled: false
-              },
-              {
-                name: 'disqualify',
-                icon: 'fas fa-user-minus',
-                label: 'Disqualify',
-                disabled: false
-              },
-              {
-                name: 'filtercustomer',
-                icon: 'fas fa-filter',
-                label: 'Filter',
-              },
               {
                 name: 'walkinlead',
                 icon: 'fas fa-walking',
