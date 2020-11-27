@@ -4,7 +4,7 @@
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            Add new branch
+            New branch
           </div>
         </q-card-section>
         <q-card-section>
@@ -73,7 +73,7 @@
                 error-message="Address required"
               />
             </div>
-            <div class="col q-pb-md">
+            <div class="col">
               <q-input
                 v-model="form.address2"
                 outlined
@@ -117,29 +117,26 @@
               />
             </div>
             <div class="col">
-              <q-input
-                v-model.number="form.logo"
+              <q-file
+                ref="fileupload"
+                v-model="fileUpload"
+                label="Choose Logo"
                 outlined
-                label="Logo"
               />
             </div>
             <div class="col">
               <q-input
                 v-model="form.branchId"
                 outlined
-                label="Branch ID"
+                :options="branches"
+                label="Branch"
+                emit-value
+                map-options
+                stack-label
                 :error="$v.form.branchId.$error"
                 error-message="Branch ID required"
               />
             </div>
-            <q-uploader
-              ref="branchUploader"
-              :factory="factoryFn"
-              label="Upload branch logo"
-              accept=".jpg, image/*"
-              @added="fileAdded"
-              @rejected="onRejected"
-            />
             <div>
               <q-item-section />
             </div>
@@ -175,11 +172,11 @@ export default {
   },
   data() {
     return {
-
+      fileUpload: null,
       form: {
         name: '',
         code: '',
-        type: '',
+        type: 'Dealer',
         telno: '',
         faxno: '',
         email: '',
@@ -191,14 +188,25 @@ export default {
         GSTNo: '',
         logo: '',
         branchId: '',
-      }
+      },
+      opts: ['home', 'dealer']
     }
   },
 
   computed: {
     branches() {
-      return Branch.query().withAll().get()
+      const branches = Branch.all()
+      const opts = branches.map((branch) => {
+        const container = []
+        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
+        container.value = branch.uuid
+        return container
+      })
+      return opts
     },
+  },
+
+  created() {
   },
 
   validations: {
@@ -224,12 +232,15 @@ export default {
   },
 
   methods: {
-    onDelete(id) {
-      this.$store.dispatch('DeleteBranch', id)
-    },
     async onAddBranch() {
       this.$v.form.$touch()
       const branch = { ...this.form }
+
+      if (this.fileUpload) {
+        const res = await this.$store.dispatch('UploadFile', this.fileUpload)
+        this.form.logo = res.name
+      }
+
       try {
         await this.$store.dispatch('RegisterBranch', branch)
         this.$refs.dialog.$children[0].hide()
@@ -239,30 +250,6 @@ export default {
         this.$notify('error', message)
       }
     },
-    onRejected(rejectedEntries) {
-      // Notify plugin needs to be installed
-      // https://quasar.dev/quasar-plugins/notify#Installation
-      this.$q.notify({
-        type: 'negative',
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      })
-    },
-    fileAdded(files) {
-      console.log(files)
-    },
-
-    async factoryFn(files) {
-      const branchUploader = this.$refs.branchUploader
-      const file = files[0]
-
-      try {
-        const res = await this.$repository.branch.upload(file)
-        branchUploader.removeFile(file)
-        console.log('Upload branch res:', res)
-      } catch (e) {
-        console.log('Failed to upload branch file:', e)
-      }
-    }
   }
 }
 </script>
