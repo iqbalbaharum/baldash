@@ -7,6 +7,7 @@ import Branch from '../models/Branch'
 import Lead from '../models/Lead'
 import ItemList from '../models/ItemList'
 import QualifiedLeads from '../models/QualifiedLeads'
+import Profile from '../models/Profile'
 // Relation
 import UserRole from '../models/UserRole'
 // Other
@@ -22,6 +23,7 @@ database.register(Branch)
 database.register(ItemList)
 database.register(Lead)
 database.register(QualifiedLeads)
+database.register(Profile)
 
 //
 database.register(UserRole)

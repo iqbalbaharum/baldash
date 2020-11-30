@@ -1,6 +1,7 @@
 import { Model } from '@vuex-orm/core'
 import Role from './Role'
 import Branch from './Branch'
+import Profile from './Profile'
 import UserRole from './UserRole'
 
 export default class User extends Model {
@@ -15,15 +16,15 @@ export default class User extends Model {
       deletedAt: this.attr(''),
       uuid: this.attr(null),
       name: this.attr(''),
-      SCCode: this.attr(''),
       mobile: this.attr(''),
       email: this.attr(''),
       status: this.attr(''),
       branchId: this.attr(''),
-      password: this.attr(''),
+      active: this.attr(true),
 
       roles: this.belongsToMany(Role, UserRole, 'userId', 'roleId'),
       branch: this.belongsTo(Branch, 'branchId'),
+      profile: this.hasOne(Profile, 'userId')
     }
   }
 
