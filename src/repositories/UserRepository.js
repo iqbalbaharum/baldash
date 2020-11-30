@@ -68,6 +68,28 @@ export default class UserRepository extends Repository {
     })
   }
 
+  async getUserProfile(id) {
+    return datasource({
+      method: 'get',
+      url: `users/${id}/profile`,
+    })
+  }
+
+  async updateUserProfile(id, data) {
+    return datasource({
+      method: 'patch',
+      url: `users/${id}/profile`,
+      data
+    })
+  }
+
+  async checkSCCodeExist(code) {
+    return datasource({
+      method: 'get',
+      url: `users/sccode/${code}/exists`,
+    })
+  }
+
   async assignUserRoles(userId, rid) {
     return datasource({
       method: 'post',

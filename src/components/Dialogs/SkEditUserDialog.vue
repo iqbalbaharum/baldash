@@ -42,10 +42,11 @@
               </div>
               <div class="row ">
                 <q-input
-                  v-model="form.SCCode"
+                  v-model="sccodemodel"
                   class="col"
                   outlined
                   label="SC Code"
+                  @blur="onSCCodeCheck"
                 />
                 <q-input
                   v-model="form.mobile"
@@ -72,6 +73,9 @@
                   stack-label
                 />
               </div>
+              <div class="text-negative">
+                {{ errormessage }}
+              </div>
               <div align="right">
                 <q-btn
                   v-close-popup
@@ -82,6 +86,7 @@
                 <q-btn
                   color="primary"
                   label="Update"
+                  :disabled="errormessage.length > 0"
                   @click="onUpdateUser"
                 />
               </div>
@@ -96,6 +101,7 @@
 <script>
 
 import Branch from '../../models/Branch'
+import Profile from '../../models/Profile'
 import { mapGetters } from 'vuex'
 import ModalDialog from './../ModalDialog'
 
@@ -108,6 +114,7 @@ export default {
     return {
       selectedUserId: '',
       form: {},
+      errormessage: '',
     }
   },
 
@@ -135,13 +142,30 @@ export default {
       })
 
       return opts
+    },
+    profile() {
+      const profile = Profile.query().where('userId', this.selectedUserId).first()
+      this.reassignProfile(profile)
+      return profile
+    },
+    sccodemodel: {
+      get() {
+        return this.form.sccode ? this.form.sccode : this.profile.sccode
+      },
+      set(value) {
+        this.form.sccode = value
+      }
     }
   },
 
   watch: {
-    selectedUserId(newValue, oldValue) {
+    async selectedUserId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
+      if (this.selectedUserId) {
+        await this.$store.dispatch('GetUserProfile', this.selectedUserId)
+      }
       this.form = { ...foundSelection }
+      this.errormessage = ''
     }
   },
 
@@ -154,7 +178,12 @@ export default {
       this.selectedUserId = ''
       this.form = {}
     },
+    reassignProfile(profile) {
+      this.form.sccode = profile.sccode
+    },
     async onUpdateUser() {
+      this.onSCCodeCheck()
+
       try {
         await this.$store.dispatch('UpdateUser', this.form)
         this.$refs.dialog.$children[0].hide()
@@ -164,6 +193,16 @@ export default {
         this.$notify('error', message)
       }
     },
+    async onSCCodeCheck() {
+      await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
+        .then(exists => {
+          if (exists) {
+            this.errormessage = 'SCCode existed'
+          } else {
+            this.errormessage = ''
+          }
+        })
+    }
   }
 }
 </script>
