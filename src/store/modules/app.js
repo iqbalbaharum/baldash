@@ -115,17 +115,6 @@ const app = {
               },
             ]
           },
-          {
-            category: 'User',
-            tos: [
-              {
-                name: 'adduser',
-                icon: 'fas fa-user-plus',
-                label: 'Add User',
-                disabled: false
-              },
-            ]
-          }
         ]
       },
       {
