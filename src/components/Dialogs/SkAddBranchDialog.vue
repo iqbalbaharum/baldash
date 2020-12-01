@@ -27,11 +27,16 @@
                 :error="$v.form.code.$error"
                 error-message="Branch Code required"
               />
-              <q-input
+            </div>
+            <div class="col">
+              <q-select
                 v-model="form.type"
-                class="col q-pl-xs"
                 outlined
+                :options="opts"
                 label="Branch Type"
+                emit-value
+                map-options
+                stack-label
                 :error="$v.form.type.$error"
                 error-message="Branch Type required"
               />
@@ -189,7 +194,7 @@ export default {
         logo: '',
         branchId: '',
       },
-      opts: ['home', 'dealer']
+      opts: ['Home', 'Dealer']
     }
   },
 
