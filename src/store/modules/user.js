@@ -1,5 +1,6 @@
 import { getToken, setToken, removeToken } from './../../datasources/localstorage.storage'
 import User from './../../models/User'
+import Profile from './../../models/Profile'
 import UserRole from './../../models/UserRole'
 
 const user = {
@@ -145,7 +146,7 @@ const user = {
       })
     },
 
-    UpdateUser({ commit, dispatch }, data) {
+    async UpdateUser({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
         User.update({ where: data.uuid, data: data })
         const user = User.find(data.uuid)
@@ -156,6 +157,22 @@ const user = {
           .catch(err => {
             reject(err)
             dispatch('GetAllUsers')
+          })
+        
+        if(data.sccode) {
+          dispatch('UpdateUserProfile', data)
+        }
+      })
+    },
+
+    async CheckSCCodeExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.checkSCCodeExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
           })
       })
     },
@@ -198,6 +215,20 @@ const user = {
         })
       }
 
+      return res.data
+    },
+
+    async UpdateUserProfile({ commit }, data) {
+      const res = await this.$repository.user.updateUserProfile(data.uuid, {
+        sccode: data.sccode
+      })
+
+      return res.data
+    },
+
+    async GetUserProfile({ commit }, id) {
+      const res = await this.$repository.user.getUserProfile(id)
+      Profile.insert({ data: res.data })
       return res.data
     },
 
