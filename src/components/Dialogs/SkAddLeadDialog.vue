@@ -21,6 +21,8 @@
               class="col"
               outlined
               label="Name"
+              :error="$v.form.name.$error"
+              error-message="Name is required"
             />
             <div class="row">
               <q-input
@@ -92,6 +94,7 @@
 </template>
 
 <script>
+import { minLength, required, email } from 'vuelidate/lib/validators'
 import ModalDialog from './../ModalDialog'
 
 export default {
@@ -132,6 +135,18 @@ export default {
         source_lead: '',
         type: ''
       }
+    }
+  },
+
+  validations: {
+    form: {
+      name: { required },
+      email: { required, email },
+      phone: { required, minLength: minLength(10) },
+      property_type: { required },
+      location: { required },
+      source_lead: { required },
+      type: { required }
     }
   },
 
