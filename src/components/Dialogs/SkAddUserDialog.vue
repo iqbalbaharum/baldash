@@ -200,8 +200,8 @@ export default {
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `User with name ${user.name} created!`)
       } catch (e) {
-        const message = e.response.message.error
-        this.$notify('error', message)
+        const message = e.response.data.error.message
+        this.$notify('error', `Error: ${message}`)
       }
     },
     async loadRoleOptions() {
