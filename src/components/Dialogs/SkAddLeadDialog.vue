@@ -31,12 +31,16 @@
                 outlined
                 label="Email"
                 type="email"
+                :error="$v.form.email.$error"
+                error-message="Email is required"
               />
               <q-input
                 v-model="form.phone"
                 class="col q-pl-xs"
                 outlined
                 label="Mobile No."
+                :error="$v.form.phone.$error"
+                error-message="Mobile No is required"
               />
             </div>
             <q-select
@@ -45,12 +49,16 @@
               outlined
               label="Property Type"
               :options="opts.propType"
+              :error="$v.form.property_type.$error"
+              error-message="Property Type is required"
             />
             <q-input
               v-model="form.location"
               class="col"
               outlined
               label="Property Location"
+              :error="$v.form.location.$error"
+              error-message="Location is required"
             />
             <q-select
               v-model="form.source_lead"
@@ -58,6 +66,8 @@
               :options="opts.leads"
               label="Source of Lead"
               class="col"
+              :error="$v.form.source_lead.$error"
+              error-message="Source lead is required"
             />
             <q-separator />
             <div class="text-weight-bold text-uppercase text-grey-5">
@@ -71,6 +81,8 @@
               class="col"
               emit-value
               map-options
+              :error="$v.form.type.$error"
+              error-message="Customer sales type is required"
             />
             <q-separator />
             <div align="right">
@@ -169,6 +181,7 @@ export default {
       }
     },
     async onAddLead() {
+      this.$v.form.$touch()
       const lead = { ...this.form }
 
       try {
