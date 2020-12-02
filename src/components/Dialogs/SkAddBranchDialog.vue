@@ -12,6 +12,9 @@
           </div>
         </q-card-section>
         <q-card-section>
+          <div class="text-weight-bold text-uppercase text-grey-5">
+              Branch detail
+          </div>
           <q-form ref="myForm" @submit="onAddBranch">
             <div class="q-gutter-sm justify">
               <div class="col ">
