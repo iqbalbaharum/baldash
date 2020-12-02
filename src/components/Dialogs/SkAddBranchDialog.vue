@@ -1,143 +1,86 @@
 <template>
   <modal-dialog
     ref="dialog"
-    name="addbranch"
+    name="walkinlead"
     @close-dialog="reset"
   >
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            New branch
+            Walk In Leads
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form ref="myForm" @submit="onAddBranch">
+          <q-form ref="myForm" @submit="onAddLead">
             <div class="q-gutter-sm justify">
-              <div class="col ">
-                <q-input
-                  v-model="form.name"
-                  outlined
-                  label="Branch Name"
-                  :rules="textRules"
-                />
+              <div class="text-weight-bold text-uppercase text-grey-5">
+                Key in data for walk in user only
               </div>
+              <q-input
+                v-model="form.name"
+                class="col"
+                outlined
+                label="Name"
+                lazy-rules
+                :rules="textRules"
+              />
               <div class="row">
-                <q-input
-                  v-model="form.code"
-                  class="col"
-                  outlined
-                  label="Branch Code"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.type"
-                  outlined
-                  :options="opts"
-                  label="Branch Type"
-                  emit-value
-                  map-options
-                  stack-label
-                  :rules="textRules"
-                />
-              </div>
-              <div class="row">
-                <q-input
-                  v-model="form.telno"
-                  class="col"
-                  outlined
-                  label="Telephone No."
-                  :rules="textRules"
-                />
-                <q-input
-                  v-model="form.faxno"
-                  class="col q-pl-xs"
-                  outlined
-                  label="Fax No."
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
                 <q-input
                   v-model="form.email"
+                  class="col"
                   outlined
                   label="Email"
+                  type="email"
                   :rules="textRules"
                 />
-              </div>
-              <div class="col">
                 <q-input
-                  v-model="form.address1"
+                  v-model="form.phone"
+                  class="col q-pl-xs"
                   outlined
-                  label="Address"
-                  aria-rowcount="2"
+                  type="number"
+                  label="Mobile No."
                   :rules="textRules"
                 />
               </div>
-              <div class="col q-pb-md">
-                <q-input
-                  v-model="form.address2"
-                  outlined
-                  label=""
-                />
+              <q-select
+                v-model="form.property_type"
+                class="col"
+                outlined
+                label="Property Type"
+                :options="opts.propType"
+                :rules="textRules"
+              />
+              <q-input
+                v-model="form.location"
+                class="col"
+                outlined
+                label="Property Location"
+                :rules="textRules"
+              />
+              <q-select
+                v-model="form.source_lead"
+                outlined
+                :options="opts.leads"
+                label="Source of Lead"
+                class="col"
+                :rules="[ val => val && val.length > 0 ]"
+              />
+              <q-separator />
+              <div class="text-weight-bold text-uppercase text-grey-5">
+                Customer Sales Type
               </div>
-              <div class="col">
-                <q-input
-                  v-model="form.state"
-                  outlined
-                  label="State"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.country"
-                  outlined
-                  label="Country"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model.number="form.SSMNo"
-                  outlined
-                  label="SSM No."
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model.number="form.GSTNo"
-                  outlined
-                  label="GST No"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col q-pb-md">
-                <q-file
-                  ref="fileupload"
-                  v-model="fileUpload"
-                  label="Choose Logo"
-                  outlined
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.branchId"
-                  outlined
-                  :options="branches"
-                  label="Branch"
-                  emit-value
-                  map-options
-                  stack-label
-                  :rules="textRules"
-                />
-              </div>
-              <div>
-                <q-item-section />
-              </div>
+              <q-select
+                v-model="form.type"
+                outlined
+                :options="opts.type"
+                label="Lead Type"
+                class="col"
+                emit-value
+                map-options
+                :rules="textRules"
+              />
+              <q-separator />
               <div align="right">
                 <q-btn
                   v-close-popup
@@ -148,7 +91,7 @@
                 <q-btn
                   color="primary"
                   label="Submit"
-                  @click="onAddBranch"
+                  @click="onAddLead"
                 />
               </div>
             </div>
@@ -161,7 +104,6 @@
 
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
-import Branch from './../../models/Branch'
 import ModalDialog from './../ModalDialog'
 
 export default {
@@ -172,86 +114,87 @@ export default {
   data() {
     return {
       textRules: [val => val && val.length > 0],
-      fileUpload: null,
+      options: {
+        roles: [],
+        branches: [],
+      },
+      dialog: {
+        show: false,
+        userId: '',
+        roleArr: []
+      },
+      opts: {
+        propType: ['Bungalow', 'Semi-D', 'Terrace', 'Townhouse', 'Apartment', 'ShopLot'],
+        leads: ['Social Media', 'Print Media', 'Referral', 'Exhibition'],
+        type: [
+          {
+            label: 'Corporate',
+            value: 'corporate'
+          },
+          {
+            label: 'Retail',
+            value: 'retail'
+          }]
+      },
       form: {
         name: '',
-        code: '',
-        type: 'Dealer',
-        telno: '',
-        faxno: '',
         email: '',
-        address1: '',
-        address2: '',
-        state: '',
-        country: '',
-        SSMNo: '',
-        GSTNo: '',
-        logo: '',
-        branchId: '',
-      },
-      opts: ['Home', 'Dealer']
+        phone: '',
+        property_type: '',
+        location: '',
+        source_lead: '',
+        type: ''
+      }
     }
-  },
-
-  computed: {
-    branches() {
-      const branches = Branch.all()
-      const opts = branches.map((branch) => {
-        const container = []
-        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
-        container.value = branch.uuid
-        return container
-      })
-      return opts
-    },
-  },
-
-  created() {
   },
 
   validations: {
     form: {
-      password: { required, minLength: minLength(4) },
-      mobile: { required, minLength: minLength(10) },
-      username: { required },
-      SCCode: { required },
-      branchId: { required },
-      role: { required },
       name: { required },
-      code: { required },
-      type: { required },
-      telno: { required },
-      faxno: { required },
       email: { required, email },
-      address1: { required },
-      state: { required },
-      country: { required },
-      SSMNo: { required },
-      GSTNo: { required }
+      phone: { required, minLength: minLength(10) },
+      property_type: { required },
+      location: { required },
+      source_lead: { required },
+      type: { required }
     }
+  },
+
+  created() {
+
   },
 
   methods: {
     reset() {
-      this.form = {}
-    },
-
-    async onAddBranch() {
-      this.$v.form.$touch()
-      const branch = { ...this.form }
-
-      if (this.fileUpload) {
-        const res = await this.$store.dispatch('UploadFile', this.fileUpload)
-        this.form.logo = res.name
+      this.form = {
+        name: '',
+        email: '',
+        phone: '',
+        property_type: '',
+        location: '',
+        source_lead: '',
+        type: '',
+        state: 'QL',
+        status: 'active'
       }
+    },
+    async onAddLead() {
+      const lead = { ...this.form }
+
       this.$refs.myForm.validate().then(async success => {
         if (success) {
-          await this.$store.dispatch('RegisterBranch', branch)
-          this.$notify('success', `Branch with name ${branch.name} created!`)
+          await this.$store.dispatch('AddLead', lead)
+          this.$notify('success', `User with name ${lead.name} created!`)
         } else {
           this.$notify('error', 'All field is required')
         }
       })
+      // try {
+      //   await this.$store.dispatch('Addlead', lead)
+      //   this.$notify('success', `User with name ${lead.name} created!`)
+      // } catch (e) {
+      //   this.$notify('error', 'All field is required')
+      // }
     },
   }
 }
