@@ -115,17 +115,6 @@ const app = {
               },
             ]
           },
-          {
-            category: 'User',
-            tos: [
-              {
-                name: 'adduser',
-                icon: 'fas fa-user-plus',
-                label: 'Add User',
-                disabled: false
-              },
-            ]
-          }
         ]
       },
       {
@@ -227,6 +216,12 @@ const app = {
                 icon: 'fas fa-check',
                 label: 'Select',
                 disabled: false,
+              },
+              {
+                name: 'qualifyQL',
+                icon: 'fas fa-user-tag',
+                label: 'Assign To',
+                disabled: false
               },
             ]
           },
