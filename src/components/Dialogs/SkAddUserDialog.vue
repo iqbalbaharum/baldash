@@ -1,117 +1,107 @@
 <template>
-  <modal-dialog ref="dialog" name="adduser">
+  <modal-dialog
+    ref="dialog"
+    name="adduser"
+    @close-dialog="reset"
+  >
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            Add new user
+            New user
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="q-gutter-sm justify">
-            <div class="row ">
-              <q-input
-                v-model="form.username"
-                class="col"
-                outlined
-                label="Username"
-                :error="$v.form.username.$error"
-                error-message="Username must be more than 8 characters"
-              />
-              <q-input
-                ref="password"
-                v-model="form.password"
-                class="col q-pl-xs"
-                outlined
-                :type="type"
-                :error="$v.form.password.$error"
-                error-message="Password must be more than 4 characters"
-                label="Password"
-              >
-                <template v-slot:append>
-                  <q-btn
-                    round
-                    flat
-                    icon="remove_red_eye"
-                    @click="onClickShowPasswords"
-                  />
-                </template>
-              </q-input>
+          <q-form ref="myForm" @submit="onAddUser">
+            <div class="q-gutter-sm justify">
+              <div class="row ">
+                <q-input
+                  v-model="form.username"
+                  class="col"
+                  outlined
+                  label="Username"
+                  lazy-rules
+                  :rules="textRules"
+                />
+                <q-input
+                  v-model="form.password"
+                  class="col q-pl-xs"
+                  outlined
+                  type="password"
+                  label="Password"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model="form.name"
+                  outlined
+                  label="Fullname"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="row ">
+                <q-input
+                  v-model="form.SCCode"
+                  class="col"
+                  outlined
+                  label="SC Code"
+                  :rules="textRules"
+                />
+                <q-input
+                  v-model="form.mobile"
+                  class="col q-pl-xs"
+                  outlined
+                  label="Telephone No."
+                  type="number"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col" />
+              <div class="col">
+                <q-input
+                  v-model="form.email"
+                  outlined
+                  label="Email"
+                  type="email"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-select
+                  v-model="form.branchId"
+                  outlined
+                  :options="options.branches"
+                  label="Branch"
+                  stack-label
+                  :error="$v.form.branchId.$error"
+                />
+              </div>
+              <div class="col">
+                <q-select
+                  v-model="form.role"
+                  outlined
+                  :options="options.roles"
+                  stack-label
+                  label="Roles"
+                  :error="$v.form.role.$error"
+                />
+              </div>
+              <div align="right">
+                <q-btn
+                  v-close-popup
+                  flat
+                  color="primary"
+                  label="Cancel"
+                />
+                <q-btn
+                  color="primary"
+                  label="Submit"
+                  @click="onAddUser"
+                />
+              </div>
             </div>
-            <div class="col">
-              <q-input
-                v-model="form.name"
-                outlined
-                label="Fullname"
-                :error="$v.form.name.$error"
-                error-message="Fullname required"
-              />
-            </div>
-            <div class="row ">
-              <q-input
-                v-model="form.SCCode"
-                class="col"
-                outlined
-                :type="type2"
-                label="SC Code"
-                :error="$v.form.SCCode.$error"
-                error-message="Invalid Code"
-              />
-              <q-input
-                ref="mobile"
-                v-model="form.mobile"
-                class="col q-pl-xs"
-                outlined
-                :type="type2"
-                label="Telephone No."
-                :error="$v.form.mobile.$error"
-                error-message="Fill in Number (012-3456789)"
-              />
-            </div>
-            <div class="col" />
-            <div class="col">
-              <q-input
-                v-model="form.email"
-                outlined
-                label="Email"
-                :error="$v.form.email.$error"
-                error-message="Need a valid email"
-              />
-            </div>
-            <div class="col">
-              <q-select
-                v-model="form.branchId"
-                outlined
-                :options="options.branches"
-                label="Branch"
-                :error="$v.form.branchId.$error"
-                error-message="Select a branch"
-              />
-            </div>
-            <div class="col">
-              <q-select
-                v-model="form.role"
-                outlined
-                :options="options.roles"
-                label="Roles"
-                :error="$v.form.role.$error"
-                error-message="Select a Role"
-              />
-            </div>
-            <div align="right">
-              <q-btn
-                v-close-popup
-                flat
-                color="primary"
-                label="Cancel"
-              />
-              <q-btn
-                color="primary"
-                label="Submit"
-                @click="onAddUser"
-              />
-            </div>
-          </div>
+          </q-form>
         </q-card-section>
       </div>
     </q-card>
@@ -131,6 +121,7 @@ export default {
   },
   data() {
     return {
+      textRules: [val => val && val.length > 0],
       options: {
         roles: [],
         branches: [],
@@ -142,8 +133,8 @@ export default {
       },
       form: {
         username: '',
-        name: '',
         password: '',
+        name: '',
         SCCode: '',
         mobile: '',
         email: '',
@@ -152,24 +143,8 @@ export default {
         designCAD_access: '',
         branchId: '',
         role: '',
-      },
-      type: 'password',
-      type2: 'number',
+      }
     }
-  },
-
-  computed: {
-    users() {
-      return User.query().withAll().get()
-    },
-    roles() {
-      return Role.all()
-    }
-  },
-
-  created() {
-    this.loadRoleOptions()
-    this.loadBranchOptions()
   },
 
   validations: {
@@ -185,24 +160,40 @@ export default {
     }
   },
 
-  methods: {
-    onDelete(id) {
-      this.$store.dispatch('DeleteUser', id)
+  computed: {
+    users() {
+      return User.query().withAll().get()
     },
+    roles() {
+      return Role.all()
+    },
+
+  },
+
+  created() {
+    this.loadRoleOptions()
+    this.loadBranchOptions()
+  },
+
+  methods: {
+    reset() {
+      this.form = {}
+    },
+
     async onAddUser() {
       this.$v.form.$touch()
       const user = { ...this.form }
       user.role = user.role.value
       user.branchId = user.branchId.value
 
-      try {
-        await this.$store.dispatch('RegisterUser', user)
-        this.$refs.dialog.$children[0].hide()
-        this.$notify('success', `User with name ${user.name} created!`)
-      } catch (e) {
-        const message = e.response.data.error.message
-        this.$notify('error', `Error: ${message}`)
-      }
+      this.$refs.myForm.validate().then(async success => {
+        if (success) {
+          await this.$store.dispatch('RegisterUser', user)
+          this.$notify('success', `User with name ${user.name} created!`)
+        } else {
+          this.$notify('error', 'All field is required')
+        }
+      })
     },
     async loadRoleOptions() {
       const loadRoles = await this.$store.dispatch('GetAllRoles')
@@ -222,13 +213,6 @@ export default {
           label: branch.name,
         })
       })
-    },
-    onClickShowPasswords() {
-      if (this.type === 'password') {
-        this.type = 'text'
-      } else {
-        this.type = 'password'
-      }
     }
   }
 }
