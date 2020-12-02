@@ -23,7 +23,7 @@
                 outlined
                 label="Name"
                 lazy-rules
-                :rules="[ val => val && val.length > 0 ]"
+                :rules="textRules"
               />
               <div class="row">
                 <q-input
@@ -32,7 +32,7 @@
                   outlined
                   label="Email"
                   type="email"
-                  :rules="[ val => val && val.length > 0 ]"
+                  :rules="textRules"
                 />
                 <q-input
                   v-model="form.phone"
@@ -40,7 +40,7 @@
                   outlined
                   type="number"
                   label="Mobile No."
-                  :rules="[ val => val && val.length > 0 ]"
+                  :rules="textRules"
                 />
               </div>
               <q-select
@@ -49,14 +49,14 @@
                 outlined
                 label="Property Type"
                 :options="opts.propType"
-                :rules="[ val => val && val.length > 0 ]"
+                :rules="textRules"
               />
               <q-input
                 v-model="form.location"
                 class="col"
                 outlined
                 label="Property Location"
-                :rules="[ val => val && val.length > 0 ]"
+                :rules="textRules"
               />
               <q-select
                 v-model="form.source_lead"
@@ -78,7 +78,7 @@
                 class="col"
                 emit-value
                 map-options
-                :rules="[ val => val && val.length > 0 ]"
+                :rules="textRules"
               />
               <q-separator />
               <div align="right">
@@ -113,6 +113,7 @@ export default {
   },
   data() {
     return {
+      textRules: [val => val && val.length > 0],
       options: {
         roles: [],
         branches: [],
