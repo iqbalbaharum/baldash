@@ -8,111 +8,124 @@
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            New user
+            New User
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form ref="myForm" @submit="onAddUser">
-            <div class="q-gutter-sm justify">
-              <div class="row ">
-                <q-input
-                  v-model="form.username"
-                  class="col"
-                  outlined
-                  label="Username"
-                  lazy-rules
-                  :rules="textRules"
-                />
-                <q-input
-                  ref="password"
-                  v-model="form.password"
-                  class="col q-pl-xs"
-                  outlined
-                  :type="type"
-                  :error="$v.form.password.$error"
-                  error-message="Password must be more than 4 characters"
-                  label="Password"
-                >
-                  <template v-slot:append>
-                    <q-btn
-                      round
-                      flat
-                      icon="remove_red_eye"
-                      @click="onClickShowPasswords"
-                    />
-                  </template>
-                </q-input>
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.name"
-                  outlined
-                  label="Fullname"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="row ">
-                <q-input
-                  v-model="form.SCCode"
-                  class="col"
-                  outlined
-                  label="SC Code"
-                  :rules="textRules"
-                />
-                <q-input
-                  v-model="form.mobile"
-                  class="col q-pl-xs"
-                  outlined
-                  label="Telephone No."
-                  type="number"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col" />
-              <div class="col">
-                <q-input
-                  v-model="form.email"
-                  outlined
-                  label="Email"
-                  type="email"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.branchId"
-                  outlined
-                  :options="options.branches"
-                  label="Branch"
-                  stack-label
-                  :error="$v.form.branchId.$error"
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.role"
-                  outlined
-                  :options="options.roles"
-                  stack-label
-                  label="Roles"
-                  :error="$v.form.role.$error"
-                />
-              </div>
-              <div align="right">
-                <q-btn
-                  v-close-popup
-                  flat
-                  color="primary"
-                  label="Cancel"
-                />
-                <q-btn
-                  color="primary"
-                  label="Submit"
-                  @click="onAddUser"
-                />
-              </div>
+          <div class="q-gutter-sm justify">
+            <div class="text-weight-bold text-uppercase text-grey-5">
+              User detail
             </div>
-          </q-form>
+            <q-form ref="myForm" @submit="onAddUser">
+              <div class="q-gutter-sm justify">
+                <div class="row ">
+                  <q-input
+                    v-model="form.username"
+                    class="col"
+                    outlined
+                    label="Username"
+                    lazy-rules
+                    :rules="textRules"
+                  />
+                  <q-input
+                    ref="password"
+                    v-model="form.password"
+                    class="col q-pl-xs"
+                    outlined
+                    :type="type"
+                    :rules="textRules"
+                    label="Password"
+                  >
+                    <template v-slot:append>
+                      <q-btn
+                        round
+                        flat
+                        icon="remove_red_eye"
+                        @click="onClickShowPasswords"
+                      />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col">
+                  <q-input
+                    v-model="form.name"
+                    outlined
+                    label="Fullname"
+                    :rules="textRules"
+                  />
+                </div>
+                <div class="row ">
+                  <q-input
+                    v-model="form.sccode"
+                    class="col"
+                    outlined
+                    label="SC Code"
+                    :rules="textRules"
+                    @blur="onSCCodeCheck"
+                  />
+                  <q-input
+                    v-model="form.mobile"
+                    class="col q-pl-xs"
+                    outlined
+                    label="Telephone No."
+                    type="number"
+                    :rules="textRules"
+                  />
+                </div>
+                <div class="col" />
+                <div class="col">
+                  <q-input
+                    v-model="form.email"
+                    outlined
+                    label="Email"
+                    type="email"
+                    :rules="textRules"
+                    @blur="onEmailCheck"
+                  />
+                </div>
+                <div class="col">
+                  <q-select
+                    v-model="form.branchId"
+                    outlined
+                    :options="options.branches"
+                    label="Branch"
+                    stack-label
+                    :error="$v.form.branchId.$error"
+                  />
+                </div>
+                <div class="col">
+                  <q-select
+                    v-model="form.role"
+                    outlined
+                    :options="options.roles"
+                    stack-label
+                    label="Roles"
+                    :error="$v.form.role.$error"
+                  />
+                </div>
+                <div class="text-negative">
+                  {{ errormessage }}
+                </div>
+                <div class="text-negative">
+                  {{ errormessage2 }}
+                </div>
+                <div align="right">
+                  <q-btn
+                    v-close-popup
+                    flat
+                    color="primary"
+                    label="Cancel"
+                  />
+                  <q-btn
+                    color="primary"
+                    label="Submit"
+                    :disabled="errormessage.length > 0 || errormessage2.length > 0"
+                    @click="onAddUser"
+                  />
+                </div>
+              </div>
+            </q-form>
+          </div>
         </q-card-section>
       </div>
     </q-card>
@@ -137,16 +150,12 @@ export default {
         roles: [],
         branches: [],
       },
-      dialog: {
-        show: false,
-        userId: '',
-        roleArr: []
-      },
+      selectedUserId: '',
       form: {
         username: '',
         password: '',
         name: '',
-        SCCode: '',
+        sccode: '',
         mobile: '',
         email: '',
         status: true,
@@ -155,6 +164,8 @@ export default {
         branchId: '',
         role: '',
       },
+      errormessage: '',
+      errormessage2: '',
       type: 'password',
     }
   },
@@ -166,7 +177,7 @@ export default {
       mobile: { required, minLength: minLength(10) },
       username: { required },
       name: { required },
-      SCCode: { required },
+      sccode: { required },
       branchId: { required },
       role: { required }
     }
@@ -182,18 +193,19 @@ export default {
 
   },
 
-  created() {
+  async created() {
     this.loadRoleOptions()
     this.loadBranchOptions()
   },
 
   methods: {
     reset() {
+      this.errormessage = ''
       this.form = {
         username: '',
         password: '',
         name: '',
-        SCCode: '',
+        sccode: '',
         mobile: '',
         email: '',
         status: true,
@@ -205,6 +217,8 @@ export default {
     },
 
     async onAddUser() {
+      this.onSCCodeCheck()
+      this.onEmailCheck()
       this.$v.form.$touch()
       const user = { ...this.form }
       user.role = user.role.value
@@ -213,6 +227,7 @@ export default {
       this.$refs.myForm.validate().then(async success => {
         if (success) {
           await this.$store.dispatch('RegisterUser', user)
+          this.$refs.dialog.$children[0].hide()
           this.$notify('success', `User with name ${user.name} created!`)
         } else {
           this.$notify('error', 'All field is required')
@@ -244,7 +259,28 @@ export default {
       } else {
         this.type = 'password'
       }
-    }
+    },
+
+    async onSCCodeCheck() {
+      await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
+        .then(exists => {
+          if (exists) {
+            this.errormessage = 'SCCode already existed'
+          } else {
+            this.errormessage = ''
+          }
+        })
+    },
+    async onEmailCheck() {
+      await this.$store.dispatch('CheckEmailExist', this.form.email)
+        .then(exists => {
+          if (exists) {
+            this.errormessage2 = 'Email already exist'
+          } else {
+            this.errormessage2 = ''
+          }
+        })
+    },
   }
 }
 </script>
