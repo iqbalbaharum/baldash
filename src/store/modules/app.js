@@ -1,4 +1,4 @@
-// import User from './../../models/User'
+import User from './../../models/User'
 
 const app = {
   state: {
@@ -214,7 +214,7 @@ const app = {
           get: 'GetQualifiedLeads',
           delete: 'DeleteLead'
         },
-        default_datatab_title: 'Qualified Leads',
+        default_datatab_title: `Qualified Leads`,
         config: {
           selectiontype: 'single'
         },

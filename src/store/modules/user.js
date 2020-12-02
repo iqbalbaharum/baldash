@@ -52,7 +52,7 @@ const user = {
 
     SET_NAME: (state, data) => {
       state.name = data
-    }
+    },
   },
 
   actions: {
@@ -82,6 +82,7 @@ const user = {
             commit('SET_NAME', data.name)
             commit('SET_EMAIL', data.email)
             commit('SET_MOBILE', data.mobile)
+            commit('SET_BRANCH', data.branch)
             resolve(data)
           })
           .catch(err => {

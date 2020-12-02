@@ -1,4 +1,5 @@
 import { Model } from '@vuex-orm/core'
+import Lead from './Lead'
 
 export default class Branch extends Model {
   static entity = 'branches'
@@ -21,7 +22,8 @@ export default class Branch extends Model {
       SSMNo: this.attr(0),
       GSTNo: this.attr(0),
       logo: this.attr(0),
-      branchId: this.attr(''),
+
+      leads: this.hasMany(Lead, 'branchId')
     }
   }
 

@@ -10,9 +10,13 @@ const qualifiedleads = {
   },
 
   actions: {
-    GetAllQualifiedLeads({ dispatch }, tabName) {
+    GetAllQualifiedLeads({ dispatch, rootState }, tabName) {
       return new Promise((resolve, reject) => {
-        this.$repository.qualifiedleads.listing()
+        this.$repository.qualifiedleads.listing({
+          where: {
+            branchId: rootState.user.branchId
+          }
+        })
           .then(res => {
             QualifiedLeads.insert({ data: res.data })
 

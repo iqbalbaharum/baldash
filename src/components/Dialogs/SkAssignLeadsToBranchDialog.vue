@@ -106,6 +106,7 @@
 <script>
 import Branch from './../../models/Branch'
 import ModalDialog from './../ModalDialog'
+import Lead from './../../models/Lead'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -171,7 +172,12 @@ export default {
     },
     async onAssignLeads() {
       const lead = { ...this.form }
+      console.log('lead', lead)
       try {
+        Lead.update({
+          where: lead.$id,
+          data: lead
+        })
         await this.$store.dispatch('AssignLeadToBranch', lead)
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchName}`)
