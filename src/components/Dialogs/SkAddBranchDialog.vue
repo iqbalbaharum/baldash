@@ -181,7 +181,6 @@ export default {
       form: {
         name: '',
         code: '',
-        sccode: '',
         type: 'Dealer',
         telno: '',
         faxno: '',
@@ -200,16 +199,17 @@ export default {
     }
   },
 
-  validations: {
-    form: {
-      name: { required },
-      email: { required, email },
-      phone: { required, minLength: minLength(10) },
-      property_type: { required },
-      location: { required },
-      source_lead: { required },
-      type: { required }
-    }
+  computed: {
+    branches() {
+      const branches = Branch.all()
+      const opts = branches.map((branch) => {
+        const container = []
+        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
+        container.value = branch.uuid
+        return container
+      })
+      return opts
+    },
   },
 
   created() {
@@ -221,7 +221,6 @@ export default {
       password: { required, minLength: minLength(4) },
       mobile: { required, minLength: minLength(10) },
       username: { required },
-      SCCode: { required },
       branchId: { required },
       role: { required },
       name: { required },
@@ -246,7 +245,6 @@ export default {
         telno: '',
         faxno: '',
         email: '',
-        sccode: '',
         address1: '',
         address2: '',
         state: '',
@@ -269,6 +267,7 @@ export default {
       this.$refs.myForm.validate().then(async success => {
         if (success) {
           await this.$store.dispatch('RegisterBranch', branch)
+          this.$refs.dialog.$children[0].hide()
           this.$notify('success', `Branch with name ${branch.name} created!`)
         } else {
           this.$notify('error', 'All field is required')
@@ -284,34 +283,6 @@ export default {
             this.errormessage = ''
           }
         })
-    },
-    async onResetErrorMessage() {
-      await this.$store.dispatch('CheckBranchCodeExist', this.form.sccode)
-        .then(exists => {
-          if (exists) {
-            this.errormessage = 'Branch Code already exist'
-          } else {
-            this.errormessage = ''
-          }
-        })
-    },
-    async onAddLead() {
-      const lead = { ...this.form }
-
-      this.$refs.myForm.validate().then(async success => {
-        if (success) {
-          await this.$store.dispatch('AddLead', lead)
-          this.$notify('success', `User with name ${lead.name} created!`)
-        } else {
-          this.$notify('error', 'All field is required')
-        }
-      })
-      // try {
-      //   await this.$store.dispatch('Addlead', lead)
-      //   this.$notify('success', `User with name ${lead.name} created!`)
-      // } catch (e) {
-      //   this.$notify('error', 'All field is required')
-      // }
     },
   }
 }
