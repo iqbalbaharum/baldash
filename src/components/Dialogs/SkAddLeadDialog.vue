@@ -179,7 +179,6 @@ export default {
       }
     },
     async onAddLead() {
-      this.$v.form.$touch()
       const lead = { ...this.form }
 
       this.$refs.myForm.validate().then(async success => {

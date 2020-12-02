@@ -1,4 +1,5 @@
 import { Model } from '@vuex-orm/core'
+import Branch from './Branch'
 
 export default class Lead extends Model {
   static entity = 'leads'
@@ -24,7 +25,9 @@ export default class Lead extends Model {
       status: this.attr(''),
       branchId: this.attr(''),
       userId: this.attr(''),
-      rejectReason: this.attr('')
+      rejectReason: this.attr(''),
+
+      branch: this.belongsTo(Branch, 'branchId')
     }
   }
 
@@ -40,6 +43,10 @@ export default class Lead extends Model {
       userId: this.userId ?? '',
       rejectReason: this.rejectReason ?? ''
     }
+  }
+
+  get getBranchName() {
+    return this.branch.name
   }
 
   static columns = [

@@ -38,14 +38,15 @@ const lead = {
       })
     },
 
-    async GetQualifiedLeads({ dispatch }, tabName) {
+    async GetQualifiedLeads({ dispatch, rootState }, tabName) {
       await Lead.deleteAll()
 
       return new Promise((resolve, reject) => {
         this.$repository.lead.listing({
             where: {
               state: 'QL',
-              status: 'active'
+              status: 'active',
+              branchId: rootState.user.branchId
             }
         })
           .then(res => {
