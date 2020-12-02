@@ -24,13 +24,24 @@
                   :rules="textRules"
                 />
                 <q-input
+                  ref="password"
                   v-model="form.password"
                   class="col q-pl-xs"
                   outlined
-                  type="password"
+                  :type="type"
+                  :error="$v.form.password.$error"
+                  error-message="Password must be more than 4 characters"
                   label="Password"
-                  :rules="textRules"
-                />
+                >
+                  <template v-slot:append>
+                    <q-btn
+                      round
+                      flat
+                      icon="remove_red_eye"
+                      @click="onClickShowPasswords"
+                    />
+                  </template>
+                </q-input>
               </div>
               <div class="col">
                 <q-input
@@ -143,7 +154,8 @@ export default {
         designCAD_access: '',
         branchId: '',
         role: '',
-      }
+      },
+      type: 'password',
     }
   },
 
@@ -225,6 +237,13 @@ export default {
           label: branch.name,
         })
       })
+    },
+    onClickShowPasswords() {
+      if (this.type === 'password') {
+        this.type = 'text'
+      } else {
+        this.type = 'password'
+      }
     }
   }
 }
