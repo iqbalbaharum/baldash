@@ -9,6 +9,7 @@
     <sk-add-lead-dialog />
     <sk-import-itemlist-dialog />
     <sk-assign-leads-to-branch-dialog />
+    <sk-assign-lead-to-sc-dialog />
     <sk-assign-user-role />
     <sk-open-kujiale-dialog />
     <sk-disqualified-o-l-dialog />
@@ -28,6 +29,7 @@ import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
 import skAssignUserRole from './SkAssignUserRole'
 import SkOpenKujialeDialog from './SkOpenKujialeDialog'
 import skDisqualifiedOLDialog from './SkDisqualifiedOLDialog'
+import skAssignLeadToScDialog from './SkAssignLeadToSCDialog'
 
 export default {
 
@@ -43,7 +45,8 @@ export default {
     skAssignLeadsToBranchDialog,
     skAssignUserRole,
     SkOpenKujialeDialog,
-    skDisqualifiedOLDialog
+    skDisqualifiedOLDialog,
+    skAssignLeadToScDialog
   },
   data() {
     return {

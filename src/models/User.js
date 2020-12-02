@@ -24,7 +24,7 @@ export default class User extends Model {
 
       roles: this.belongsToMany(Role, UserRole, 'userId', 'roleId'),
       branch: this.belongsTo(Branch, 'branchId'),
-      profile: this.hasOne(Profile, 'userId')
+      profile: this.hasOne(Profile, 'userId'),
     }
   }
 

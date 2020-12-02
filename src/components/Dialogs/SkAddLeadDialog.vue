@@ -12,79 +12,90 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="q-gutter-sm justify">
-            <div class="text-weight-bold text-uppercase text-grey-5">
-              Key in data for walk in user only
-            </div>
-            <q-input
-              v-model="form.name"
-              class="col"
-              outlined
-              label="Name"
-            />
-            <div class="row">
+          <q-form ref="myForm" @submit="onAddLead">
+            <div class="q-gutter-sm justify">
+              <div class="text-weight-bold text-uppercase text-grey-5">
+                Key in data for walk in user only
+              </div>
               <q-input
-                v-model="form.email"
+                v-model="form.name"
                 class="col"
                 outlined
-                label="Email"
-                type="email"
+                label="Name"
+                lazy-rules
+                :rules="textRules"
+              />
+              <div class="row">
+                <q-input
+                  v-model="form.email"
+                  class="col"
+                  outlined
+                  label="Email"
+                  type="email"
+                  :rules="textRules"
+                />
+                <q-input
+                  v-model="form.phone"
+                  class="col q-pl-xs"
+                  outlined
+                  type="number"
+                  label="Mobile No."
+                  :rules="textRules"
+                />
+              </div>
+              <q-select
+                v-model="form.property_type"
+                class="col"
+                outlined
+                label="Property Type"
+                :options="opts.propType"
+                :rules="textRules"
               />
               <q-input
-                v-model="form.phone"
-                class="col q-pl-xs"
+                v-model="form.location"
+                class="col"
                 outlined
-                label="Mobile No."
+                label="Property Location"
+                :rules="textRules"
               />
-            </div>
-            <q-select
-              v-model="form.property_type"
-              class="col"
-              outlined
-              label="Property Type"
-              :options="opts.propType"
-            />
-            <q-input
-              v-model="form.location"
-              class="col"
-              outlined
-              label="Property Location"
-            />
-            <q-select
-              v-model="form.source_lead"
-              outlined
-              :options="opts.leads"
-              label="Source of Lead"
-              class="col"
-            />
-            <q-separator />
-            <div class="text-weight-bold text-uppercase text-grey-5">
-              Customer Sales Type
-            </div>
-            <q-select
-              v-model="form.type"
-              outlined
-              :options="opts.type"
-              label="Lead Type"
-              class="col"
-              emit-value
-              map-options
-            />
-            <q-separator />
-            <div align="right">
-              <q-btn
-                v-close-popup
-                flat
-                color="primary"
-                label="Cancel"
+              <q-select
+                v-model="form.source_lead"
+                outlined
+                :options="opts.leads"
+                label="Source of Lead"
+                class="col"
+                :rules="[ val => val && val.length > 0 ]"
               />
-              <q-btn
-                color="primary"
-                label="Submit"
-                @click="onAddLead"
+              <q-separator />
+              <div class="text-weight-bold text-uppercase text-grey-5">
+                Customer Sales Type
+              </div>
+              <q-select
+                v-model="form.type"
+                outlined
+                :options="opts.type"
+                label="Lead Type"
+                class="col"
+                emit-value
+                map-options
+                :rules="textRules"
               />
+              <q-separator />
+              <div align="right">
+                <q-btn
+                  v-close-popup
+                  flat
+                  color="primary"
+                  label="Cancel"
+                />
+                <q-btn
+                  color="primary"
+                  label="Submit"
+                  @click="onAddLead"
+                />
+              </div>
             </div>
-          </div>
+          </q-form>
         </q-card-section>
       </div>
     </q-card>
@@ -92,6 +103,7 @@
 </template>
 
 <script>
+import { minLength, required, email } from 'vuelidate/lib/validators'
 import ModalDialog from './../ModalDialog'
 
 export default {
@@ -101,6 +113,7 @@ export default {
   },
   data() {
     return {
+      textRules: [val => val && val.length > 0],
       options: {
         roles: [],
         branches: [],
@@ -135,6 +148,18 @@ export default {
     }
   },
 
+  validations: {
+    form: {
+      name: { required },
+      email: { required, email },
+      phone: { required, minLength: minLength(10) },
+      property_type: { required },
+      location: { required },
+      source_lead: { required },
+      type: { required }
+    }
+  },
+
   created() {
 
   },
@@ -156,14 +181,20 @@ export default {
     async onAddLead() {
       const lead = { ...this.form }
 
-      try {
-        await this.$store.dispatch('AddLead', lead)
-        this.$refs.dialog.$children[0].hide()
-        this.$notify('success', `User with name ${lead.name} created!`)
-      } catch (e) {
-        const message = e.response.message.error
-        this.$notify('error', message)
-      }
+      this.$refs.myForm.validate().then(async success => {
+        if (success) {
+          await this.$store.dispatch('AddLead', lead)
+          this.$notify('success', `User with name ${lead.name} created!`)
+        } else {
+          this.$notify('error', 'All field is required')
+        }
+      })
+      // try {
+      //   await this.$store.dispatch('Addlead', lead)
+      //   this.$notify('success', `User with name ${lead.name} created!`)
+      // } catch (e) {
+      //   this.$notify('error', 'All field is required')
+      // }
     },
   }
 }
