@@ -1,5 +1,9 @@
 <template>
-  <modal-dialog ref="dialog" name="addbranch">
+  <modal-dialog
+    ref="dialog"
+    name="addbranch"
+    @close-dialog="reset"
+  >
     <q-card style="width:1800px">
       <div>
         <q-card-section class="bg-grey-10">
@@ -8,157 +12,147 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <div class="q-gutter-sm justify">
-            <div class="col ">
-              <q-input
-                v-model="form.name"
-                outlined
-                label="Branch Name"
-                :error="$v.form.name.$error"
-                error-message="Branch name required"
-              />
+          <q-form ref="myForm" @submit="onAddBranch">
+            <div class="q-gutter-sm justify">
+              <div class="col ">
+                <q-input
+                  v-model="form.name"
+                  outlined
+                  label="Branch Name"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="row">
+                <q-input
+                  v-model="form.code"
+                  class="col"
+                  outlined
+                  label="Branch Code"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-select
+                  v-model="form.type"
+                  outlined
+                  :options="opts"
+                  label="Branch Type"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="textRules"
+                />
+              </div>
+              <div class="row">
+                <q-input
+                  v-model="form.telno"
+                  class="col"
+                  outlined
+                  label="Telephone No."
+                  :rules="textRules"
+                />
+                <q-input
+                  v-model="form.faxno"
+                  class="col q-pl-xs"
+                  outlined
+                  label="Fax No."
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model="form.email"
+                  outlined
+                  label="Email"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model="form.address1"
+                  outlined
+                  label="Address"
+                  aria-rowcount="2"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col q-pb-md">
+                <q-input
+                  v-model="form.address2"
+                  outlined
+                  label=""
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model="form.state"
+                  outlined
+                  label="State"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model="form.country"
+                  outlined
+                  label="Country"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model.number="form.SSMNo"
+                  outlined
+                  label="SSM No."
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model.number="form.GSTNo"
+                  outlined
+                  label="GST No"
+                  :rules="textRules"
+                />
+              </div>
+              <div class="col q-pb-md">
+                <q-file
+                  ref="fileupload"
+                  v-model="fileUpload"
+                  label="Choose Logo"
+                  outlined
+                />
+              </div>
+              <div class="col">
+                <q-select
+                  v-model="form.branchId"
+                  outlined
+                  :options="branches"
+                  label="Branch"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="textRules"
+                />
+              </div>
+              <div>
+                <q-item-section />
+              </div>
+              <div align="right">
+                <q-btn
+                  v-close-popup
+                  flat
+                  color="primary"
+                  label="Cancel"
+                />
+                <q-btn
+                  color="primary"
+                  label="Submit"
+                  @click="onAddBranch"
+                />
+              </div>
             </div>
-            <div class="row">
-              <q-input
-                v-model="form.code"
-                class="col"
-                outlined
-                label="Branch Code"
-                :error="$v.form.code.$error"
-                error-message="Branch Code required"
-              />
-            </div>
-            <div class="col">
-              <q-select
-                v-model="form.type"
-                outlined
-                :options="opts"
-                label="Branch Type"
-                emit-value
-                map-options
-                stack-label
-                :error="$v.form.type.$error"
-                error-message="Branch Type required"
-              />
-            </div>
-            <div class="row">
-              <q-input
-                v-model="form.telno"
-                class="col"
-                outlined
-                label="Telephone No."
-                :error="$v.form.telno.$error"
-                error-message="Telephone No. required"
-              />
-              <q-input
-                v-model="form.faxno"
-                class="col q-pl-xs"
-                outlined
-                label="Fax No."
-                :error="$v.form.faxno.$error"
-                error-message="Fax No. required"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="form.email"
-                outlined
-                label="Email"
-                :error="$v.form.email.$error"
-                error-message="Email required"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="form.address1"
-                outlined
-                label="Address"
-                aria-rowcount="2"
-                :error="$v.form.address1.$error"
-                error-message="Address required"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="form.address2"
-                outlined
-                label=""
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="form.state"
-                outlined
-                label="State"
-                :error="$v.form.state.$error"
-                error-message="State required"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="form.country"
-                outlined
-                label="Country"
-                :error="$v.form.country.$error"
-                error-message="Country required"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model.number="form.SSMNo"
-                outlined
-                label="SSM No."
-                :error="$v.form.SSMNo.$error"
-                error-message="SSM No. required"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model.number="form.GSTNo"
-                outlined
-                label="GST No"
-                :error="$v.form.GSTNo.$error"
-                error-message="GST No. required"
-              />
-            </div>
-            <div class="col">
-              <q-file
-                ref="fileupload"
-                v-model="fileUpload"
-                label="Choose Logo"
-                outlined
-              />
-            </div>
-            <div class="col">
-              <q-select
-                v-model="form.branchId"
-                outlined
-                :options="branches"
-                label="Branch"
-                emit-value
-                map-options
-                stack-label
-                :error="$v.form.branchId.$error"
-                error-message="Branch ID required"
-              />
-            </div>
-            <div>
-              <q-item-section />
-            </div>
-            <div align="right">
-              <q-btn
-                v-close-popup
-                flat
-                color="primary"
-                label="Cancel"
-              />
-              <q-btn
-                color="primary"
-                label="Submit"
-                @click="onAddBranch"
-              />
-            </div>
-          </div>
+          </q-form>
         </q-card-section>
       </div>
     </q-card>
@@ -177,6 +171,7 @@ export default {
   },
   data() {
     return {
+      textRules: [val => val && val.length > 0],
       fileUpload: null,
       form: {
         name: '',
@@ -237,6 +232,10 @@ export default {
   },
 
   methods: {
+    reset() {
+      this.form = {}
+    },
+
     async onAddBranch() {
       this.$v.form.$touch()
       const branch = { ...this.form }
@@ -245,15 +244,14 @@ export default {
         const res = await this.$store.dispatch('UploadFile', this.fileUpload)
         this.form.logo = res.name
       }
-
-      try {
-        await this.$store.dispatch('RegisterBranch', branch)
-        this.$refs.dialog.$children[0].hide()
-        this.$notify('success', `Branch with name ${branch.name} created!`)
-      } catch (e) {
-        const message = e.response.message.error
-        this.$notify('error', message)
-      }
+      this.$refs.myForm.validate().then(async success => {
+        if (success) {
+          await this.$store.dispatch('RegisterBranch', branch)
+          this.$notify('success', `Branch with name ${branch.name} created!`)
+        } else {
+          this.$notify('error', 'All field is required')
+        }
+      })
     },
   }
 }
