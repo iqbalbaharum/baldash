@@ -177,7 +177,19 @@ export default {
 
   methods: {
     reset() {
-      this.form = {}
+      this.form = {
+        username: '',
+        password: '',
+        name: '',
+        SCCode: '',
+        mobile: '',
+        email: '',
+        status: true,
+        module_access: '',
+        designCAD_access: '',
+        branchId: '',
+        role: '',
+      }
     },
 
     async onAddUser() {
