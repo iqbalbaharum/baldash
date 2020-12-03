@@ -129,6 +129,17 @@ const app = {
               },
             ]
           },
+          {
+            category: 'Auto Suggestion',
+            tos: [
+              {
+                name: 'rrbranch',
+                icon: 'fas fa-filter',
+                label: 'Arrange Branches',
+                disabled: false
+              },
+            ]
+          },
         ]
       },
       {

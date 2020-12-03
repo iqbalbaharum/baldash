@@ -8,6 +8,8 @@ import Lead from '../models/Lead'
 import ItemList from '../models/ItemList'
 import QualifiedLeads from '../models/QualifiedLeads'
 import Profile from '../models/Profile'
+import Country from '../models/Country'
+
 // Relation
 import UserRole from '../models/UserRole'
 // Other
@@ -24,6 +26,7 @@ database.register(ItemList)
 database.register(Lead)
 database.register(QualifiedLeads)
 database.register(Profile)
+database.register(Country)
 
 //
 database.register(UserRole)

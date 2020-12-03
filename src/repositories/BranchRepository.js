@@ -13,4 +13,11 @@ export default class BranchRepository extends Repository {
       url: `branch/${branchcode}/exists`,
     })
   }
+
+  async refreshBranchesLeadCapacity() {
+    return datasource({
+      methods: 'get',
+      url: `/branches/capacity/refresh`
+    })
+  }
 }

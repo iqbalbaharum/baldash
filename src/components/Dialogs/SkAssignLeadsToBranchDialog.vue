@@ -27,19 +27,10 @@
               stack-label
             />
 
-            <q-separator class="q-my-md" />
+            <q-separator />
 
             <div class="text-weight-bold text-uppercase text-grey-5">
               Branch assignments
-            </div>
-
-            <div class="col ">
-              <q-input
-                v-model="form.name"
-                outlined
-                label="Name"
-                disable
-              />
             </div>
 
             <div class="col ">
@@ -69,17 +60,19 @@
               v-model="form.branchId"
               outlined
               :options="branches"
-              label="Selected branch"
+              label="Assign to Branch"
               emit-value
               map-options
               stack-label
               class="col"
             />
-            <div class="row justify-end text-decoration-none">
-              <q-btn flat @click="onClickRecommendation">
-                Recommend a branch
-              </q-btn>
-            </div>
+            <q-input
+              v-model="form.noteToBranch"
+              type="textarea"
+              outlined
+              label="Remark"
+              class="col"
+            />
 
             <q-separator />
 
@@ -93,6 +86,7 @@
               <q-btn
                 label="assign"
                 color="primary"
+                :disabled="selectedLeadId === ''"
                 @click="onAssignLeads"
               />
             </div>
@@ -117,7 +111,10 @@ export default {
   data() {
     return {
       selectedLeadId: '',
-      form: {}
+      form: {
+        branchId: ''
+      },
+      suggestedBranchId: ''
     }
   },
 
@@ -159,6 +156,7 @@ export default {
     selectedLeadId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
+      this.getBranchRecommendation()
     }
   },
 
@@ -167,15 +165,13 @@ export default {
       this.selectedLeadId = ''
       this.form = {}
     },
-    async onClickRecommendation() {
-      console.log('test')
+    async getBranchRecommendation() {
       this.selectedBranchId = ''
       try {
         await this.$store.dispatch('getRecommendedBranch')
           .then(res => {
-            console.log('here', res)
-            this.selectedBranchId = res.branch
-            this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchId}`)
+            this.form.branchId = res.branch
+            this.suggestedBranchId = res.branch
           })
       } catch (e) {
         this.$notify('error', e)
@@ -183,7 +179,7 @@ export default {
     },
     async onAssignLeads() {
       const lead = { ...this.form }
-      console.log('lead', lead)
+
       try {
         Lead.update({
           where: lead.$id,
@@ -193,6 +189,7 @@ export default {
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchName}`)
       } catch (e) {
+        console.log(e)
         const message = e.response.message.error
         this.$notify('error', message)
       }

@@ -22,6 +22,10 @@ export default class Branch extends Model {
       SSMNo: this.attr(0),
       GSTNo: this.attr(0),
       logo: this.attr(0),
+      priority: this.attr(0),
+      leadcapacity: this.attr(0),
+      isInRR: this.attr(false),
+
       createdAt: this.attr(''),
       updatedAt: this.attr(''),
       leads: this.hasMany(Lead, 'branchId')
@@ -48,6 +52,9 @@ export default class Branch extends Model {
       GSTNo: this.GSTNo,
       logo: this.logo,
       branchId: this.branchId,
+      priority: this.priority,
+      leadcapacity: this.leadcapacity,
+      isInRR: this.isInRR,
     }
   }
 

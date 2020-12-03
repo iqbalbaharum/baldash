@@ -18,40 +18,42 @@
           <q-separator class="q-my-md" />
           <q-form ref="myForm" @submit="onAddBranch">
             <div class="q-gutter-sm justify">
-              <div class="col ">
-                <q-input
-                  v-model="form.name"
-                  outlined
-                  label="Branch Name"
-                  :rules="textRules"
-                />
-              </div>
+              <q-input
+                v-model="form.name"
+                outlined
+                label="Branch Name"
+                :bottom-slots="false"
+                :hide-hint="true"
+                :rules="textRules"
+                class="col q-pb-none"
+              />
               <div class="row">
                 <q-input
                   v-model="form.code"
-                  class="col"
+                  class="col q-pb-none"
                   outlined
                   label="Branch Code"
+                  :bottom-slots="false"
+                  :error="false"
                   :rules="textRules"
                   @blur="onBranchCodeCheck"
                 />
-              </div>
-              <div class="col">
                 <q-select
                   v-model="form.type"
                   outlined
-                  :options="opts"
+                  :options="opts.types"
                   label="Branch Type"
                   emit-value
                   map-options
                   stack-label
                   :rules="textRules"
+                  class="col q-pl-xs q-pb-none"
                 />
               </div>
               <div class="row">
                 <q-input
                   v-model="form.telno"
-                  class="col"
+                  class="col q-pb-none"
                   outlined
                   placeholder="07-2345678"
                   label="Telephone No."
@@ -59,97 +61,84 @@
                 />
                 <q-input
                   v-model="form.faxno"
-                  class="col q-pl-xs"
+                  class="col q-pl-xs q-pb-none"
                   outlined
                   placeholder="07-2345678"
                   label="Fax No."
-                  :rules="textRules"
                 />
               </div>
-              <div class="col">
-                <q-input
-                  v-model="form.email"
-                  outlined
-                  label="Email"
-                  placeholder="abcd@gmail.com"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.address1"
-                  outlined
-                  label="Address"
-                  aria-rowcount="2"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col q-pb-md">
-                <q-input
-                  v-model="form.address2"
-                  outlined
-                  label=""
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.state"
-                  outlined
-                  label="State"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.country"
-                  outlined
-                  label="Country"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.SSMNo"
-                  outlined
-                  placeholder="1312525-A"
-                  label="SSM No."
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col">
-                <q-input
-                  v-model="form.GSTNo"
-                  outlined
-                  placeholder="123456789012"
-                  label="GST No"
-                  :rules="textRules"
-                />
-              </div>
-              <div class="col q-pb-md">
-                <q-file
-                  ref="fileupload"
-                  v-model="fileUpload"
-                  label="Choose Logo"
-                  outlined
-                />
-              </div>
-              <div class="col">
-                <q-select
-                  v-model="form.branchId"
-                  outlined
-                  :options="branches"
-                  label="Branch"
-                  emit-value
-                  map-options
-                  stack-label
-                  default
-                  :rules="[ val => val && val.length > 0 ]"
-                />
-              </div>
-              <div>
-                <q-item-section />
-              </div>
-              <div class="text-negative">
+              <q-input
+                v-model="form.email"
+                outlined
+                label="Email"
+                :rules="textRules"
+                class="col q-pb-none"
+              />
+
+              <q-input
+                v-model="form.address1"
+                outlined
+                label="Address"
+                aria-rowcount="2"
+                :rules="textRules"
+                class="col q-pb-none"
+              />
+              <q-input
+                v-model="form.address2"
+                outlined
+                label=""
+                class="col q-pb-none"
+              />
+              <q-input
+                v-model="form.state"
+                outlined
+                label="State"
+                :rules="textRules"
+                class="col q-pb-none"
+              />
+              <q-select
+                v-model="form.country"
+                outlined
+                label="Country"
+                emit-value
+                map-options
+                stack-label
+                :rules="textRules"
+                :options="countries"
+                class="col q-pb-none"
+              />
+              <q-input
+                v-model.number="form.SSMNo"
+                outlined
+                label="SSM No."
+                :rules="textRules"
+                class="col q-pb-none"
+              />
+              <q-input
+                v-model="form.GSTNo"
+                outlined
+                label="GST No"
+                class="col q-pb-none"
+              />
+              <q-file
+                ref="fileupload"
+                v-model="fileUpload"
+                label="Choose Logo"
+                outlined
+                class="col q-pb-none"
+              />
+
+              <q-select
+                v-model="form.branchId"
+                outlined
+                :options="branches"
+                label="Branch"
+                emit-value
+                map-options
+                stack-label
+                class="col q-pb-none"
+              />
+              <div v-if="errormessage.length !== 0" class="text-negative q-my-md">
                 {{ errormessage }}
               </div>
               <q-separator class="q-my-md" />
@@ -178,6 +167,7 @@
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
 import Branch from './../../models/Branch'
+import Country from './../../models/Country'
 import ModalDialog from './../ModalDialog'
 
 export default {
@@ -206,7 +196,18 @@ export default {
         branchId: '',
       },
       errormessage: '',
-      opts: ['Home', 'Dealer']
+      opts: {
+        types: [
+          {
+            label: 'Home Branch',
+            value: 'home'
+          },
+          {
+            label: 'Dealer Branch',
+            value: 'dealer'
+          }
+        ]
+      }
     }
   },
 
@@ -221,10 +222,23 @@ export default {
       })
       return opts
     },
+    countries() {
+      const countries = Country.all()
+      const countryOptions = countries.map(country => {
+        const container = []
+
+        container.label = country.name
+        container.value = country.alpha3Code
+        container.flag = country.flag
+        return container
+      })
+
+      return countryOptions
+    }
   },
 
   created() {
-
+    this.$store.dispatch('GetAllCountries')
   },
 
   validations: {
@@ -238,13 +252,11 @@ export default {
       code: { required },
       type: { required },
       telno: { required },
-      faxno: { required },
       email: { required, email },
       address1: { required },
       state: { required },
       country: { required },
-      SSMNo: { required },
-      GSTNo: { required }
+      SSMNo: { required }
     }
   },
 

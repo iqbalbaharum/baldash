@@ -19,7 +19,7 @@
               </div>
               <q-input
                 v-model="form.name"
-                class="col"
+                class="col q-pb-none"
                 outlined
                 label="Name"
                 lazy-rules
@@ -28,7 +28,7 @@
               <div class="row">
                 <q-input
                   v-model="form.email"
-                  class="col"
+                  class="col q-pb-none"
                   outlined
                   label="Email"
                   type="email"
@@ -36,7 +36,7 @@
                 />
                 <q-input
                   v-model="form.phone"
-                  class="col q-pl-xs"
+                  class="col q-pl-xs q-pb-none"
                   outlined
                   type="number"
                   label="Mobile No."
@@ -45,7 +45,7 @@
               </div>
               <q-select
                 v-model="form.property_type"
-                class="col"
+                class="col q-pb-none"
                 outlined
                 label="Property Type"
                 :options="opts.propType"
@@ -53,7 +53,7 @@
               />
               <q-input
                 v-model="form.location"
-                class="col"
+                class="col q-pb-none"
                 outlined
                 label="Property Location"
                 :rules="textRules"
@@ -63,7 +63,7 @@
                 outlined
                 :options="opts.leads"
                 label="Source of Lead"
-                class="col"
+                class="col q-pb-none"
                 :rules="[ val => val && val.length > 0 ]"
               />
               <q-separator />
@@ -75,7 +75,7 @@
                 outlined
                 :options="opts.type"
                 label="Lead Type"
-                class="col"
+                class="col q-pb-none"
                 emit-value
                 map-options
                 :rules="textRules"

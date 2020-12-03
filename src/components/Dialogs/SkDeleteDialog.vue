@@ -57,11 +57,11 @@ export default {
         try {
           await this.$store.dispatch('DeleteData', data.uuid)
           this.$refs.dialog.$children[0].hide()
-           this.$notify('success', 'Delete item successful!')
+          this.$notify('success', 'Delete item successful!')
         } catch (e) {
           const message = e.response.data.error.message
           console.log(message)
-           this.$notify('error', `Error: ${message}`)
+          this.$notify('error', `Error: ${message}`)
         }
       })
 
