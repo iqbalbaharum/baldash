@@ -117,7 +117,14 @@ const user = {
 
     GetAllUsers({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
-        let filter = data !== undefined ? data.filter : null
+        let filter = data !== undefined && data.filter ? data.filter : {
+          include: [
+            {
+              relation: 'branch'
+            }
+          ]
+        }
+
         this.$repository.user.listing(filter)
           .then(res => {
             if(data) {

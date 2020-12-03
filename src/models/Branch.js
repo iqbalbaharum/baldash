@@ -25,9 +25,9 @@ export default class Branch extends Model {
       priority: this.attr(0),
       leadcapacity: this.attr(0),
       isInRR: this.attr(false),
-
       createdAt: this.attr(''),
       updatedAt: this.attr(''),
+
       leads: this.hasMany(Lead, 'branchId')
     }
   }
@@ -71,7 +71,5 @@ export default class Branch extends Model {
     { name: 'country', label: 'Country', align: 'left', field: 'country', sortable: true },
     { name: 'SSMNo', label: 'SSM', align: 'left', field: 'SSMNo', sortable: true },
     { name: 'GSTNo', label: 'GST', align: 'left', field: 'GSTNo', sortable: true },
-    { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
-    { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
   ]
 }

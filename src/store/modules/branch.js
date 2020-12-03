@@ -24,7 +24,7 @@ const branch = {
                   name: data.name,
                   columns: Branch.columns,
                   key: Branch.primaryKey,
-                  data: data.model != null ? data.model.get() : Branch.query().withAll().get()
+                  data: data.model != null ? data.model.get() : Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
                 })
               } else {
                 

@@ -48,7 +48,7 @@
 
             <q-item-section class="col-2">
               <q-input
-                v-model="form[index].leadcapacity"
+                v-model.number="form[index].leadcapacity"
                 filled
                 dense
                 :disable="form[index].type === 'home'"
