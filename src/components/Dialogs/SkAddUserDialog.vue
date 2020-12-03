@@ -143,7 +143,7 @@ import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
-import Permissions from '../types/permissions'
+// import Permissions from '../types/permissions'
 
 export default {
 
@@ -273,6 +273,8 @@ export default {
     ondesignAccess() {
       if (this.form.designCAD_access === true) {
         const userPermissions = ['SKModuleDesignProposal']
+        // will then send to vuex
+        console.log(userPermissions)
       }
     },
 
