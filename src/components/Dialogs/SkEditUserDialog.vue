@@ -24,6 +24,7 @@
               emit-value
               map-options
               stack-label
+              :display-value="selectedUserId"
             />
 
             <q-separator class="q-my-md" />
@@ -112,6 +113,7 @@ export default {
   },
   data() {
     return {
+      userprofile: '',
       selectedUserId: '',
       form: {},
       errormessage: '',
@@ -155,6 +157,13 @@ export default {
       set(value) {
         this.form.sccode = value
       }
+    },
+
+    getSelectedId() {
+      if (this.profile.userId === this.selectedUserId) {
+        return this.profile.userId
+      }
+      return ''
     }
   },
 
@@ -165,6 +174,9 @@ export default {
         await this.$store.dispatch('GetUserProfile', this.selectedUserId)
       }
       this.form = { ...foundSelection }
+      this.userprofile = this.getSelectedId
+      this.form.userprofile = this.getSelectedId
+      console.log('dasdas', this.userprofile)
       this.errormessage = ''
     }
   },
