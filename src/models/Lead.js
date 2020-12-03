@@ -44,6 +44,7 @@ export default class Lead extends Model {
 
   static columns = [
     { name: 'name', label: 'Lead Name', align: 'left', field: 'name', sortable: true, editable: true },
+    { name: 'status', label: 'Status', field: 'status', align: 'left', sortable: true },
     { name: 'email', label: 'E-Mail', align: 'left', field: 'email', sortable: false },
     { name: 'phone', label: 'Mobile No', field: 'phone', align: 'left', sortable: true, editable: true },
     { name: 'location', label: 'Property Location', field: 'location', align: 'left', sortable: true },

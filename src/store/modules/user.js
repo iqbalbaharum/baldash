@@ -107,20 +107,22 @@ const user = {
 
     GetAllUsers({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
-        let filter = data.filter ?? null
+        let filter = data !== undefined ? data.filter : null
         this.$repository.user.listing(filter)
           .then(res => {
-            User.insert({ data: res.data })
-            if(data.name) {
-              dispatch('NewTab', {
-                name: data.name,
-                columns: User.columns,
-                key: User.primaryKey,
-                data: data.model != null ? data.model.get() : User.query().withAll().get()
-              })
+            if(data) {
+              User.insert({ data: res.data })
+              if(data.name) {
+                dispatch('NewTab', {
+                  name: data.name,
+                  columns: User.columns,
+                  key: User.primaryKey,
+                  data: data.model != null ? data.model.get() : User.query().withAll().get()
+                })
+              }
             }
             
-            resolve(res.data)
+            resolve(User.query().get())
           })
           .catch(err => {
             console.log(err)

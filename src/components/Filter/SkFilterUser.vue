@@ -104,9 +104,19 @@ export default {
 
   methods: {
     onClickClearFilter() {
-      this.form = {
-        branchId: [],
-        roleId: []
+      this.filter = {
+        branch: {
+          include: 'user',
+          where: {
+            or: []
+          }
+        },
+        role: {
+          include: 'role',
+          where: {
+            or: []
+          }
+        }
       }
     },
     onClickFilter() {

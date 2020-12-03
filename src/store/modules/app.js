@@ -402,17 +402,6 @@ const app = {
       //     }
       //   ]
       // }
-      // {
-      //   "where": {
-      //     "or": [{ "uuid": "3f81420b-4da5-4682-a558-db595a2a8f38" }]
-      //   },
-      //   "include": [
-      //     {
-      //       "relation": "roles",
-      //       "scope": {"where": { "uuid": "3f81420b-4da5-4682-a558-db595a2a8f38" }}
-      //     }
-      //   ]
-      // }
       
       let model = null
 

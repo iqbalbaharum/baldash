@@ -10,26 +10,30 @@ const lead = {
   },
 
   actions: {
-    GetAllLeads({ dispatch }, tabName) {
+    GetAllLeads({ dispatch }, data) {
       return new Promise((resolve, reject) => {
-        this.$repository.lead.listing()
+        let filter = data !== undefined ? data.filter : null
+        this.$repository.lead.listing(filter)
           .then(res => {
             Lead.insert({ data: res.data })
-
-            if(tabName) {
-              dispatch('NewTab', {
-                name: tabName,
-                columns: Lead.columns,
-                data: Lead.all()
-              })
-            } else {
-              dispatch('UpdateTab', {
-                name: 'Leads',
-                data: Lead.all()
-              })
+            
+            if(data) {
+              if(data.name) {
+                dispatch('NewTab', {
+                  name: data.name,
+                  columns: Lead.columns,
+                  key: Lead.primaryKey,
+                  data: data.model != null ? data.model.get() : Lead.query().withAll().get()
+                })
+              } else {
+                dispatch('UpdateTab', {
+                  name: 'Leads',
+                  data: Lead.all()
+                })
+              }
             }
 
-            resolve(res.data)
+            resolve(Lead.query().get())
           })
           .catch(err => {
             console.log(err)
@@ -38,24 +42,26 @@ const lead = {
       })
     },
 
-    async GetQualifiedLeads({ dispatch }, tabName) {
+    async GetQualifiedLeads({ dispatch }, data) {
       await Lead.deleteAll()
 
       return new Promise((resolve, reject) => {
-        this.$repository.lead.listing({
-            where: {
-              state: 'QL',
-              status: 'active'
-            }
-        })
+        let filter = data.filter !== undefined ? data.filter : {
+          where: {
+            state: 'QL',
+            status: 'active'
+          }
+        }
+        this.$repository.lead.listing(filter)
           .then(res => {
             Lead.insert({ data: res.data })
 
-            if(tabName) {
+            if(data.name) {
               dispatch('NewTab', {
-                name: tabName,
+                name: data.name,
                 columns: Lead.columns,
-                data: Lead.all()
+                key: Lead.primaryKey,
+                data: data.model != null ? data.model.get() : Lead.query().withAll().get()
               })
             } else {
               dispatch('UpdateTab', {
@@ -64,7 +70,7 @@ const lead = {
               })
             }
 
-            resolve(res.data)
+            resolve(Lead.query().get())
           })
           .catch(err => {
             console.log(err)
@@ -73,24 +79,32 @@ const lead = {
       })
     },
 
-    async GetOnlineLeads({ dispatch }, tabName) {
+    async GetOnlineLeads({ dispatch }, data) {
       await Lead.deleteAll()
 
       return new Promise((resolve, reject) => {
-        this.$repository.lead.listing({
-            where: {
-              state: 'OL',
-              status: 'raw'
-            }
-        })
+        let filter = data.filter !== undefined ? data.filter : {
+          where: {
+            state: 'OL',
+            status: 'raw'
+          }
+        }
+        
+        // {
+        //   "where": {
+        //     "or": [{"state": "OL", "status":"raw"}]
+        //   }
+        // }
+        
+        this.$repository.lead.listing(filter)
           .then(res => {
             Lead.insert({ data: res.data })
-
-            if(tabName) {
+            if(data.name) {
               dispatch('NewTab', {
-                name: tabName,
+                name: data.name,
                 columns: Lead.columns,
-                data: Lead.all()
+                key: Lead.primaryKey,
+                data: data.model != null ? data.model.get() : Lead.query().withAll().get()
               })
             } else {
               dispatch('UpdateTab', {
@@ -99,7 +113,7 @@ const lead = {
               })
             }
 
-            resolve(res.data)
+            resolve(Lead.query().get())
           })
           .catch(err => {
             console.log(err)
