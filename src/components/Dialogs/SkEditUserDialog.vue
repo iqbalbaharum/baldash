@@ -24,7 +24,7 @@
               emit-value
               map-options
               stack-label
-              :display-value="selectedUserId"
+              :display-value="`${selections[0].label}`"
             />
 
             <q-separator class="q-my-md" />
@@ -160,9 +160,13 @@ export default {
     },
 
     getSelectedId() {
-      if (this.profile.userId === this.selectedUserId) {
-        return this.profile.userId
-      }
+      this.selections.find(async selection => {
+        if (selection.value === this.$store.getters.tableSelection[0].uuid) {
+          console.log('id', this.$store.getters.tableSelection[0].uuid)
+          console.log('aa', selection.value)
+          return selection.value
+        }
+      })
       return ''
     }
   },
@@ -170,13 +174,11 @@ export default {
   watch: {
     async selectedUserId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
+      console.log('check', this.selectedUserId)
       if (this.selectedUserId) {
         await this.$store.dispatch('GetUserProfile', this.selectedUserId)
       }
       this.form = { ...foundSelection }
-      this.userprofile = this.getSelectedId
-      this.form.userprofile = this.getSelectedId
-      console.log('dasdas', this.userprofile)
       this.errormessage = ''
     }
   },
@@ -196,9 +198,12 @@ export default {
     async onUpdateUser() {
       this.onSCCodeCheck()
 
+      console.log(this.selections.length)
       try {
         await this.$store.dispatch('UpdateUser', this.form)
-        this.$refs.dialog.$children[0].hide()
+        if (this.selections.length === 1) {
+          this.$refs.dialog.$children[0].hide()
+        }
         this.$notify('success', `User with name ${this.form.name} updated!`)
       } catch (e) {
         const message = e.response.message.error

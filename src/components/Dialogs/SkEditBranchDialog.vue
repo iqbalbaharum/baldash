@@ -234,8 +234,6 @@ export default {
       this.branches.find(branch => {
         if (branch.value === this.selectedBranchId) {
           this.branchName = branch.label
-          console.log('pass branch value :', branch.label)
-          console.log('pass selected :', this.selectedBranchId)
           return branch.label
         }
       })
@@ -247,7 +245,6 @@ export default {
     selectedBranchId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
-      console.log('branch name', this.getBranchName)
       this.form.branch = this.getBranchName
       // TODO - This is temporary until can figure out to read image from api directly
       this.logo = `${process.env.MAIN_BE_URL}/containers/download/${this.form.logo}`
