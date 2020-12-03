@@ -22,7 +22,7 @@
                 <div class="row ">
                   <q-input
                     v-model="form.username"
-                    class="col"
+                    class="col q-pb-none"
                     outlined
                     label="Username"
                     lazy-rules
@@ -31,7 +31,7 @@
                   <q-input
                     ref="password"
                     v-model="form.password"
-                    class="col q-pl-xs"
+                    class="col q-pl-xs q-pb-none"
                     outlined
                     :type="type"
                     :rules="textRules"
@@ -47,18 +47,18 @@
                     </template>
                   </q-input>
                 </div>
-                <div class="col">
-                  <q-input
-                    v-model="form.name"
-                    outlined
-                    label="Fullname"
-                    :rules="textRules"
-                  />
-                </div>
+                <q-input
+                  v-model="form.name"
+                  outlined
+                  label="Fullname"
+                  :rules="textRules"
+                  class="col q-pb-none"
+                />
+
                 <div class="row ">
                   <q-input
                     v-model="form.sccode"
-                    class="col"
+                    class="col q-pb-none"
                     outlined
                     label="SC Code"
                     :rules="textRules"
@@ -66,59 +66,57 @@
                   />
                   <q-input
                     v-model="form.mobile"
-                    class="col q-pl-xs"
+                    class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
-                    type="number"
                     :rules="textRules"
                   />
                 </div>
-                <div class="col" />
-                <div class="col">
-                  <q-input
-                    v-model="form.email"
-                    outlined
-                    label="Email"
-                    type="email"
-                    :rules="textRules"
-                    @blur="onEmailCheck"
-                  />
-                </div>
-                <div class="col">
-                  <q-select
-                    v-model="form.branchId"
-                    outlined
-                    :options="branches"
-                    label="Branch"
-                    emit-value
-                    map-options
-                    stack-label
-                    :rules="[ val => val && val.length > 0 ]"
-                  />
-                </div>
-                <div class="col">
-                  <q-select
-                    v-model="form.role"
-                    outlined
-                    :options="roles"
-                    label="Role"
-                    emit-value
-                    map-options
-                    stack-label
-                    :rules="[ val => val && val.length > 0 ]"
-                  />
-                </div>
+                <q-input
+                  v-model="form.email"
+                  outlined
+                  label="Email"
+                  type="email"
+                  :rules="textRules"
+                  class="col q-pb-none"
+                  @blur="onEmailCheck"
+                />
+                <q-select
+                  v-model="form.branchId"
+                  outlined
+                  :options="branches"
+                  label="Branch"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="[ val => val && val.length > 0 ]"
+                  class="col q-pb-none"
+                />
+                <q-select
+                  v-model="form.role"
+                  outlined
+                  :options="roles"
+                  label="Role"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="[ val => val && val.length > 0 ]"
+                  class="col q-pb-none"
+                />
                 <div class="text-negative">
                   {{ errormessage }}
                 </div>
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
-                <div class="text-weight-bold text-uppercase text-grey-5">
-                  Access to designcad
+                <!-- <div class="text-weight-bold text-uppercase text-grey-5 q-mt-md">
+                  Access to DesignCAD
                 </div>
-                <q-toggle v-model="form.designCAD_access" />
+                <q-separator />
+                <q-toggle v-model="form.designCAD_access" /> -->
+
                 <q-separator class="q-my-md" />
+
                 <div align="right">
                   <q-btn
                     v-close-popup

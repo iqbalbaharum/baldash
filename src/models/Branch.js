@@ -22,6 +22,9 @@ export default class Branch extends Model {
       SSMNo: this.attr(0),
       GSTNo: this.attr(0),
       logo: this.attr(0),
+      priority: this.attr(0),
+      leadcapacity: this.attr(0),
+      isInRR: this.attr(false),
 
       leads: this.hasMany(Lead, 'branchId')
     }

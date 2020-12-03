@@ -27,10 +27,7 @@ const branch = {
                   data: data.model != null ? data.model.get() : Branch.query().withAll().get()
                 })
               } else {
-                dispatch('UpdateTab', {
-                  name: 'Branches',
-                  data: Branch.query().withAll().get()
-                })
+                
               }
             }
             
@@ -49,8 +46,12 @@ const branch = {
           .then(res => {
             resolve(res.data)
             Branch.insert({ data: res.data }).then(
-              dispatch('GetAllBranches')
-              
+              dispatch('UpdateTab', {
+                name: 'Branches',
+                columns: Branch.columns,
+                key: Branch.primaryKey,
+                data: Branch.query().withAll().get()
+              })
             )
           })
           .catch(err => {
@@ -65,6 +66,12 @@ const branch = {
         const branch = Branch.find(data.uuid)
         this.$repository.branch.updateById(branch.getId, branch.getBodyRequest)
           .then(res => {
+            dispatch('UpdateTab', {
+              name: 'Branches',
+              columns: Branch.columns,
+              key: Branch.primaryKey,
+              data: Branch.query().withAll().get()
+            })
             resolve(res.data)
           })
           .catch(err => {
@@ -92,7 +99,12 @@ const branch = {
           .then(res => {
             resolve(res)
             Branch.delete(id)
-            dispatch('GetAllBranches')
+            dispatch('UpdateTab', {
+              name: 'Branches',
+              columns: Branch.columns,
+              key: Branch.primaryKey,
+              data: Branch.query().withAll().get()
+            })
           })
           .catch(err => {
             reject(err)

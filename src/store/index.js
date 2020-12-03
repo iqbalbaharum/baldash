@@ -16,6 +16,7 @@ import itemlist from './modules/itemlist'
 import qualifiedleads from './modules/qualifiedleads'
 import container from './modules/container'
 import designcad from './modules/designcad'
+import country from './modules/country'
 
 Vue.use(Vuex)
 
@@ -42,7 +43,8 @@ export default function(/* { ssrContext } */) {
       itemlist,
       qualifiedleads,
       container,
-      designcad
+      designcad,
+      country
     },
     getters,
     plugins: [VuexORM.install(database)],
