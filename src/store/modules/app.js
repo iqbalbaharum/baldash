@@ -5,7 +5,7 @@ const app = {
     menus: [
       {
         name: 'usermanagement',
-        permissions: [Permissions.MODULE_USER_MANAGEMENT.name],
+        permissions: [Permissions.MODULE_USER_MANAGEMENT],
         label: 'SK Management',
         request: {
           get: 'GetAllUsers',
@@ -24,21 +24,21 @@ const app = {
             tos: [
               {
                 name: 'adduser',
-                permissions: [Permissions.USER_ADD.name],
+                permissions: [Permissions.USER_ADD],
                 icon: 'fas fa-user-plus',
                 label: 'Add User',
                 disabled: false
               },
               {
                 name: 'edituser',
-                permissions: [Permissions.USER_EDIT.name],
+                permissions: [Permissions.USER_EDIT],
                 icon: 'fas fa-edit',
                 label: 'View/Edit',
                 disabled: false
               },
               {
                 name: 'delete',
-                permissions: [Permissions.USER_DELETE.name],
+                permissions: [Permissions.USER_DELETE],
                 icon: 'fas fa-trash-alt',
                 label: 'Delete',
                 disabled: false
@@ -50,14 +50,14 @@ const app = {
             tos: [
               {
                 name: 'assignScope',
-                permissions: [Permissions.USER_ASSIGN_SCOPE.name],
+                permissions: [Permissions.USER_ASSIGN_SCOPE],
                 icon: 'fas fa-user-tag',
                 label: 'Scope',
                 disabled: false
               },
               {
                 name: 'userassignrole',
-                permissions: [Permissions.USER_ASSIGN_ROLE.name],
+                permissions: [Permissions.USER_ASSIGN_ROLE],
                 icon: 'fas fa-user-tag',
                 label: 'Assign Role',
                 disabled: false
@@ -91,7 +91,7 @@ const app = {
       },
       {
         name: 'branch',
-        permissions: [Permissions.MODULE_BRANCH_MANAGEMENT.name],
+        permissions: [Permissions.MODULE_BRANCH_MANAGEMENT],
         label: 'Branch',
         request: {
           get: 'GetAllBranches',
@@ -107,21 +107,21 @@ const app = {
             tos: [
               {
                 name: 'addbranch',
-                permissions: [Permissions.BRANCH_ADD.name],
+                permissions: [Permissions.BRANCH_ADD],
                 icon: 'fas fa-user-plus',
                 label: 'Add Branch',
                 disabled: false
               },
               {
                 name: 'editbranch',
-                permissions: [Permissions.BRANCH_EDIT.name],
+                permissions: [Permissions.BRANCH_EDIT],
                 icon: 'fas fa-edit',
                 label: 'View/Edit',
                 disabled: false
               },
               {
                 name: 'delete',
-                permissions: [Permissions.BRANCH_DELETE.name],
+                permissions: [Permissions.BRANCH_DELETE],
                 icon: 'fas fa-trash-alt',
                 label: 'Delete',
                 disabled: false
@@ -132,7 +132,7 @@ const app = {
       },
       {
         name: 'item',
-        permissions: [Permissions.MODULE_ITEM_LIST.name],
+        permissions: [Permissions.MODULE_ITEM_LIST],
         label: 'Item List',
         request: {
           get: 'GetAllItems',
@@ -148,21 +148,21 @@ const app = {
             tos: [
               {
                 name: 'importitemlist',
-                permissions: [Permissions.ITEM_LIST_IMPORT.name],
+                permissions: [Permissions.ITEM_LIST_IMPORT],
                 icon: 'fas fa-upload',
                 label: 'Import',
                 disabled: false,
               },
               {
                 name: 'downloadsample',
-                permissions: [Permissions.ITEM_LIST_DOWNLOAD.name],
+                permissions: [Permissions.ITEM_LIST_DOWNLOAD],
                 icon: 'fas fa-download',
                 label: 'Download',
                 disabled: false
               },
               {
                 name: 'importitemhistory',
-                permissions: [Permissions.ITEM_LIST_VIEW_HISTORY.name],
+                permissions: [Permissions.ITEM_LIST_VIEW_HISTORY],
                 icon: 'fas fa-history',
                 label: 'Import History',
                 disabled: false,
@@ -173,7 +173,7 @@ const app = {
       },
       {
         name: 'onlineleads',
-        permissions: [Permissions.MODULE_ONLINE_LEADS.name],
+        permissions: [Permissions.MODULE_ONLINE_LEADS],
         label: 'Online Leads',
         request: {
           get: 'GetOnlineLeads',
@@ -189,14 +189,14 @@ const app = {
             tos: [
               {
                 name: 'qualifyOL',
-                permissions: [Permissions.ONLINE_LEADS_QUALIFY.name],
+                permissions: [Permissions.ONLINE_LEADS_QUALIFY],
                 icon: 'fas fa-user-tag',
                 label: 'Assign To',
                 disabled: false
               },
               {
                 name: 'disqualifyOL',
-                permissions: [Permissions.ONLINE_LEADS_DISQUALIFY.name],
+                permissions: [Permissions.ONLINE_LEADS_DISQUALIFY],
                 icon: 'far fa-star',
                 label: 'Disqualify',
                 disabled: false
@@ -218,7 +218,7 @@ const app = {
       },
       {
         name: 'qualifiedleads',
-        permissions: [Permissions.MODULE_QUALIFIED_LEADS.name],
+        permissions: [Permissions.MODULE_QUALIFIED_LEADS],
         label: 'Qualified Leads',
         request: {
           get: 'GetQualifiedLeads',
@@ -234,14 +234,14 @@ const app = {
             tos: [
               {
                 name: 'assigntodesign',
-                permissions: [Permissions.QUALIFIED_LEADS_TO_DESIGN.name],
+                permissions: [Permissions.QUALIFIED_LEADS_TO_DESIGN],
                 icon: 'fas fa-check',
                 label: 'Select',
                 disabled: false,
               },
               {
                 name: 'qualifyQL',
-                permissions: [Permissions.QUALIFIED_LEADS_ASSIGN.name],
+                permissions: [Permissions.QUALIFIED_LEADS_ASSIGN],
                 icon: 'fas fa-user-tag',
                 label: 'Assign To',
                 disabled: false
@@ -253,21 +253,21 @@ const app = {
             tos: [
               {
                 name: 'walkinlead',
-                permissions: [Permissions.QUALIFIED_LEADS_ADD.name],
+                permissions: [Permissions.QUALIFIED_LEADS_ADD],
                 icon: 'fas fa-walking',
                 label: 'Walk In',
                 disabled: false
               },
               {
                 name: 'requalifyqlead',
-                permissions: [Permissions.QUALIFIED_LEADS_REQUALIFY.name],
+                permissions: [Permissions.QUALIFIED_LEADS_REQUALIFY],
                 icon: 'fas fa-star',
                 label: 'Requalify',
                 disabled: false
               },
               {
                 name: 'disqualifyOL',
-                permissions: [Permissions.QUALIFIED_LEADS_DISQUALIFY.name],
+                permissions: [Permissions.QUALIFIED_LEADS_DISQUALIFY],
                 icon: 'far fa-star',
                 label: 'Disqualify',
                 disabled: false
@@ -278,7 +278,7 @@ const app = {
       },
       {
         name: 'designproposal',
-        permissions: [Permissions.MODULE_DESIGN_PROPOSAL.name],
+        permissions: [Permissions.MODULE_DESIGN_PROPOSAL],
         label: 'Design Proposal',
         default_data: 'GetAllLeads',
         default_datatab_title: 'DesignCAD',
@@ -291,7 +291,7 @@ const app = {
             tos: [
               {
                 name: 'opendesigncad',
-                permissions: [Permissions.DESIGN_OPEN_EXTERNAL.name],
+                permissions: [Permissions.DESIGN_OPEN_EXTERNAL],
                 icon: 'fas fa-pencil-ruler',
                 label: 'Open External',
                 disabled: false,
@@ -302,7 +302,7 @@ const app = {
       },
       {
         name: 'orderconfirmation',
-        permissions: [Permissions.MODULE_ORDER_CONFIRMATION.name],
+        permissions: [Permissions.MODULE_ORDER_CONFIRMATION],
         label: 'Order Confirmation',
         config: {
           selectiontype: 'single'
@@ -310,7 +310,7 @@ const app = {
       },
       {
         name: 'servicereport',
-        permissions: [Permissions.MODULE_SERVICE_REPORT.name],
+        permissions: [Permissions.MODULE_SERVICE_REPORT],
         label: 'Service Report',
         config: {
           selectiontype: 'single'
