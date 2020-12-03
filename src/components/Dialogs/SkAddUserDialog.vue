@@ -201,6 +201,7 @@ export default {
   methods: {
     reset() {
       this.errormessage = ''
+      this.errormessage2 = ''
       this.form = {
         username: '',
         password: '',
