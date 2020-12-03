@@ -95,6 +95,7 @@
                   stack-label
                   :rules="[ val => val && val.length > 0 ]"
                   class="col q-pb-none"
+                  @input="onInputFormRole"
                 />
                 <div class="text-negative">
                   {{ errormessage }}
@@ -102,6 +103,7 @@
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
+
                 <!-- <div class="text-weight-bold text-uppercase text-grey-5 q-mt-md">
                   Access to DesignCAD
                 </div>
@@ -110,6 +112,21 @@
 
                 <q-separator class="q-my-md" />
 
+                <div class="text-weight-bold text-uppercase text-grey-5">
+                  Scope Access
+                </div>
+
+                <div
+                  v-for="permission in permissionOptions"
+                  :key="permission.$id"
+                  class="text-weight-bold text-uppercase text-grey-5"
+                >
+                  <q-checkbox v-model="permission.selected" :label="permission.nameDisplay" />
+                </div>
+
+                <q-separator class="q-my-md" />
+
+                <!-- Action buttons -->
                 <div align="right">
                   <q-btn
                     v-close-popup
@@ -137,8 +154,10 @@
 import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Branch from './../../models/Branch'
+import Permission from './../../models/Permission'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
+import RolePermissionType from '../../types/role-permissions'
 
 export default {
 
@@ -165,6 +184,8 @@ export default {
       errormessage: '',
       errormessage2: '',
       type: 'password',
+
+      permissionOptions: [],
     }
   },
 
@@ -206,9 +227,22 @@ export default {
   },
 
   async created() {
+    this.loadPermissionOptions()
   },
 
   methods: {
+    async loadPermissionOptions() {
+      try {
+        await this.$store.dispatch('GetAllPermissions')
+        this.permissionOptions = Permission.all().filter(permission =>
+          permission.name.includes('Module') || permission.name.includes('All')
+        )
+        console.log(this.permissionOptions)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+
     reset() {
       this.errormessage = ''
       this.errormessage2 = ''
@@ -234,13 +268,26 @@ export default {
 
       this.onEmailCheck()
       this.$v.form.$touch()
+
       const user = { ...this.form }
+
+      const permissions = []
+      const selectedPermissions = this.permissionOptions.filter(permission => permission.selected)
+      selectedPermissions.forEach(permission => permissions.push(permission.getBodyRequest.uuid))
 
       this.$refs.myForm.validate().then(async success => {
         if (success) {
-          await this.$store.dispatch('RegisterUser', user)
+          const newUser = await this.$store.dispatch('RegisterUser', user)
           this.$refs.dialog.$children[0].hide()
           this.$notify('success', `User with name ${user.name} created!`)
+
+          // Assign all selected permissions to user
+          for (const permission of permissions) {
+            this.$store.dispatch('AssignPermissionToUser', {
+              userUuid: newUser.uuid,
+              permissionUuid: permission
+            })
+          }
         } else {
           this.$notify('error', 'All field is required')
         }
@@ -252,6 +299,28 @@ export default {
         this.type = 'text'
       } else {
         this.type = 'password'
+      }
+    },
+
+    onInputFormRole() {
+      let roleName = this.roles.find(role => role.value === this.form.role).label
+      roleName = roleName.charAt(0).toLowerCase() + roleName.slice(1)
+
+      const permissionsForRole = RolePermissionType[roleName]
+      this.permissionOptions.forEach(permission => {
+        permission.selected = !!permissionsForRole.includes(permission.name)
+      })
+
+      const permissions = []
+      const selectedPermissions = this.permissionOptions.filter(permission => permission.selected)
+      selectedPermissions.forEach(permission => permissions.push(permission.getBodyRequest.uuid))
+    },
+
+    ondesignAccess() {
+      if (this.form.designCAD_access === true) {
+        const userPermissions = ['SKModuleDesignProposal']
+        // will then send to vuex
+        console.log(userPermissions)
       }
     },
 

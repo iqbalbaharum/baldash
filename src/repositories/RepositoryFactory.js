@@ -8,6 +8,7 @@ import BranchRepository from './BranchRepository'
 import ItemlistRepository from './ItemlistRepository'
 import QualifiedLeadsRepository from './QualifiedLeadsRepository'
 import ContainerRepository from './ContainerRepository'
+import PermissionRepository from './PermissionRepository'
 import CountryRepository from './CountryRepository'
 
 export default {
@@ -21,5 +22,6 @@ export default {
   itemlist: new ItemlistRepository(),
   qualifiedleads: new QualifiedLeadsRepository(),
   container: new ContainerRepository(),
-  country: new CountryRepository()
+  permission: new PermissionRepository(),
+  country: new CountryRepository(),
 }

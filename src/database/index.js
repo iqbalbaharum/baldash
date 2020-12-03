@@ -8,6 +8,7 @@ import Lead from '../models/Lead'
 import ItemList from '../models/ItemList'
 import QualifiedLeads from '../models/QualifiedLeads'
 import Profile from '../models/Profile'
+import Permission from '../models/Permission'
 import Country from '../models/Country'
 
 // Relation
@@ -26,6 +27,7 @@ database.register(ItemList)
 database.register(Lead)
 database.register(QualifiedLeads)
 database.register(Profile)
+database.register(Permission)
 database.register(Country)
 
 //
