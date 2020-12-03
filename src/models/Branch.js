@@ -50,6 +50,9 @@ export default class Branch extends Model {
       GSTNo: this.GSTNo,
       logo: this.logo,
       branchId: this.branchId,
+      priority: this.priority,
+      leadcapacity: this.leadcapacity,
+      isInRR: this.isInRR,
     }
   }
 

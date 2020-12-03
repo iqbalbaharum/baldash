@@ -2,10 +2,11 @@
   <modal-dialog
     ref="dialog"
     name="rrbranch"
+    @show-dialog="setupBranchesList"
   >
     <q-card style="width:1800px">
       <div class="q-pa-md">
-        <q-list>
+        <q-list v-if="form.length > 0">
           <q-item class="row">
             <q-item-section class="col-2">
               Priority
@@ -30,7 +31,7 @@
           >
             <q-item-section class="col-2">
               <q-input
-                v-model="form[index].priority"
+                v-model.number="form[index].priority"
                 filled
                 dense
                 type="number"
@@ -95,39 +96,35 @@ export default {
 
   data() {
     return {
-      form: []
+      form: [],
+      branches: []
     }
   },
 
   computed: {
-    branches() {
-      return Branch.query().where('code', (value) => value !== 'HQ').orderBy('priority', 'ASC').get()
-    },
-  },
-
-  created() {
-    this.setupBranchesList()
   },
 
   methods: {
-    setupBranchesList() {
+    async setupBranchesList() {
+      this.branches = await Branch.query().where('code', (value) => value !== 'HQ').orderBy('priority', 'ASC').get()
       for (const branch of this.branches) {
-        console.log(branch)
         this.form.push({
-          id: branch.uuid,
+          uuid: branch.uuid,
           type: branch.type,
           priority: branch.priority,
           isInRR: branch.isInRR ? branch.isInRR : false,
           leadcapacity: branch.leadcapacity ? branch.leadcapacity : 0
         })
       }
+    },
+    onClickRefreshCapacity() {
+      this.$store.dispatch('RefreshLeadCapacity')
+    },
+    onClickSave() {
+      for (const updBranch of this.form) {
+        this.$store.dispatch('UpdateBranch', updBranch)
+      }
     }
   },
-  onClickRefreshCapacity() {
-
-  },
-  onClickSave() {
-
-  }
 }
 </script>

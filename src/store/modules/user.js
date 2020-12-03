@@ -151,6 +151,7 @@ const user = {
                 data: User.query().withAll().get()
               })
             )
+            dispatch('GetAllBranches')
           })
           .catch(err => {
             reject(err)
@@ -170,6 +171,8 @@ const user = {
               key: User.primaryKey,
               data: User.query().withAll().get()
             })
+
+            dispatch('GetAllBranches')
             resolve(res.data)
           })
           .catch(err => {

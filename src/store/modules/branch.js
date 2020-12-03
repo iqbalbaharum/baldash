@@ -112,6 +112,18 @@ const branch = {
       })
     },
 
+    RefreshLeadCapacity({ commit }) {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.refreshBranchesLeadCapacity()
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    }
+
   }
 }
 
