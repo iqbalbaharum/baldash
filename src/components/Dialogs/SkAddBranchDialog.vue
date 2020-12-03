@@ -53,6 +53,7 @@
                   v-model="form.telno"
                   class="col"
                   outlined
+                  placeholder="07-2345678"
                   label="Telephone No."
                   :rules="textRules"
                 />
@@ -60,6 +61,7 @@
                   v-model="form.faxno"
                   class="col q-pl-xs"
                   outlined
+                  placeholder="07-2345678"
                   label="Fax No."
                   :rules="textRules"
                 />
@@ -69,6 +71,7 @@
                   v-model="form.email"
                   outlined
                   label="Email"
+                  placeholder="abcd@gmail.com"
                   :rules="textRules"
                 />
               </div>
@@ -106,16 +109,18 @@
               </div>
               <div class="col">
                 <q-input
-                  v-model.number="form.SSMNo"
+                  v-model="form.SSMNo"
                   outlined
+                  placeholder="1312525-A"
                   label="SSM No."
                   :rules="textRules"
                 />
               </div>
               <div class="col">
                 <q-input
-                  v-model.number="form.GSTNo"
+                  v-model="form.GSTNo"
                   outlined
+                  placeholder="123456789012"
                   label="GST No"
                   :rules="textRules"
                 />
@@ -137,7 +142,8 @@
                   emit-value
                   map-options
                   stack-label
-                  :rules="textRules"
+                  default
+                  :rules="[ val => val && val.length > 0 ]"
                 />
               </div>
               <div>
