@@ -26,6 +26,7 @@ export default class Lead extends Model {
       branchId: this.attr(''),
       userId: this.attr(''),
       rejectReason: this.attr(''),
+      noteToBranch: this.attr(''),
 
       branch: this.belongsTo(Branch, 'branchId')
     }
@@ -41,7 +42,8 @@ export default class Lead extends Model {
       status: this.status,
       branchId: this.branchId ?? '',
       userId: this.userId ?? '',
-      rejectReason: this.rejectReason ?? ''
+      rejectReason: this.rejectReason ?? '',
+      noteToBranch: this.noteToBranch ?? '',
     }
   }
 

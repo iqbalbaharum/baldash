@@ -140,7 +140,9 @@ const lead = {
       return new Promise((resolve, reject) => {
         let leadState = {
           state: 'QL',
-          status: 'active'
+          status: 'active',
+          branchId: data.branchId,
+          remark: data.remark
         }
         Lead.update({ where: data.uuid, data: leadState })
         const lead = Lead.find(data.uuid)
