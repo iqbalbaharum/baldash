@@ -110,6 +110,10 @@
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
+                <div class="text-weight-bold text-uppercase text-grey-5">
+                  Access to designcad
+                </div>
+                <q-toggle v-model="form.designCAD_access" />
                 <q-separator class="q-my-md" />
                 <div align="right">
                   <q-btn
@@ -139,6 +143,7 @@ import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
+// import Permissions from '../types/permissions'
 
 export default {
 
@@ -162,7 +167,7 @@ export default {
         email: '',
         status: true,
         module_access: '',
-        designCAD_access: '',
+        designCAD_access: false,
         branchId: '',
         role: '',
       },
@@ -222,6 +227,7 @@ export default {
     async onAddUser() {
       this.onSCCodeCheck()
       this.onEmailCheck()
+      this.ondesignAccess()
       this.$v.form.$touch()
       const user = { ...this.form }
       user.role = user.role.value
@@ -261,6 +267,14 @@ export default {
         this.type = 'text'
       } else {
         this.type = 'password'
+      }
+    },
+
+    ondesignAccess() {
+      if (this.form.designCAD_access === true) {
+        const userPermissions = ['SKModuleDesignProposal']
+        // will then send to vuex
+        console.log(userPermissions)
       }
     },
 

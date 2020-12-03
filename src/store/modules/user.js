@@ -7,6 +7,7 @@ const user = {
   state: {
     token: getToken(process.env.MAIN_BE_TOKEN),
     roles: [],
+    permissions: [],
     session: '',
     userId: '',
     branchId: '',
@@ -28,6 +29,10 @@ const user = {
 
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+
+    SET_PERMISSIONS: (state, permissions) => {
+      state.permissions = permissions
     },
 
     SET_SESSION: (state, session) => {
@@ -77,6 +82,7 @@ const user = {
           .then(res => {
             const data = res.data
             commit('SET_ROLES', data.roles)
+            commit('SET_PERMISSIONS', data.permissions)
             commit('SET_SESSION', data.session)
             commit('SET_USER', data.user)
             commit('SET_NAME', data.name)
