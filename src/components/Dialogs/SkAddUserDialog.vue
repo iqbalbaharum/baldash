@@ -16,44 +16,36 @@
             <div class="text-weight-bold text-uppercase text-grey-5">
               User detail
             </div>
-            <q-separator class="q-my-md" />
+            <q-separator />
             <q-form ref="myForm" @submit="onAddUser">
               <div class="q-gutter-sm justify">
-                <div class="row ">
-                  <q-input
-                    v-model="form.username"
-                    class="col q-pb-none"
-                    outlined
-                    label="Username"
-                    lazy-rules
-                    :rules="textRules"
-                  />
-                  <q-input
-                    ref="password"
-                    v-model="form.password"
-                    class="col q-pl-xs q-pb-none"
-                    outlined
-                    :type="type"
-                    :rules="textRules"
-                    label="Password"
-                  >
-                    <template v-slot:append>
-                      <q-btn
-                        round
-                        flat
-                        icon="remove_red_eye"
-                        @click="onClickShowPasswords"
-                      />
-                    </template>
-                  </q-input>
-                </div>
                 <q-input
                   v-model="form.name"
-                  outlined
-                  label="Fullname"
-                  :rules="textRules"
                   class="col q-pb-none"
+                  outlined
+                  label="Full name"
+                  lazy-rules
+                  :rules="textRules"
                 />
+
+                <q-input
+                  ref="password"
+                  v-model="form.password"
+                  class="col q-pb-none"
+                  outlined
+                  :type="type"
+                  :rules="textRules"
+                  label="Password"
+                >
+                  <template v-slot:append>
+                    <q-btn
+                      round
+                      flat
+                      icon="remove_red_eye"
+                      @click="onClickShowPasswords"
+                    />
+                  </template>
+                </q-input>
 
                 <div class="row ">
                   <q-input
@@ -61,15 +53,16 @@
                     class="col q-pb-none"
                     outlined
                     label="SC Code"
-                    :rules="textRules"
                     @blur="onSCCodeCheck"
                   />
                   <q-input
+                    ref="mobile"
                     v-model="form.mobile"
                     class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
                     :rules="textRules"
+                    placeholder="012-3456789"
                   />
                 </div>
                 <q-input
@@ -146,7 +139,6 @@ import User from './../../models/User'
 import Branch from './../../models/Branch'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
-// import Permissions from '../types/permissions'
 
 export default {
 
@@ -166,7 +158,7 @@ export default {
         email: '',
         status: true,
         module_access: '',
-        designCAD_access: false,
+        designCAD_access: '',
         branchId: '',
         role: '',
       },
@@ -179,11 +171,9 @@ export default {
   validations: {
     form: {
       email: { required, email },
-      password: { required, minLength: minLength(4) },
-      mobile: { required, minLength: minLength(10) },
-      username: { required },
+      password: { required, minLength: minLength(3) },
+      mobile: { required, minLength: minLength(8) },
       name: { required },
-      sccode: { required },
       branchId: { required },
       role: { required }
     }
@@ -216,7 +206,6 @@ export default {
   },
 
   async created() {
-
   },
 
   methods: {
@@ -239,14 +228,16 @@ export default {
     },
 
     async onAddUser() {
-      this.onSCCodeCheck()
+      if (this.form.sccode) {
+        this.onSCCodeCheck()
+      }
+
       this.onEmailCheck()
-      this.ondesignAccess()
       this.$v.form.$touch()
       const user = { ...this.form }
 
       this.$refs.myForm.validate().then(async success => {
-        if (success && this.$v.form.$touch()) {
+        if (success) {
           await this.$store.dispatch('RegisterUser', user)
           this.$refs.dialog.$children[0].hide()
           this.$notify('success', `User with name ${user.name} created!`)
@@ -264,15 +255,10 @@ export default {
       }
     },
 
-    ondesignAccess() {
-      if (this.form.designCAD_access === true) {
-        const userPermissions = ['SKModuleDesignProposal']
-        // will then send to vuex
-        console.log(userPermissions)
-      }
-    },
-
     async onSCCodeCheck() {
+      if (this.form.sccode.length <= 0) {
+        return
+      }
       await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
         .then(exists => {
           if (exists) {

@@ -55,6 +55,7 @@
                   v-model="form.telno"
                   class="col q-pb-none"
                   outlined
+                  placeholder="07-2345678"
                   label="Telephone No."
                   :rules="textRules"
                 />
@@ -62,6 +63,7 @@
                   v-model="form.faxno"
                   class="col q-pl-xs q-pb-none"
                   outlined
+                  placeholder="07-2345678"
                   label="Fax No."
                 />
               </div>

@@ -124,6 +124,8 @@ export default {
       for (const updBranch of this.form) {
         this.$store.dispatch('UpdateBranch', updBranch)
       }
+
+      this.$refs.dialog.$children[0].hide()
     }
   },
 }
