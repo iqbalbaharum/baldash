@@ -143,6 +143,7 @@ import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
+import Permissions from '../types/permissions'
 
 export default {
 
@@ -226,6 +227,7 @@ export default {
     async onAddUser() {
       this.onSCCodeCheck()
       this.onEmailCheck()
+      this.ondesignAccess()
       this.$v.form.$touch()
       const user = { ...this.form }
       user.role = user.role.value
@@ -265,6 +267,12 @@ export default {
         this.type = 'text'
       } else {
         this.type = 'password'
+      }
+    },
+
+    ondesignAccess() {
+      if (this.form.designCAD_access === true) {
+        const userPermissions = ['SKModuleDesignProposal']
       }
     },
 
