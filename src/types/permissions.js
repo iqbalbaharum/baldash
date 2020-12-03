@@ -33,7 +33,7 @@ export default Object.freeze({
   MODULE_DESIGN_PROPOSAL: 'SKModuleDesignProposal',
   DESIGN_OPEN_EXTERNAL: 'SKOpenExternalDesignCad',
 
-  MODULE_ORDER_CONFIRMATION: 'SKModuleOrderPermission',
+  MODULE_ORDER_CONFIRMATION: 'SKModuleOrderConfirmation',
 
   MODULE_SERVICE_REPORT: 'SKModuleServiceReport',
 })
