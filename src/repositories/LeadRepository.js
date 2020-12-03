@@ -26,4 +26,11 @@ export default class LeadRepository extends Repository {
     delete lead.Timestamp
     return await this.datasource.patch(`${this.model.entity}/${lead.uuid}`, lead)
   }
+
+  async getRecommendedBranch() {
+    return datasource({
+      method: 'get',
+      url: `leads/branch-suggestion`,
+    })
+  }
 }
