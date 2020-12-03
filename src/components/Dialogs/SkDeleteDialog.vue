@@ -1,5 +1,6 @@
 <template>
   <modal-dialog
+    ref="dialog"
     name="delete"
     style="height:500px"
   >
@@ -55,6 +56,7 @@ export default {
       this.tableSelection.forEach(async data => {
         try {
           await this.$store.dispatch('DeleteData', data.uuid)
+          this.$refs.dialog.$children[0].hide()
           // this.$notify('success', 'Delete item successful!')
         } catch (e) {
           const message = e.response.data.error.message

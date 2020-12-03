@@ -74,6 +74,18 @@ const branch = {
       })
     },
 
+    async CheckBranchCodeExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.checkBranchCodeExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
     DeleteBranch({ commit, dispatch }, id) {
       return new Promise((resolve, reject) => {
         this.$repository.branch.delete(id)

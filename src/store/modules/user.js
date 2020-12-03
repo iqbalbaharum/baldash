@@ -177,6 +177,17 @@ const user = {
           })
       })
     },
+    async CheckEmailExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.checkEmailExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
 
     RegisterIndividual({ commit }, data) {
       return new Promise((resolve, reject) => {
