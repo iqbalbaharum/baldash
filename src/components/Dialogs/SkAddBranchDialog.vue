@@ -242,6 +242,7 @@ export default {
 
   methods: {
     reset() {
+      this.errormessage = ''
       this.form = {
         name: '',
         code: '',
