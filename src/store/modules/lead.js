@@ -75,12 +75,14 @@ const lead = {
                 name: data.name,
                 columns: Lead.columns,
                 key: Lead.primaryKey,
-                data: data.model != null ? data.model.get() : Lead.query().withAll().get()
+                data: data.model != null ? data.model.get() : Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
               })
             } else {
               dispatch('UpdateTab', {
                 name: 'Qualified Leads',
-                data: Lead.all()
+                columns: Lead.columns,
+                key: Lead.primaryKey,
+                data: Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
               })
             }
 
@@ -118,12 +120,14 @@ const lead = {
                 name: data.name,
                 columns: Lead.columns,
                 key: Lead.primaryKey,
-                data: data.model != null ? data.model.get() : Lead.query().withAll().get()
+                data: data.model != null ? data.model.get() : Lead.query().where('state', 'OL').where('status', 'raw').withAll().get()
               })
             } else {
               dispatch('UpdateTab', {
                 name: 'Online Leads',
-                data: Lead.all()
+                columns: Lead.columns,
+                key: Lead.primaryKey,
+                data: Lead.query().where('state', 'OL').where('status', 'raw').withAll().get()
               })
             }
 
@@ -136,18 +140,29 @@ const lead = {
       })
     },
 
-    async AssignLeadToBranch({ dispatch }, data) {
+    async AssignLeadToBranch({ dispatch, rootState }, data) {
       return new Promise((resolve, reject) => {
         let leadState = {
           state: 'QL',
-          status: 'active'
+          status: 'active',
+          branchId: data.branchId,
+          remark: data.remark
         }
         Lead.update({ where: data.uuid, data: leadState })
         const lead = Lead.find(data.uuid)
         this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
           dispatch('UpdateTab', {
             name: 'Online Leads',
-            data: Lead.all()
+            columns: Lead.columns,
+            key: Lead.primaryKey,
+            data: Lead.query().where('state', 'OL').where('status', 'raw').withAll().get()
+          })
+
+          dispatch('UpdateTab', {
+            name: 'Qualified Leads',
+            columns: Lead.columns,
+            key: Lead.primaryKey,
+            data: Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
           })
 
           resolve(res.data)
@@ -167,7 +182,9 @@ const lead = {
         this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
           dispatch('UpdateTab', {
             name: 'Online Leads',
-            data: Lead.all()
+            columns: Lead.columns,
+            key: Lead.primaryKey,
+            data: Lead.query().where('state', 'OL').where('status', 'raw').withAll().get()
           })
 
           resolve(res.data)
@@ -187,6 +204,12 @@ const lead = {
         this.$repository.lead.create(data)
           .then(res => {
             Lead.insert({ data: res.data })
+            dispatch('UpdateTab', {
+              name: 'Online Leads',
+              columns: Lead.columns,
+              key: Lead.primaryKey,
+              data: Lead.query().withAll().get()
+            })
             resolve(res.data)
           })
           .catch(err => {
@@ -201,6 +224,12 @@ const lead = {
         this.$repository.lead.delete(id)
           .then(res => {
             Lead.delete(id)
+            dispatch('UpdateTab', {
+              name: 'Online Leads',
+              columns: Lead.columns,
+              key: Lead.primaryKey,
+              data: Lead.query().withAll().get()
+            })
             resolve(res)
           })
           .catch(err => {

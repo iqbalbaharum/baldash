@@ -17,6 +17,7 @@ import qualifiedleads from './modules/qualifiedleads'
 import container from './modules/container'
 import designcad from './modules/designcad'
 import permission from './modules/permission'
+import country from './modules/country'
 
 Vue.use(Vuex)
 
@@ -45,6 +46,7 @@ export default function(/* { ssrContext } */) {
       container,
       designcad,
       permission,
+      country,
     },
     getters,
     plugins: [VuexORM.install(database)],

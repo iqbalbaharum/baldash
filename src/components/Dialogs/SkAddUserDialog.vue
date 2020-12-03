@@ -16,99 +16,87 @@
             <div class="text-weight-bold text-uppercase text-grey-5">
               User detail
             </div>
-            <q-separator class="q-my-md" />
+            <q-separator />
             <q-form ref="myForm" @submit="onAddUser">
               <div class="q-gutter-sm justify">
-                <div class="row ">
-                  <q-input
-                    v-model="form.username"
-                    class="col"
-                    outlined
-                    label="Username"
-                    lazy-rules
-                    :rules="textRules"
-                  />
-                  <q-input
-                    ref="password"
-                    v-model="form.password"
-                    class="col q-pl-xs"
-                    outlined
-                    :type="type"
-                    :rules="textRules"
-                    label="Password"
-                  >
-                    <template v-slot:append>
-                      <q-btn
-                        round
-                        flat
-                        icon="remove_red_eye"
-                        @click="onClickShowPasswords"
-                      />
-                    </template>
-                  </q-input>
-                </div>
-                <div class="col">
-                  <q-input
-                    v-model="form.name"
-                    outlined
-                    label="Fullname"
-                    :rules="textRules"
-                  />
-                </div>
+                <q-input
+                  v-model="form.name"
+                  class="col q-pb-none"
+                  outlined
+                  label="Full name"
+                  lazy-rules
+                  :rules="textRules"
+                />
+
+                <q-input
+                  ref="password"
+                  v-model="form.password"
+                  class="col q-pb-none"
+                  outlined
+                  :type="type"
+                  :rules="textRules"
+                  label="Password"
+                >
+                  <template v-slot:append>
+                    <q-btn
+                      round
+                      flat
+                      icon="remove_red_eye"
+                      @click="onClickShowPasswords"
+                    />
+                  </template>
+                </q-input>
+
                 <div class="row ">
                   <q-input
                     v-model="form.sccode"
-                    class="col"
+                    class="col q-pb-none"
                     outlined
                     label="SC Code"
-                    :rules="textRules"
                     @blur="onSCCodeCheck"
                   />
                   <q-input
+                    ref="mobile"
                     v-model="form.mobile"
-                    class="col q-pl-xs"
+                    class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
-                    type="number"
                     :rules="textRules"
+                    placeholder="012-3456789"
                   />
                 </div>
-                <div class="col" />
-                <div class="col">
-                  <q-input
-                    v-model="form.email"
-                    outlined
-                    label="Email"
-                    type="email"
-                    :rules="textRules"
-                    @blur="onEmailCheck"
-                  />
-                </div>
-                <div class="col">
-                  <q-select
-                    v-model="form.branchId"
-                    outlined
-                    :options="branches"
-                    label="Branch"
-                    emit-value
-                    map-options
-                    stack-label
-                    :rules="[ val => val && val.length > 0 ]"
-                  />
-                </div>
-                <div class="col">
-                  <q-select
-                    v-model="form.role"
-                    outlined
-                    :options="roles"
-                    label="Role"
-                    emit-value
-                    map-options
-                    stack-label
-                    :rules="[ val => val && val.length > 0 ]"
-                    @input="onInputFormRole"
-                  />
-                </div>
+                <q-input
+                  v-model="form.email"
+                  outlined
+                  label="Email"
+                  type="email"
+                  :rules="textRules"
+                  class="col q-pb-none"
+                  @blur="onEmailCheck"
+                />
+                <q-select
+                  v-model="form.branchId"
+                  outlined
+                  :options="branches"
+                  label="Branch"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="[ val => val && val.length > 0 ]"
+                  class="col q-pb-none"
+                />
+                <q-select
+                  v-model="form.role"
+                  outlined
+                  :options="roles"
+                  label="Role"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="[ val => val && val.length > 0 ]"
+                  class="col q-pb-none"
+                  @input="onInputFormRole"
+                />
                 <div class="text-negative">
                   {{ errormessage }}
                 </div>
@@ -116,10 +104,17 @@
                   {{ errormessage2 }}
                 </div>
 
+                <!-- <div class="text-weight-bold text-uppercase text-grey-5 q-mt-md">
+                  Access to DesignCAD
+                </div>
+                <q-separator />
+                <q-toggle v-model="form.designCAD_access" /> -->
+
+                <q-separator class="q-my-md" />
+
                 <div class="text-weight-bold text-uppercase text-grey-5">
                   Scope Access
                 </div>
-                <q-separator class="q-my-md" />
 
                 <div
                   v-for="permission in permissionOptions"
@@ -128,7 +123,7 @@
                 >
                   <q-checkbox v-model="permission.selected" :label="permission.nameDisplay" />
                 </div>
-                <q-toggle v-model="form.designCAD_access" />
+
                 <q-separator class="q-my-md" />
 
                 <!-- Action buttons -->
@@ -182,7 +177,7 @@ export default {
         email: '',
         status: true,
         module_access: '',
-        designCAD_access: false,
+        designCAD_access: '',
         branchId: '',
         role: '',
       },
@@ -197,11 +192,9 @@ export default {
   validations: {
     form: {
       email: { required, email },
-      password: { required, minLength: minLength(4) },
-      mobile: { required, minLength: minLength(10) },
-      username: { required },
+      password: { required, minLength: minLength(3) },
+      mobile: { required, minLength: minLength(8) },
       name: { required },
-      sccode: { required },
       branchId: { required },
       role: { required }
     }
@@ -269,9 +262,11 @@ export default {
     },
 
     async onAddUser() {
-      this.onSCCodeCheck()
+      if (this.form.sccode) {
+        this.onSCCodeCheck()
+      }
+
       this.onEmailCheck()
-      this.ondesignAccess()
       this.$v.form.$touch()
 
       const user = { ...this.form }
@@ -330,6 +325,9 @@ export default {
     },
 
     async onSCCodeCheck() {
+      if (this.form.sccode.length <= 0) {
+        return
+      }
       await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
         .then(exists => {
           if (exists) {

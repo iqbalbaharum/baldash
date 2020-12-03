@@ -76,7 +76,7 @@ const user = {
       })
     },
 
-    GetInfo({ commit }) {
+    GetInfo({ commit, dispatch }) {
       return new Promise((resolve, reject) => {
         this.$repository.user.getInfo()
           .then(res => {
@@ -89,6 +89,9 @@ const user = {
             commit('SET_EMAIL', data.email)
             commit('SET_MOBILE', data.mobile)
             commit('SET_BRANCH', data.branch)
+
+            dispatch('FilterMenus', null, {root:true})
+
             resolve(data)
           })
           .catch(err => {
@@ -144,8 +147,14 @@ const user = {
           .then(res => {
             resolve(res.data)
             User.insert({ data: res.data }).then(
-              dispatch('GetAllUsers')
+              dispatch('UpdateTab', {
+                name: 'Users',
+                columns: User.columns,
+                key: User.primaryKey,
+                data: User.query().withAll().get()
+              })
             )
+            dispatch('GetAllBranches')
           })
           .catch(err => {
             reject(err)
@@ -159,6 +168,14 @@ const user = {
         const user = User.find(data.uuid)
         this.$repository.user.updateById(user.getId, user.getBodyRequest)
           .then(res => {
+            dispatch('UpdateTab', {
+              name: 'Users',
+              columns: User.columns,
+              key: User.primaryKey,
+              data: User.query().withAll().get()
+            })
+
+            dispatch('GetAllBranches')
             resolve(res.data)
           })
           .catch(err => {
@@ -213,7 +230,12 @@ const user = {
           .then(res => {
             resolve(res)
             User.delete(id)
-            dispatch('GetAllUsers')
+            dispatch('UpdateTab', {
+              name: 'Users',
+              columns: User.columns,
+              key: User.primaryKey,
+              data: User.query().withAll().get()
+            })
           })
           .catch(err => {
             reject(err)

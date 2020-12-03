@@ -141,7 +141,6 @@ export default {
       return opts
     }
   },
-
   watch: {
     selectedLeadId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
@@ -150,7 +149,6 @@ export default {
   },
 
   mounted() {
-    this.selectedLeadId = ''
     this.form = {}
   },
 
@@ -161,11 +159,13 @@ export default {
     },
     async onDisqualifiedLead() {
       const lead = { ...this.form }
+      // this.selectedLeadId = this.$store.getters.tableSelection[0]
       try {
         await this.$store.dispatch('DisqualifiedOnlineLead', lead)
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `${lead.name} have been disqualified`)
       } catch (e) {
+        console.log(e)
         const message = e.response.message.error
         this.$notify('error', message)
       }

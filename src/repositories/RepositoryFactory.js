@@ -9,6 +9,7 @@ import ItemlistRepository from './ItemlistRepository'
 import QualifiedLeadsRepository from './QualifiedLeadsRepository'
 import ContainerRepository from './ContainerRepository'
 import PermissionRepository from './PermissionRepository'
+import CountryRepository from './CountryRepository'
 
 export default {
   // userRepository: bind('userRepository', RepositoryInterface)
@@ -22,4 +23,5 @@ export default {
   qualifiedleads: new QualifiedLeadsRepository(),
   container: new ContainerRepository(),
   permission: new PermissionRepository(),
+  country: new CountryRepository(),
 }

@@ -5,6 +5,7 @@
     style="width: 700px; max-width: 80vw;"
     full-height
     @hide="onClose"
+    @show="onShow"
   >
     <slot />
   </q-dialog>
@@ -53,6 +54,9 @@ export default {
     onClose() {
       this.$store.dispatch('ModalClose', this.name)
       this.$emit('close-dialog')
+    },
+    onShow() {
+      this.$emit('show-dialog')
     }
   },
 }
