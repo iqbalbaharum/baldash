@@ -26,6 +26,7 @@ module.exports = function(/* ctx */) {
       'services',
       'routing',
       'sidebar',
+      'menu',
       'plugins'
     ],
 
