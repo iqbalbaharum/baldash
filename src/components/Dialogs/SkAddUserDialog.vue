@@ -65,12 +65,13 @@
                     @blur="onSCCodeCheck"
                   />
                   <q-input
+                    ref="mobile"
                     v-model="form.mobile"
                     class="col q-pl-xs"
                     outlined
                     label="Telephone No."
-                    type="number"
                     :rules="textRules"
+                    placeholder="012-3456789"
                   />
                 </div>
                 <div class="col" />
@@ -81,6 +82,7 @@
                     label="Email"
                     type="email"
                     :rules="textRules"
+                    placeholder="abcd@gmail.com"
                     @blur="onEmailCheck"
                   />
                 </div>
@@ -114,10 +116,6 @@
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
-                <div class="text-weight-bold text-uppercase text-grey-5">
-                  Access to designcad
-                </div>
-                <q-toggle v-model="form.designCAD_access" />
                 <q-separator class="q-my-md" />
                 <div align="right">
                   <q-btn
@@ -148,7 +146,6 @@ import User from './../../models/User'
 import Branch from './../../models/Branch'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
-// import Permissions from '../types/permissions'
 
 export default {
 
@@ -168,7 +165,7 @@ export default {
         email: '',
         status: true,
         module_access: '',
-        designCAD_access: false,
+        designCAD_access: '',
         branchId: '',
         role: '',
       },
@@ -181,8 +178,8 @@ export default {
   validations: {
     form: {
       email: { required, email },
-      password: { required, minLength: minLength(4) },
-      mobile: { required, minLength: minLength(10) },
+      password: { required, minLength: minLength(3) },
+      mobile: { required, minLength: minLength(8) },
       username: { required },
       name: { required },
       sccode: { required },
@@ -243,7 +240,6 @@ export default {
     async onAddUser() {
       this.onSCCodeCheck()
       this.onEmailCheck()
-      this.ondesignAccess()
       this.$v.form.$touch()
       const user = { ...this.form }
 
@@ -263,14 +259,6 @@ export default {
         this.type = 'text'
       } else {
         this.type = 'password'
-      }
-    },
-
-    ondesignAccess() {
-      if (this.form.designCAD_access === true) {
-        const userPermissions = ['SKModuleDesignProposal']
-        // will then send to vuex
-        console.log(userPermissions)
       }
     },
 
