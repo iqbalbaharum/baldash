@@ -24,6 +24,7 @@
               emit-value
               map-options
               stack-label
+              :display-value="`${selections.find(selection => selection.value == selectedLeadId).label}`"
             />
 
             <q-separator class="q-my-md" />
@@ -141,7 +142,6 @@ export default {
       return opts
     }
   },
-
   watch: {
     selectedLeadId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
@@ -149,8 +149,12 @@ export default {
     }
   },
 
+  created() {
+    console.log('dasdsa', this.$store.getters.tableSelection)
+  },
+
   mounted() {
-    this.selectedLeadId = ''
+    this.selectedLeadId = this.selections[0].value
     this.form = {}
   },
 
@@ -161,9 +165,9 @@ export default {
     },
     async onDisqualifiedLead() {
       const lead = { ...this.form }
+      // this.selectedLeadId = this.$store.getters.tableSelection[0]
       try {
         await this.$store.dispatch('DisqualifiedOnlineLead', lead)
-        this.$refs.dialog.$children[0].hide()
         this.$notify('success', `${lead.name} have been disqualified`)
       } catch (e) {
         const message = e.response.message.error
