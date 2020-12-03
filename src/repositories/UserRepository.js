@@ -90,6 +90,13 @@ export default class UserRepository extends Repository {
     })
   }
 
+  async checkEmailExist(email) {
+    return datasource({
+      method: 'get',
+      url: `users/email/${email}/exists`,
+    })
+  }
+
   async assignUserRoles(userId, rid) {
     return datasource({
       method: 'post',

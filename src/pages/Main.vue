@@ -6,14 +6,25 @@
       shrink
       stretch
       align="left"
-      @input="onChangeTab"
     >
       <q-tab
-        v-for="(tab) in datatabs"
+        v-for="(tab, index) in datatabs"
         :key="tab.name"
         :name="tab.name"
         :label="tab.name"
-      />
+      >
+        <q-btn
+          v-if="index > 0"
+          flat
+          icon="close"
+          dense
+          round
+          size="sm"
+          color="grey"
+          class="q-ml-sm"
+          @click="onClickCloseDataTab(index)"
+        />
+      </q-tab>
     </q-tabs>
 
     <q-table
@@ -23,13 +34,15 @@
       :columns="datatabs[activeDataTab].columns"
       :data="datatabs[activeDataTab].data"
       :style="{ height: computedTableHeight }"
-      row-key="$id"
+      :row-key="datatabs[activeDataTab].key"
       selection="multiple"
       :selected.sync="selection"
       :pagination.sync="pagination"
       @update:fullscreen="(value) => isTableFullscreen = value"
     >
       <template v-slot:top="props">
+        <filter-plugins />
+
         <q-space />
 
         <q-btn
@@ -48,12 +61,13 @@
 
 <script>
 import DialogPlugins from '../components/Dialogs/Index'
+import FilterPlugins from '../components/Filter/Index'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
 
   components: {
-    DialogPlugins
+    DialogPlugins, FilterPlugins
   },
   data() {
     return {
@@ -75,15 +89,22 @@ export default {
     }),
     currentTab: {
       set(value) {
-        this.$store.dispatch('SetActiveMenu', value)
+        const index = this.datatabs.findIndex(element => element.name === value)
+        if (index >= 0) {
+          this.$store.dispatch('SetActiveDataTab', index)
+        }
       },
       get() {
-        return this.activeMenu
+        const currentDatatab = this.datatabs[this.activeDataTab]
+        if (currentDatatab) {
+          return currentDatatab.name
+        }
+
+        return ''
       }
     },
     selection: {
       set(selection) {
-        console.log(selection)
         this.$store.dispatch('OnTableSelection', selection)
       },
       get() {
@@ -96,9 +117,12 @@ export default {
   },
 
   methods: {
-    onChangeTab(newTab) {
-      console.log(newTab)
+    onClickFilter() {
+
     },
+    onClickCloseDataTab(index) {
+      this.$store.dispatch('CloseDataTab', index)
+    }
   },
 }
 </script>

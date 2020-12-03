@@ -22,6 +22,7 @@ module.exports = function(/* ctx */) {
       'axios',
       'notify',
       'vuelidate',
+      'database',
       'repository',
       'services',
       'routing',
@@ -127,9 +128,9 @@ module.exports = function(/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `BalAdmin App`,
-        short_name: `BalAdmin App`,
-        description: `BalAdmin for BalJS`,
+        name: `Signature Kitchen CRM App`,
+        short_name: `skcrm`,
+        description: `Signature Kitchen Internal CRM System`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -194,7 +195,7 @@ module.exports = function(/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'baladmin'
+        appId: 'skcrm'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

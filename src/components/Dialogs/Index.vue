@@ -13,6 +13,7 @@
     <sk-assign-user-role />
     <sk-open-kujiale-dialog />
     <sk-disqualified-o-l-dialog />
+    <sk-assign-scope />
   </div>
 </template>
 
@@ -30,6 +31,7 @@ import skAssignUserRole from './SkAssignUserRole'
 import SkOpenKujialeDialog from './SkOpenKujialeDialog'
 import skDisqualifiedOLDialog from './SkDisqualifiedOLDialog'
 import skAssignLeadToScDialog from './SkAssignLeadToSCDialog'
+import skAssignScope from './SkAssignScope'
 
 export default {
 
@@ -46,7 +48,8 @@ export default {
     skAssignUserRole,
     SkOpenKujialeDialog,
     skDisqualifiedOLDialog,
-    skAssignLeadToScDialog
+    skAssignLeadToScDialog,
+    skAssignScope
   },
   data() {
     return {

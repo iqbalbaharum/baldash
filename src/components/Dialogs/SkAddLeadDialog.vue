@@ -184,6 +184,7 @@ export default {
       this.$refs.myForm.validate().then(async success => {
         if (success) {
           await this.$store.dispatch('AddLead', lead)
+          this.$refs.dialog.$children[0].hide()
           this.$notify('success', `User with name ${lead.name} created!`)
         } else {
           this.$notify('error', 'All field is required')
