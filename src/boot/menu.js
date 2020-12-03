@@ -8,10 +8,17 @@ export default async({ store }) => {
   const menuConfig = JSON.parse(JSON.stringify(store.getters.menus))
   const userPermissions = store.getters.permissions
 
-  if (typeof userPermissions === 'undefined') return
+  if (typeof userPermissions === 'undefined') return // TODO: Temporary, each user should have permissions
+  if (!userPermissions.length) {
+
+  }
   if (userPermissions.includes('SKAllPermissions')) return
 
   const accessibleMenus = menuConfig.filter(menu => hasPermission(userPermissions, menu.permissions))
+
+  /*
+   * If we need scope settings for buttons under module, but that's not the case as per SK's
+   * requirements.
   for (const menu of accessibleMenus) {
     for (const button of menu.buttons) {
       button.tos = button.tos.filter(to => hasPermission(userPermissions, to.permissions))
@@ -20,5 +27,6 @@ export default async({ store }) => {
     // If all button.tos are not accessible, filter the button out
     menu.buttons = menu.buttons.filter(button => button.tos.length)
   }
+  */
   store.dispatch('SetMenu', accessibleMenus)
 }
