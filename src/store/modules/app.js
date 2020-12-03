@@ -45,7 +45,7 @@ const app = {
             category: 'Access',
             tos: [
               {
-                name: 'assignuserscope',
+                name: 'assignScope',
                 icon: 'fas fa-user-tag',
                 label: 'Scope',
                 disabled: false
@@ -244,7 +244,7 @@ const app = {
                 disabled: false
               },
               {
-                name: 'disqualify',
+                name: 'disqualifyOL',
                 icon: 'far fa-star',
                 label: 'Disqualify',
                 disabled: false
