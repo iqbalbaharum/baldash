@@ -15,6 +15,7 @@
           <div class="text-weight-bold text-uppercase text-grey-5">
             Branch detail
           </div>
+          <q-separator class="q-my-md" />
           <q-form ref="myForm" @submit="onAddBranch">
             <div class="q-gutter-sm justify">
               <div class="col ">
@@ -145,6 +146,7 @@
               <div class="text-negative">
                 {{ errormessage }}
               </div>
+              <q-separator class="q-my-md" />
               <div align="right">
                 <q-btn
                   v-close-popup
