@@ -162,8 +162,6 @@ export default {
     getSelectedId() {
       this.selections.find(async selection => {
         if (selection.value === this.$store.getters.tableSelection[0].uuid) {
-          console.log('id', this.$store.getters.tableSelection[0].uuid)
-          console.log('aa', selection.value)
           return selection.value
         }
       })
@@ -174,7 +172,6 @@ export default {
   watch: {
     async selectedUserId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
-      console.log('check', this.selectedUserId)
       if (this.selectedUserId) {
         await this.$store.dispatch('GetUserProfile', this.selectedUserId)
       }
@@ -198,7 +195,6 @@ export default {
     async onUpdateUser() {
       this.onSCCodeCheck()
 
-      console.log(this.selections.length)
       try {
         await this.$store.dispatch('UpdateUser', this.form)
         if (this.selections.length === 1) {
