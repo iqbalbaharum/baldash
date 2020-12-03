@@ -12,9 +12,6 @@ const app = {
           get: 'GetAllUsers',
           delete: 'DeleteUser'
         },
-        filter: {
-          model: 'filteruser'
-        },
         default_datatab_title: 'Users',
         config: {
           selectiontype: 'multiple'
@@ -63,29 +60,6 @@ const app = {
                 label: 'Assign Role',
                 disabled: false
               },
-            ]
-          },
-          {
-            category: 'Filter',
-            tos: [
-              {
-                name: 'filterbyrole',
-                icon: 'fas fa-filter',
-                label: 'By Role',
-                disabled: false
-              },
-              {
-                name: 'filterbybranch',
-                icon: 'fas fa-filter',
-                label: 'By Branch',
-                disabled: false
-              },
-              {
-                name: 'customfilter',
-                icon: 'fas fa-filter',
-                label: 'Filter',
-                disabled: false
-              }
             ]
           }
         ]
@@ -213,17 +187,6 @@ const app = {
                 label: 'Disqualify',
                 disabled: false
               }
-            ]
-          },
-          {
-            category: 'Filter',
-            tos: [
-              {
-                name: 'filtercustomer',
-                icon: 'fas fa-filter',
-                label: 'Filter',
-                disabled: false
-              },
             ]
           }
         ]
