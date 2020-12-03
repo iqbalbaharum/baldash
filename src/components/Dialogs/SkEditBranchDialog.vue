@@ -145,6 +145,7 @@
                   v-model.number="form.logo"
                   outlined
                   label="Logo"
+                  disable
                 />
               </div>
               <div class="col">
