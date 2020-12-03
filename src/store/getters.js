@@ -9,6 +9,7 @@ const getters = {
   datatabs: state => state.app.datatabs,
   activeDataTab: state => state.app.activeDataTab,
   tableSelection: state => state.app.tableSelection,
+  activeMenu: state => state.app.activeMenu,
 }
 
 export default getters

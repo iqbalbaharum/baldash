@@ -50,7 +50,7 @@ export default class User extends Model {
     { name: 'name', required: true, label: 'User Name', align: 'left', field: 'name', sortable: true },
     { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
     { name: 'contact', label: 'Mobile No.', align: 'left', field: 'mobile', sortable: true },
-    { name: 'branch', label: 'Branch', align: 'left', field: 'branch_name', sortable: true },
+    { name: 'branch', label: 'Branch', align: 'left', field: (row) => { if (row.branch) { return row.branch.name } }, sortable: true },
     { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
     { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
   ]

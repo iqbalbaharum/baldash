@@ -10,6 +10,9 @@ const app = {
           get: 'GetAllUsers',
           delete: 'DeleteUser'
         },
+        filter: {
+          model: 'filteruser'
+        },
         default_datatab_title: 'Users',
         config: {
           selectiontype: 'multiple'
@@ -326,7 +329,7 @@ const app = {
 			state.datatabs.push(tab)
 		},
 		CLOSE_TAB: (state, index) => {
-			state.datatabs.splice(index , 1)
+      state.datatabs.splice(index , 1)
     },
     SELECT_TABLE_ITEM: (state, selection) => {
       state.tableSelection = selection
@@ -336,7 +339,7 @@ const app = {
     SetMenu({ commit }, menus) {
       commit('SET_MENUS', menus)
     },
-    async SetActiveMenu({ commit, dispatch }, activeMenu) {
+    async SetActiveMenu({ commit, dispatch, state }, activeMenu) {
       commit('SET_ACTIVE_MENU', activeMenu)
       commit('RESET_DATATABS')
       dispatch('GetData')
@@ -347,7 +350,7 @@ const app = {
     async GetData({ state, dispatch }) {
       const menu = state.menus.filter(element => element.name === state.activeMenu)
       if (menu[0].request.get) {
-        await dispatch(menu[0].request.get, menu[0].default_datatab_title)
+        await dispatch(menu[0].request.get, { name: menu[0].default_datatab_title })
       }
     },
     async DeleteData({ state, dispatch }, id) {
@@ -369,12 +372,12 @@ const app = {
       }
       commit('UPDATE_TAB', tab)
     },
-		CloseTab({ commit }, index) {
-			commit('CLOSE_TAB', index)
+		CloseDataTab({ commit }, index) {
+      commit('CLOSE_TAB', index)
+      commit('SET_ACTIVE_DATATAB', 0)
 		},
 		SetActiveDataTab({ commit }, index) {
       commit('SET_ACTIVE_DATATAB', index)
-      commit('NEW_TAB', [])
     },
     OnTableSelection({ commit }, selection) {
       commit('SELECT_TABLE_ITEM', selection)
@@ -383,8 +386,65 @@ const app = {
       if(state.menus.length > 0) {
         dispatch('SetActiveMenu', state.menus[0].name)
       }
+    },
+    async FilterTable({ commit, state, dispatch }, query) {
       
-    }
+      // {
+      //   "where": {
+      //     "or": [{"branchId": "4db6f7e6-e38d-458a-acf0-735c677f39a3"}]
+      //   },
+      //   "include": [
+      //     {
+      //       "relation": "roles",
+      //       "where": {
+      //         "and": [{ "roleId": "3f81420b-4da5-4682-a558-db595a2a8f38"}]
+      //       }
+      //     }
+      //   ]
+      // }
+      // {
+      //   "where": {
+      //     "or": [{ "uuid": "3f81420b-4da5-4682-a558-db595a2a8f38" }]
+      //   },
+      //   "include": [
+      //     {
+      //       "relation": "roles",
+      //       "scope": {"where": { "uuid": "3f81420b-4da5-4682-a558-db595a2a8f38" }}
+      //     }
+      //   ]
+      // }
+      
+      let model = null
+
+      for (const entity of this.$database.entities) {
+        if (entity.name === query.include) {
+          model = entity.model
+        }
+      }
+
+      if (!model) {
+        throw new Error('No database exists. Please check your include to match models entity.')
+      }
+
+      model = model.query().withAll()
+
+      for (const condition of query.where.or) {
+        for (const key in condition) {
+          model = model.where(key, condition[key])
+        }
+      }
+      
+      delete query.include
+      
+      const menu = state.menus.filter(element => element.name === state.activeMenu)
+      if (menu[0].request.get) {
+        await dispatch(menu[0].request.get, {
+          name: `Filter (${state.datatabs.length})`,
+          filter: query,
+          model: model
+        })
+      }
+    },
   }
 }
 

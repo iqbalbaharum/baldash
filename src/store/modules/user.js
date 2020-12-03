@@ -105,16 +105,18 @@ const user = {
       })
     },
 
-    GetAllUsers({ commit, dispatch }, tabName) {
+    GetAllUsers({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
-        this.$repository.user.listing()
+        let filter = data.filter ?? null
+        this.$repository.user.listing(filter)
           .then(res => {
             User.insert({ data: res.data })
-            if(tabName) {
+            if(data.name) {
               dispatch('NewTab', {
-                name: tabName,
+                name: data.name,
                 columns: User.columns,
-                data: User.all()
+                key: User.primaryKey,
+                data: data.model != null ? data.model.get() : User.query().withAll().get()
               })
             }
             
