@@ -109,7 +109,7 @@
                 <q-input
                   v-model="form.address2"
                   outlined
-                  label=""
+                  label="Address 2"
                 />
               </div>
               <div class="col">
