@@ -1,4 +1,4 @@
-import Permissions from '../types/permissions'
+import Permissions from '../../types/permissions'
 
 const app = {
   state: {
