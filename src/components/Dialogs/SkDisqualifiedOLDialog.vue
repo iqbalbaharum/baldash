@@ -168,7 +168,6 @@ export default {
       // this.selectedLeadId = this.$store.getters.tableSelection[0]
       try {
         await this.$store.dispatch('DisqualifiedOnlineLead', lead)
-        this.$refs.dialog.$children[0].hide()
         this.$notify('success', `${lead.name} have been disqualified`)
       } catch (e) {
         const message = e.response.message.error
