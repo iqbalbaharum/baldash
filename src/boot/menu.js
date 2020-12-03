@@ -9,9 +9,7 @@ export default async({ store }) => {
   const userPermissions = store.getters.permissions
 
   if (typeof userPermissions === 'undefined') return // TODO: Temporary, each user should have permissions
-  if (!userPermissions.length) {
-
-  }
+  if (!userPermissions.length) return
   if (userPermissions.includes('SKAllPermissions')) return
 
   const accessibleMenus = menuConfig.filter(menu => hasPermission(userPermissions, menu.permissions))
