@@ -12,25 +12,29 @@ const branch = {
 
   actions: {
 
-    GetAllBranches({ commit, dispatch }, tabName) {
+    GetAllBranches({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {
-        this.$repository.branch.listing()
+        let filter = data !== undefined ? data.filter : null
+        this.$repository.branch.listing(filter)
           .then(res => {
             Branch.insert({ data: res.data })
-            if(tabName) {
-              dispatch('NewTab', {
-                name: tabName,
-                columns: Branch.columns,
-                data: Branch.all(),
-                remove_action: 'DeleteBranch'
-              })
-            } else {
-              dispatch('UpdateTab', {
-                name: 'Branches',
-                data: Branch.all()
-              })
+            if(data) {
+              if(data.name) {
+                dispatch('NewTab', {
+                  name: data.name,
+                  columns: Branch.columns,
+                  key: Branch.primaryKey,
+                  data: data.model != null ? data.model.get() : Branch.query().withAll().get()
+                })
+              } else {
+                dispatch('UpdateTab', {
+                  name: 'Branches',
+                  data: Branch.query().withAll().get()
+                })
+              }
             }
-            resolve(res.data)
+            
+            resolve(Branch.all())
           })
           .catch(err => {
             console.log(err)
@@ -46,6 +50,7 @@ const branch = {
             resolve(res.data)
             Branch.insert({ data: res.data }).then(
               dispatch('GetAllBranches')
+              
             )
           })
           .catch(err => {
