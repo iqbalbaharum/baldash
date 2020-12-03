@@ -170,11 +170,16 @@ export default {
     async onClickRecommendation() {
       console.log('test')
       this.selectedBranchId = ''
-      await this.$store.dispatch('getRecommendedBranch')
-        .then(res => {
-          console.log(res)
-          this.selectedBranchId = res.data
-        })
+      try {
+        await this.$store.dispatch('getRecommendedBranch')
+          .then(res => {
+            console.log('here', res)
+            this.selectedBranchId = res.branch
+            this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchId}`)
+          })
+      } catch (e) {
+        this.$notify('error', e)
+      }
     },
     async onAssignLeads() {
       const lead = { ...this.form }
