@@ -186,7 +186,7 @@ export default {
 
       try {
         await this.$store.dispatch('UpdateUser', this.form)
-        this.$refs.dialog.$children[0].hide()
+        // this.$refs.dialog.$children[0].hide()
         this.$notify('success', `User with name ${this.form.name} updated!`)
       } catch (e) {
         const message = e.response.message.error

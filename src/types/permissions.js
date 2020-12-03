@@ -1,4 +1,7 @@
+// Only Module accesses are being checked, as per SK's requirements.
 export default Object.freeze({
+  MODULE_ALL: 'SKAllPermissions',
+
   MODULE_USER_MANAGEMENT: 'SKModuleUserManagement',
   USER_ADD: 'SKAddUser',
   USER_EDIT: 'SKEditUser',
