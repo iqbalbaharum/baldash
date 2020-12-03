@@ -24,6 +24,7 @@
               emit-value
               map-options
               stack-label
+              :display-value="`${selections[0].label}`"
             />
 
             <q-separator class="q-my-md" />
@@ -112,6 +113,7 @@ export default {
   },
   data() {
     return {
+      userprofile: '',
       selectedUserId: '',
       form: {},
       errormessage: '',
@@ -155,6 +157,15 @@ export default {
       set(value) {
         this.form.sccode = value
       }
+    },
+
+    getSelectedId() {
+      this.selections.find(async selection => {
+        if (selection.value === this.$store.getters.tableSelection[0].uuid) {
+          return selection.value
+        }
+      })
+      return ''
     }
   },
 
@@ -186,7 +197,9 @@ export default {
 
       try {
         await this.$store.dispatch('UpdateUser', this.form)
-        this.$refs.dialog.$children[0].hide()
+        if (this.selections.length === 1) {
+          this.$refs.dialog.$children[0].hide()
+        }
         this.$notify('success', `User with name ${this.form.name} updated!`)
       } catch (e) {
         const message = e.response.message.error

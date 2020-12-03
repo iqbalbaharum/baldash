@@ -109,7 +109,7 @@
                 <q-input
                   v-model="form.address2"
                   outlined
-                  label=""
+                  label="Address 2"
                 />
               </div>
               <div class="col">
@@ -157,6 +157,7 @@
                   emit-value
                   map-options
                   stack-label
+                  :display-value="branchName"
                 />
               </div>
 
@@ -198,7 +199,8 @@ export default {
       selectedBranchId: '',
       form: {},
       fileUpload: null,
-      logo: ''
+      logo: '',
+      branchName: ''
     }
   },
 
@@ -218,6 +220,7 @@ export default {
     },
     selections() {
       const selections = this.$store.getters.tableSelection
+      console.log('selections', selections)
       const opts = selections.map((selection) => {
         const container = []
         container.label = selection.name
@@ -226,6 +229,16 @@ export default {
       })
 
       return opts
+    },
+
+    getBranchName() {
+      this.branches.find(branch => {
+        if (branch.value === this.selectedBranchId) {
+          this.branchName = branch.label
+          return branch.label
+        }
+      })
+      return ''
     }
   },
 
@@ -233,6 +246,7 @@ export default {
     selectedBranchId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
+      this.form.branch = this.getBranchName
       // TODO - This is temporary until can figure out to read image from api directly
       this.logo = `${process.env.MAIN_BE_URL}/containers/download/${this.form.logo}`
     }

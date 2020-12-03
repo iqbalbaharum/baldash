@@ -76,7 +76,7 @@ const user = {
       })
     },
 
-    GetInfo({ commit }) {
+    GetInfo({ commit, dispatch }) {
       return new Promise((resolve, reject) => {
         this.$repository.user.getInfo()
           .then(res => {
@@ -89,6 +89,9 @@ const user = {
             commit('SET_EMAIL', data.email)
             commit('SET_MOBILE', data.mobile)
             commit('SET_BRANCH', data.branch)
+
+            dispatch('FilterMenus', null, {root:true})
+
             resolve(data)
           })
           .catch(err => {

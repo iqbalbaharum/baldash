@@ -81,8 +81,7 @@
                     outlined
                     label="Email"
                     type="email"
-                    :rules="textRules"
-                    placeholder="abcd@gmail.com"
+                    :error="$v.form.email.$error"
                     @blur="onEmailCheck"
                   />
                 </div>
@@ -244,7 +243,7 @@ export default {
       const user = { ...this.form }
 
       this.$refs.myForm.validate().then(async success => {
-        if (success) {
+        if (success && this.$v.form.$touch()) {
           await this.$store.dispatch('RegisterUser', user)
           this.$refs.dialog.$children[0].hide()
           this.$notify('success', `User with name ${user.name} created!`)
