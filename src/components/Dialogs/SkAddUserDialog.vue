@@ -16,6 +16,7 @@
             <div class="text-weight-bold text-uppercase text-grey-5">
               User detail
             </div>
+            <q-separator class="q-my-md" />
             <q-form ref="myForm" @submit="onAddUser">
               <div class="q-gutter-sm justify">
                 <div class="row ">
@@ -109,6 +110,7 @@
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
+                <q-separator class="q-my-md" />
                 <div align="right">
                   <q-btn
                     v-close-popup
@@ -266,7 +268,7 @@ export default {
       await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
         .then(exists => {
           if (exists) {
-            this.errormessage = 'SCCode already existed'
+            this.errormessage = 'SCCode already exist'
           } else {
             this.errormessage = ''
           }
