@@ -189,6 +189,7 @@ export default {
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchName}`)
       } catch (e) {
+        console.log(e)
         const message = e.response.message.error
         this.$notify('error', message)
       }
