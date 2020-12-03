@@ -13,7 +13,7 @@
         </q-card-section>
         <q-card-section>
           <div class="text-weight-bold text-uppercase text-grey-5">
-              Branch detail
+            Branch detail
           </div>
           <q-form ref="myForm" @submit="onAddBranch">
             <div class="q-gutter-sm justify">
@@ -181,10 +181,10 @@ export default {
     return {
       textRules: [val => val && val.length > 0],
       fileUpload: null,
+
       form: {
         name: '',
         code: '',
-        type: 'Dealer',
         telno: '',
         faxno: '',
         email: '',
@@ -193,8 +193,8 @@ export default {
         state: '',
         country: '',
         SSMNo: '',
-        GSTNo: '',
         logo: '',
+        GSTNo: '',
         branchId: '',
       },
       errormessage: '',
@@ -255,18 +255,19 @@ export default {
         SSMNo: '',
         GSTNo: '',
         logo: '',
-        branchId: '', }
+        branchId: '',
+      }
     },
 
     async onAddBranch() {
       this.onBranchCodeCheck()
-      this.$v.form.$touch()
-      const branch = { ...this.form }
-
       if (this.fileUpload) {
         const res = await this.$store.dispatch('UploadFile', this.fileUpload)
         this.form.logo = res.name
       }
+      this.$v.form.$touch()
+      const branch = { ...this.form }
+
       this.$refs.myForm.validate().then(async success => {
         if (success) {
           await this.$store.dispatch('RegisterBranch', branch)
