@@ -20,12 +20,12 @@ const itemlist = {
               dispatch('NewTab', {
                 name: tabName,
                 columns: ItemList.columns,
-                data: ItemList.all()
+                data: ItemList.all() // here fetch all
               })
             } else {
               dispatch('UpdateTab', {
                 name: 'Items',
-                data: ItemList.all()
+                data: ItemList.all() // insert from store
               })
             }
 

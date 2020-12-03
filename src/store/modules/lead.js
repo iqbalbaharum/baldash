@@ -42,16 +42,18 @@ const lead = {
       })
     },
 
-    async GetQualifiedLeads({ dispatch }, data) {
+    async GetQualifiedLeads({ dispatch, rootState }, data) {
       await Lead.deleteAll()
 
       return new Promise((resolve, reject) => {
         let filter = data.filter !== undefined ? data.filter : {
           where: {
             state: 'QL',
-            status: 'active'
+            status: 'active',
+            branchId: rootState.user.branchId
           }
         }
+        
         this.$repository.lead.listing(filter)
           .then(res => {
             Lead.insert({ data: res.data })

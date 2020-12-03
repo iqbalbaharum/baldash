@@ -1,14 +1,14 @@
 <template>
   <modal-dialog
     ref="dialog"
-    name="qualifyOL"
+    name="qualifyQL"
     @close-dialog="reset"
   >
     <q-card style="width:2000px">
       <div>
         <q-card-section class="bg-grey-10">
           <div class="text-white text-h6">
-            Assign Leads to Branch
+            Assign Leads to Sales Consultant
           </div>
         </q-card-section>
 
@@ -30,7 +30,7 @@
             <q-separator class="q-my-md" />
 
             <div class="text-weight-bold text-uppercase text-grey-5">
-              Branch assignments
+              Lead assignments
             </div>
 
             <div class="col ">
@@ -63,23 +63,18 @@
             <q-separator />
 
             <div class="text-weight-bold text-uppercase text-grey-5">
-              Assign branch to qualified lead
+              Assign leads to Sales Consultant
             </div>
             <q-select
               v-model="form.branchId"
               outlined
               :options="branches"
-              label="Selected branch"
+              label="Selected sales consultant"
               emit-value
               map-options
               stack-label
               class="col"
             />
-            <div class="row justify-end text-decoration-none">
-              <router-link to="" @click="onClickRecommendation">
-                Recommend a branch
-              </router-link>
-            </div>
 
             <q-separator />
 
@@ -93,7 +88,6 @@
               <q-btn
                 label="assign"
                 color="primary"
-                @click="onAssignLeads"
               />
             </div>
           </div>
@@ -104,7 +98,7 @@
 </template>
 
 <script>
-import Branch from './../../models/Branch'
+import Branch from './../../models/User'
 import ModalDialog from './../ModalDialog'
 import Lead from './../../models/Lead'
 import { mapGetters } from 'vuex'
