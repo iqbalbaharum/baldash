@@ -76,9 +76,9 @@
               class="col"
             />
             <div class="row justify-end text-decoration-none">
-              <router-link to="" @click="onClickRecommendation">
+              <q-btn flat @click="onClickRecommendation">
                 Recommend a branch
-              </router-link>
+              </q-btn>
             </div>
 
             <q-separator />
@@ -167,8 +167,14 @@ export default {
       this.selectedLeadId = ''
       this.form = {}
     },
-    onClickRecommendation() {
+    async onClickRecommendation() {
+      console.log('test')
       this.selectedBranchId = ''
+      await this.$store.dispatch('getRecommendedBranch')
+        .then(res => {
+          console.log(res)
+          this.selectedBranchId = res.data
+        })
     },
     async onAssignLeads() {
       const lead = { ...this.form }

@@ -42,6 +42,18 @@ const lead = {
       })
     },
 
+    async getRecommendedBranch({ commit }, data ) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.getRecommendedBranch()
+          .then(res => {
+            resolve(res.data)
+          })
+      })
+      .catch(err => {
+        reject(err)
+      })
+    },
+
     async GetQualifiedLeads({ dispatch, rootState }, data) {
       await Lead.deleteAll()
 
