@@ -88,20 +88,24 @@
                   <q-select
                     v-model="form.branchId"
                     outlined
-                    :options="options.branches"
+                    :options="branches"
                     label="Branch"
+                    emit-value
+                    map-options
                     stack-label
-                    :error="$v.form.branchId.$error"
+                    :rules="[ val => val && val.length > 0 ]"
                   />
                 </div>
                 <div class="col">
                   <q-select
                     v-model="form.role"
                     outlined
-                    :options="options.roles"
+                    :options="roles"
+                    label="Role"
+                    emit-value
+                    map-options
                     stack-label
-                    label="Roles"
-                    :error="$v.form.role.$error"
+                    :rules="[ val => val && val.length > 0 ]"
                   />
                 </div>
                 <div class="text-negative">
@@ -141,6 +145,7 @@
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
+import Branch from './../../models/Branch'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
 // import Permissions from '../types/permissions'
@@ -153,10 +158,6 @@ export default {
   data() {
     return {
       textRules: [val => val && val.length > 0],
-      options: {
-        roles: [],
-        branches: [],
-      },
       selectedUserId: '',
       form: {
         username: '',
@@ -191,18 +192,33 @@ export default {
   },
 
   computed: {
+    branches() {
+      const branches = Branch.all()
+      const opts = branches.map((branch) => {
+        const container = []
+        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
+        container.value = branch.uuid
+        return container
+      })
+      return opts
+    },
+    roles() {
+      const roles = Role.all()
+      const opts = roles.map((role) => {
+        const container = []
+        container.label = role.name.charAt(0).toUpperCase() + role.name.slice(1)
+        container.value = role.uuid
+        return container
+      })
+      return opts
+    },
     users() {
       return User.query().withAll().get()
     },
-    roles() {
-      return Role.all()
-    },
-
   },
 
   async created() {
-    this.loadRoleOptions()
-    this.loadBranchOptions()
+
   },
 
   methods: {
@@ -230,8 +246,6 @@ export default {
       this.ondesignAccess()
       this.$v.form.$touch()
       const user = { ...this.form }
-      user.role = user.role.value
-      user.branchId = user.branchId.value
 
       this.$refs.myForm.validate().then(async success => {
         if (success) {
@@ -243,25 +257,7 @@ export default {
         }
       })
     },
-    async loadRoleOptions() {
-      const loadRoles = await this.$store.dispatch('GetAllRoles')
-      loadRoles.forEach(role => {
-        this.options.roles.push({
-          value: role.uuid,
-          label: role.name.charAt(0).toUpperCase() + role.name.slice(1)
-        })
-      })
-    },
 
-    async loadBranchOptions() {
-      const branches = await this.$store.dispatch('GetAllBranches')
-      branches.forEach(branch => {
-        this.options.branches.push({
-          value: branch.uuid,
-          label: branch.name,
-        })
-      })
-    },
     onClickShowPasswords() {
       if (this.type === 'password') {
         this.type = 'text'
