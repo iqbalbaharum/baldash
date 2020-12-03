@@ -110,6 +110,10 @@
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
+                <div class="text-weight-bold text-uppercase text-grey-5">
+                  Access to designcad
+                </div>
+                <q-toggle v-model="form.designCAD_access" />
                 <q-separator class="q-my-md" />
                 <div align="right">
                   <q-btn
@@ -162,7 +166,7 @@ export default {
         email: '',
         status: true,
         module_access: '',
-        designCAD_access: '',
+        designCAD_access: false,
         branchId: '',
         role: '',
       },

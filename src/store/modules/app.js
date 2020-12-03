@@ -215,12 +215,6 @@ const app = {
             category: 'Assignment',
             tos: [
               {
-                name: 'assigntodesign',
-                icon: 'fas fa-check',
-                label: 'Select',
-                disabled: false,
-              },
-              {
                 name: 'qualifyQL',
                 icon: 'fas fa-user-tag',
                 label: 'Assign To',

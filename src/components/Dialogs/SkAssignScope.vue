@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { minLength, required, email } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
@@ -78,12 +78,6 @@ export default {
       },
       selectedUserId: '',
       form: {
-        username: '',
-        password: '',
-        name: '',
-        sccode: '',
-        mobile: '',
-        email: '',
         status: true,
         module_access: '',
         designCAD_access: '',
@@ -98,13 +92,6 @@ export default {
 
   validations: {
     form: {
-      email: { required, email },
-      password: { required, minLength: minLength(4) },
-      mobile: { required, minLength: minLength(10) },
-      username: { required },
-      name: { required },
-      sccode: { required },
-      branchId: { required },
       role: { required }
     }
   },
