@@ -51,7 +51,7 @@ export default class Branch extends Model {
   }
 
   static columns = [
-    { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.orderid, sortable: true },
+    { name: 'name', required: true, label: 'Name', align: 'left', field: 'name', sortable: true },
     { name: 'code', label: 'Code', align: 'left', field: 'code', sortable: true },
     { name: 'type', label: 'Type', align: 'left', field: 'type', sortable: true },
     { name: 'telno', label: 'Branch', align: 'left', field: 'telno', sortable: true },
@@ -63,7 +63,6 @@ export default class Branch extends Model {
     { name: 'country', label: 'Country', align: 'left', field: 'country', sortable: true },
     { name: 'SSMNo', label: 'SSM', align: 'left', field: 'SSMNo', sortable: true },
     { name: 'GSTNo', label: 'GST', align: 'left', field: 'GSTNo', sortable: true },
-    { name: 'logo', label: 'Logo', align: 'left', field: 'logo', sortable: true },
     { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
     { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
   ]
