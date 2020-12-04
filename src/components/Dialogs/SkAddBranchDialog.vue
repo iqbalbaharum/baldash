@@ -71,7 +71,7 @@
                 v-model="form.email"
                 outlined
                 label="Email"
-                :rules="textRules"
+                :rules="emailRules"
                 class="col q-pb-none"
               />
 
@@ -166,6 +166,7 @@
 
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
+import { isValidEmail } from '../../utils'
 import Branch from './../../models/Branch'
 import Country from './../../models/Country'
 import ModalDialog from './../ModalDialog'
@@ -178,6 +179,8 @@ export default {
   data() {
     return {
       textRules: [val => val && val.toString().length > 0],
+      emailRules: [val => !!val, isValidEmail],
+
       fileUpload: null,
 
       form: {
