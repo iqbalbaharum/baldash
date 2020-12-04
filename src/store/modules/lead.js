@@ -195,7 +195,7 @@ const lead = {
       })
     },
 
-    AddLead({ commit, rootState }, data) {
+    AddQualifiedLead({ dispatch, rootState }, data) {
       data.branchId = rootState.user.branchId
       data.userId = rootState.user.userId
       data.state = 'QL'
@@ -205,7 +205,7 @@ const lead = {
           .then(res => {
             Lead.insert({ data: res.data })
             dispatch('UpdateTab', {
-              name: 'Online Leads',
+              name: 'Qualified Leads',
               columns: Lead.columns,
               key: Lead.primaryKey,
               data: Lead.query().withAll().get()
