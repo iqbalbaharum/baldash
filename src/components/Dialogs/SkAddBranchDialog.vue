@@ -177,7 +177,7 @@ export default {
   },
   data() {
     return {
-      textRules: [val => val && val.length > 0],
+      textRules: [val => val && val.toString().length > 0],
       fileUpload: null,
 
       form: {
