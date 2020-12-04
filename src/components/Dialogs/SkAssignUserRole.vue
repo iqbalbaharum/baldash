@@ -143,10 +143,17 @@ export default {
     },
     async onUpdateUser() {
       try {
-        await this.$store.dispatch('UpdateUser', this.form)
+        for (const role of this.form.roles) {
+          await this.$store.dispatch('AssignUserRole', {
+            userId: this.selectedUserId,
+            roleId: role
+          })
+        }
+
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `User with name ${this.form.name} updated!`)
       } catch (e) {
+        console.log(e)
         const message = e.response.message.error
         this.$notify('error', message)
       }
