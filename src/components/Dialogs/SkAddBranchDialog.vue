@@ -57,7 +57,7 @@
                   outlined
                   placeholder="07-2345678"
                   label="Telephone No."
-                  :rules="textRules"
+                  :rules="phoneNoRules"
                 />
                 <q-input
                   v-model="form.faxno"
@@ -166,7 +166,7 @@
 
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
-import { isValidEmail } from '../../utils'
+import { isValidEmail, isValidPhoneNo } from '../../utils'
 import Branch from './../../models/Branch'
 import Country from './../../models/Country'
 import ModalDialog from './../ModalDialog'
@@ -178,8 +178,9 @@ export default {
   },
   data() {
     return {
-      textRules: [val => val && val.toString().length > 0],
+      textRules: [val => !!val && val.toString().length > 0],
       emailRules: [val => !!val, isValidEmail],
+      phoneNoRules: [val => !!val, isValidPhoneNo],
 
       fileUpload: null,
 
