@@ -57,7 +57,7 @@
                   outlined
                   placeholder="07-2345678"
                   label="Telephone No."
-                  :rules="textRules"
+                  :rules="phoneNoRules"
                 />
                 <q-input
                   v-model="form.faxno"
@@ -71,7 +71,7 @@
                 v-model="form.email"
                 outlined
                 label="Email"
-                :rules="textRules"
+                :rules="emailRules"
                 class="col q-pb-none"
               />
 
@@ -170,14 +170,17 @@ import Branch from './../../models/Branch'
 import Country from './../../models/Country'
 import ModalDialog from './../ModalDialog'
 
+import validationMixin from '../../mixins/validationMixin'
+
 export default {
 
   components: {
     ModalDialog
   },
+
+  mixins: [validationMixin],
   data() {
     return {
-      textRules: [val => val && val.length > 0],
       fileUpload: null,
 
       form: {
