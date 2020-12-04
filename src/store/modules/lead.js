@@ -195,7 +195,7 @@ const lead = {
       })
     },
 
-    AddLead({ commit, rootState }, data) {
+    AddQualifiedLead({ dispatch, rootState }, data) {
       data.branchId = rootState.user.branchId
       data.userId = rootState.user.userId
       data.state = 'QL'

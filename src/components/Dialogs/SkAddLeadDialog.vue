@@ -32,15 +32,15 @@
                   outlined
                   label="Email"
                   type="email"
-                  :rules="textRules"
+                  :rules="emailRules"
                 />
                 <q-input
                   v-model="form.phone"
                   class="col q-pl-xs q-pb-none"
                   outlined
-                  type="number"
+                  type="tel"
                   label="Mobile No."
-                  :rules="textRules"
+                  :rules="phoneNoRules"
                 />
               </div>
               <q-select
@@ -105,15 +105,17 @@
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
 import ModalDialog from './../ModalDialog'
+import validationMixin from '../../mixins/validationMixin'
 
 export default {
 
   components: {
     ModalDialog
   },
+
+  mixins: [validationMixin],
   data() {
     return {
-      textRules: [val => val && val.length > 0],
       options: {
         roles: [],
         branches: [],
@@ -183,9 +185,9 @@ export default {
 
       this.$refs.myForm.validate().then(async success => {
         if (success) {
-          await this.$store.dispatch('AddLead', lead)
-          this.$refs.dialog.$children[0].hide()
+          await this.$store.dispatch('AddQualifiedLead', lead)
           this.$notify('success', `User with name ${lead.name} created!`)
+          this.$refs.dialog.$children[0].hide()
         } else {
           this.$notify('error', 'All field is required')
         }

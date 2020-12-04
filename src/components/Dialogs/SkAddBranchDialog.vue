@@ -166,22 +166,21 @@
 
 <script>
 import { minLength, required, email } from 'vuelidate/lib/validators'
-import { isValidEmail, isValidPhoneNo } from '../../utils'
 import Branch from './../../models/Branch'
 import Country from './../../models/Country'
 import ModalDialog from './../ModalDialog'
+
+import validationMixin from '../../mixins/validationMixin'
 
 export default {
 
   components: {
     ModalDialog
   },
+
+  mixins: [validationMixin],
   data() {
     return {
-      textRules: [val => !!val && val.toString().length > 0],
-      emailRules: [val => !!val, isValidEmail],
-      phoneNoRules: [val => !!val, isValidPhoneNo],
-
       fileUpload: null,
 
       form: {
