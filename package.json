@@ -2,7 +2,7 @@
   "name": "skcrm",
   "version": "0.0.1",
   "description": "Signature Kitchen Internal CRM System",
-  "productName": "skcrm App",
+  "productName": "SKCRM App",
   "author": "iqbal <balainkk@gmail.com>",
   "private": true,
   "scripts": {
