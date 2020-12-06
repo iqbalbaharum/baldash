@@ -20,21 +20,21 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'adduser',
-            permissions: [Permissions.USER_ADD],
+            permissions: [],
             icon: 'fas fa-user-plus',
             label: 'Add User',
             disabled: false
           },
           {
             name: 'edituser',
-            permissions: [Permissions.USER_EDIT],
+            permissions: [],
             icon: 'fas fa-edit',
             label: 'View/Edit',
             disabled: false
           },
           {
             name: 'delete',
-            permissions: [Permissions.USER_DELETE],
+            permissions: [],
             icon: 'fas fa-trash-alt',
             label: 'Delete',
             disabled: false
@@ -46,14 +46,14 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'assignScope',
-            permissions: [Permissions.USER_ASSIGN_SCOPE],
+            permissions: [],
             icon: 'fas fa-user-tag',
             label: 'Scope',
             disabled: false
           },
           {
             name: 'userassignrole',
-            permissions: [Permissions.USER_ASSIGN_ROLE],
+            permissions: [],
             icon: 'fas fa-user-tag',
             label: 'Assign Role',
             disabled: false
@@ -80,21 +80,21 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'addbranch',
-            permissions: [Permissions.BRANCH_ADD],
+            permissions: [],
             icon: 'fas fa-user-plus',
             label: 'Add Branch',
             disabled: false
           },
           {
             name: 'editbranch',
-            permissions: [Permissions.BRANCH_EDIT],
+            permissions: [],
             icon: 'fas fa-edit',
             label: 'View/Edit',
             disabled: false
           },
           {
             name: 'delete',
-            permissions: [Permissions.BRANCH_DELETE],
+            permissions: [],
             icon: 'fas fa-trash-alt',
             label: 'Delete',
             disabled: false
@@ -132,21 +132,21 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'importitemlist',
-            permissions: [Permissions.ITEM_LIST_IMPORT],
+            permissions: [],
             icon: 'fas fa-upload',
             label: 'Import',
             disabled: false,
           },
           {
             name: 'downloadsample',
-            permissions: [Permissions.ITEM_LIST_DOWNLOAD],
+            permissions: [],
             icon: 'fas fa-download',
             label: 'Download',
             disabled: false
           },
           {
             name: 'importitemhistory',
-            permissions: [Permissions.ITEM_LIST_VIEW_HISTORY],
+            permissions: [],
             icon: 'fas fa-history',
             label: 'Import History',
             disabled: false,
@@ -173,14 +173,14 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'qualifyOL',
-            permissions: [Permissions.ONLINE_LEADS_QUALIFY],
+            permissions: [],
             icon: 'fas fa-user-tag',
             label: 'Assign To',
             disabled: false
           },
           {
             name: 'disqualifyOL',
-            permissions: [Permissions.ONLINE_LEADS_DISQUALIFY],
+            permissions: [],
             icon: 'far fa-star',
             label: 'Disqualify',
             disabled: false
@@ -207,14 +207,14 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'assigntodesign',
-            permissions: [Permissions.QUALIFIED_LEADS_TO_DESIGN],
+            permissions: [],
             icon: 'fas fa-check',
             label: 'Select',
             disabled: false,
           },
           {
             name: 'qualifyQL',
-            permissions: [Permissions.QUALIFIED_LEADS_ASSIGN],
+            permissions: [],
             icon: 'fas fa-user-tag',
             label: 'Assign To',
             disabled: false
@@ -226,21 +226,21 @@ const MENU_CONFIG = [
         tos: [
           {
             name: 'walkinlead',
-            permissions: [Permissions.QUALIFIED_LEADS_ADD],
+            permissions: [],
             icon: 'fas fa-walking',
             label: 'Walk In',
             disabled: false
           },
           {
             name: 'requalifyqlead',
-            permissions: [Permissions.QUALIFIED_LEADS_REQUALIFY],
+            permissions: [],
             icon: 'fas fa-star',
             label: 'Requalify',
             disabled: false
           },
           {
             name: 'disqualifyOL',
-            permissions: [Permissions.QUALIFIED_LEADS_DISQUALIFY],
+            permissions: [],
             icon: 'far fa-star',
             label: 'Disqualify',
             disabled: false
@@ -449,9 +449,8 @@ const app = {
 
       const accessibleMenus = menuConfig.filter(menu => hasPermission(userPermissions, menu.permissions))
 
-      /*
-       * If we need scope settings for buttons under module, but that's not the case as per SK's
-       * requirements.
+      // Filter buttons under module 
+      // If button.tos.permissions = [], it needs no permission to access
       for (const menu of accessibleMenus) {
         for (const button of menu.buttons) {
           button.tos = button.tos.filter(to => hasPermission(userPermissions, to.permissions))
@@ -460,7 +459,6 @@ const app = {
         // If all button.tos are not accessible, filter the button out
         menu.buttons = menu.buttons.filter(button => button.tos.length)
       }
-      */
       dispatch('SetMenu', accessibleMenus)
     }
   }
