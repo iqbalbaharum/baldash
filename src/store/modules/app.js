@@ -197,7 +197,7 @@ const MENU_CONFIG = [
       get: 'GetQualifiedLeads',
       delete: 'DeleteLead'
     },
-    default_datatab_title: `Qualified Leads`,
+    default_datatab_title: 'Qualified Leads',
     config: {
       selectiontype: 'single'
     },
@@ -239,7 +239,7 @@ const MENU_CONFIG = [
             disabled: false
           },
           {
-            name: 'disqualifyOL',
+            name: 'disqualifyQL',
             permissions: [],
             icon: 'far fa-star',
             label: 'Disqualify',
