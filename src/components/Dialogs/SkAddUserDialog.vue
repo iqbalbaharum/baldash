@@ -61,7 +61,7 @@
                     class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
-                    :rules="textRules"
+                    :rules="phoneNoRules"
                     placeholder="012-3456789"
                   />
                 </div>
@@ -70,7 +70,7 @@
                   outlined
                   label="Email"
                   type="email"
-                  :rules="textRules"
+                  :rules="emailRules"
                   class="col q-pb-none"
                   @blur="onEmailCheck"
                 />
@@ -158,15 +158,20 @@ import Permission from './../../models/Permission'
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
 import RolePermissionType from '../../types/role-permissions'
+import validationMixin from '../../mixins/validationMixin.js'
 
 export default {
 
   components: {
     ModalDialog
   },
+
+  mixins: [
+    validationMixin,
+  ],
+
   data() {
     return {
-      textRules: [val => val && val.length > 0],
       selectedUserId: '',
       form: {
         username: '',
