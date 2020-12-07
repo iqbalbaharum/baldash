@@ -19,4 +19,5 @@ export default Object.freeze({
   hQManager: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
   hQsalessupport: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
   hQAccountant: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
+  branchManager: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
 })
