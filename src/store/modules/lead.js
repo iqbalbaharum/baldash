@@ -195,6 +195,31 @@ const lead = {
       })
     },
 
+    async DisqualifyQualifiedLead({ dispatch }, data) {
+      return new Promise((resolve, reject) => {
+
+        // Disqualifying qualified lead only changes the status to disqualified,
+        // the state of the lead remains as Qualified Lead.
+        data.state = 'QL'
+        data.status = 'disqualified'
+        Lead.update({ where: data.uuid, data: data })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
+          dispatch('UpdateTab', {
+            name: 'Qualified Leads',
+            columns: Lead.columns,
+            key: Lead.primaryKey,
+            data: Lead.query().where('state', 'QL').where('status', 'active').withAll().get()
+          })
+
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+    },
+
     AddQualifiedLead({ dispatch, rootState }, data) {
       data.branchId = rootState.user.branchId
       data.userId = rootState.user.userId
