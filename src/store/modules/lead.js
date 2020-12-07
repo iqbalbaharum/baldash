@@ -173,6 +173,28 @@ const lead = {
       })
     },
 
+    async DisqualifiedQualifiedLead({ dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        data.state = 'QL'
+        data.status = 'disqualified'
+        Lead.update({ where: data.uuid, data: data })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
+          dispatch('UpdateTab', {
+            name: 'Qualified Leads',
+            columns: Lead.columns,
+            key: Lead.primaryKey,
+            data: Lead.query().where('state', 'QL').where('status', 'active').withAll().get()
+          })
+
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+    },
+
     async DisqualifiedOnlineLead({ dispatch }, data) {
       return new Promise((resolve, reject) => {
         data.state = 'OL'
