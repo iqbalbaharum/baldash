@@ -66,8 +66,6 @@ const lead = {
             userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined
           }
         }
-
-        console.log(filter)
         
         this.$repository.lead.listing(filter)
           .then(res => {

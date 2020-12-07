@@ -158,7 +158,6 @@ export default {
     selectedLeadId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
-      console.log(this.form)
     },
     selections(newValue, oldValue) {
       if (!newValue.length) return
@@ -185,7 +184,6 @@ export default {
     },
     async onAssignLeads() {
       const lead = { ...this.form }
-      console.warn('lead', lead)
       try {
         Lead.update({
           where: lead.$id,
