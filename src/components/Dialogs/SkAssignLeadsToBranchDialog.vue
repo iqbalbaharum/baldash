@@ -134,6 +134,9 @@ export default {
     },
     selections() {
       const selections = this.$store.getters.tableSelection
+      if (!selections.length) return []
+      if (!selections[0] instanceof Lead) return []
+
       const opts = selections.map((selection) => {
         const container = []
         container.label = selection.name
@@ -157,6 +160,10 @@ export default {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
       this.getBranchRecommendation()
+    },
+    selections(newValue, oldValue) {
+      if (!newValue.length) return
+      this.selectedLeadId = this.selections[0].value
     }
   },
 
