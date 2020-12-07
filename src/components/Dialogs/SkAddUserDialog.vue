@@ -235,9 +235,10 @@ export default {
       try {
         await this.$store.dispatch('GetAllPermissions')
         this.permissionOptions = Permission.all().filter(permission =>
-          permission.name.includes('Module') || permission.name.includes('All')
+          permission.name.includes('Module') ||
+          permission.name.includes('All') ||
+          permission.name === 'SKOpenExternalDesignCad'
         )
-        console.log(this.permissionOptions)
       } catch (e) {
         console.log(e)
       }
