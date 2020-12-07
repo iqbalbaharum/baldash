@@ -62,9 +62,12 @@ const lead = {
           where: {
             state: 'QL',
             status: 'active',
-            branchId: rootState.user.branchId
+            branchId: rootState.user.branchId,
+            userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined
           }
         }
+
+        console.log(filter)
         
         this.$repository.lead.listing(filter)
           .then(res => {
