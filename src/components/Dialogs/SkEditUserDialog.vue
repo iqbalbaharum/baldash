@@ -99,7 +99,7 @@
 </template>
 
 <script>
-
+import User from '../../models/User'
 import Branch from '../../models/Branch'
 import Profile from '../../models/Profile'
 import { mapGetters } from 'vuex'
@@ -136,6 +136,7 @@ export default {
     selections() {
       const selections = this.$store.getters.tableSelection
       if (!selections.length) return []
+      if (!(selections[0] instanceof User)) return []
 
       const opts = selections.map((selection) => {
         const container = []
