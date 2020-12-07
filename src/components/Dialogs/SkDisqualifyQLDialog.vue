@@ -131,6 +131,8 @@ export default {
     },
     selections() {
       const selections = this.$store.getters.tableSelection
+      if (!selections.length) return []
+
       const opts = selections.map((selection) => {
         const container = []
         container.label = selection.name
@@ -147,7 +149,7 @@ export default {
       this.form = { ...foundSelection }
     },
     selections(newValue, oldValue) {
-      if (!newValue.selections.length) return
+      if (!newValue.length) return
       this.selectedLeadId = newValue[0].value
     }
   },
