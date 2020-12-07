@@ -49,7 +49,19 @@ const zone = {
             reject(err)
           })
       })
-    }
+    },
+
+  GetRoleUsers({}, { id, filter=null }) {
+    return new Promise(async(resolve, reject) => {
+      this.$repository.role.users(id, filter)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
+  }
   }
 }
 
