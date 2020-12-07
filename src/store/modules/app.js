@@ -239,7 +239,7 @@ const MENU_CONFIG = [
             disabled: false
           },
           {
-            name: 'disqualifyQL',
+            name: 'disqualifyOL',
             permissions: [],
             icon: 'far fa-star',
             label: 'Disqualify',
