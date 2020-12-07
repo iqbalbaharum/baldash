@@ -105,6 +105,7 @@ const user = {
       return new Promise((resolve) => {
         this.$repository.user.logout()
         commit('SET_ROLES', [])
+        commit('SET_PERMISSIONS', [])
         commit('SET_SESSION', '')
         commit('SET_USER', '')
         commit('SET_NAME', '')
