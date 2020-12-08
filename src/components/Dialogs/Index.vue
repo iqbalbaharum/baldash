@@ -13,6 +13,7 @@
     <sk-assign-user-role />
     <sk-open-kujiale-dialog />
     <sk-disqualified-o-l-dialog />
+    <sk-disqualified-q-l-dialog />
     <sk-assign-scope />
     <sk-branch-RR-dialog />
   </div>
@@ -31,6 +32,7 @@ import skAssignLeadsToBranchDialog from './SkAssignLeadsToBranchDialog'
 import skAssignUserRole from './SkAssignUserRole'
 import SkOpenKujialeDialog from './SkOpenKujialeDialog'
 import skDisqualifiedOLDialog from './SkDisqualifiedOLDialog'
+import skDisqualifiedQLDialog from './SkDisqualifiedQLDialog'
 import skAssignLeadToScDialog from './SkAssignLeadToSCDialog'
 import skAssignScope from './SkAssignScope'
 import skBranchRRDialog from './SkBranchRRDialog'
@@ -50,6 +52,7 @@ export default {
     skAssignUserRole,
     SkOpenKujialeDialog,
     skDisqualifiedOLDialog,
+    skDisqualifiedQLDialog,
     skAssignLeadToScDialog,
     skAssignScope,
     skBranchRRDialog
