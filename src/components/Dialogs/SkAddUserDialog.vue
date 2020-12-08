@@ -122,6 +122,8 @@
                   label="Select All"
                 />
 
+                <q-separator class="q-my-md" />
+
                 <div
                   v-for="permission in permissionOptions"
                   :key="permission.$id"
