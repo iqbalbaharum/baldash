@@ -377,6 +377,7 @@ const app = {
 		},
 		SetActiveDataTab({ commit }, index) {
       commit('SET_ACTIVE_DATATAB', index)
+      commit('SELECT_TABLE_ITEM', [])
     },
     OnTableSelection({ commit }, selection) {
       commit('SELECT_TABLE_ITEM', selection)
