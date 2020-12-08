@@ -50,7 +50,7 @@ const branch = {
                 name: 'Branches',
                 columns: Branch.columns,
                 key: Branch.primaryKey,
-                data: Branch.query().withAll().get()
+                data: data.model != null ? data.model.get() : Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
               })
             )
           })
@@ -98,13 +98,14 @@ const branch = {
         this.$repository.branch.delete(id)
           .then(res => {
             resolve(res)
-            Branch.delete(id)
-            dispatch('UpdateTab', {
-              name: 'Branches',
-              columns: Branch.columns,
-              key: Branch.primaryKey,
-              data: Branch.query().withAll().get()
-            })
+            Branch.delete(id).then(
+              dispatch('UpdateTab', {
+                name: 'Branches',
+                columns: Branch.columns,
+                key: Branch.primaryKey,
+                data: data.model != null ? data.model.get() : Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
+              })
+            )
           })
           .catch(err => {
             reject(err)
