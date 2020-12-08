@@ -16,7 +16,7 @@
             <div class="text-weight-bold text-uppercase text-grey-5">
               User detail
             </div>
-            <q-separator />
+            <q-separator class="q-my-md" />
             <q-form ref="myForm" @submit="onAddUser">
               <div class="q-gutter-sm justify">
                 <q-input
@@ -27,7 +27,6 @@
                   lazy-rules
                   :rules="textRules"
                 />
-
                 <q-input
                   ref="password"
                   v-model="form.password"
@@ -53,27 +52,66 @@
                     class="col q-pb-none"
                     outlined
                     label="SC Code"
-                    @blur="onSCCodeCheck"
-                  />
+                    lazy-rules
+                    :rules="[textRules,onSCCodeCheck]"
+                    :error="errormessage.length > 0"
+                  >
+                    <q-tooltip
+                      v-if="errormessage.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage }}
+                      </div>
+                    </q-tooltip>
+                  </q-input>
                   <q-input
                     ref="mobile"
                     v-model="form.mobile"
+                    mask="### - #########"
                     class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
-                    :rules="phoneNoRules"
+                    :rules="[phoneNoRules,onMobileForm]"
+                    lazy-rules
+                    :error="errormessage3.length > 0"
+                    unmasked-value
                     placeholder="012-3456789"
-                  />
+                  >
+                    <q-tooltip
+                      v-if="errormessage3.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage3 }}
+                      </div>
+                    </q-tooltip>
+                  </q-input>
                 </div>
                 <q-input
                   v-model="form.email"
+                  class="col q-pb-none"
                   outlined
                   label="Email"
-                  type="email"
-                  :rules="emailRules"
-                  class="col q-pb-none"
-                  @blur="onEmailCheck"
-                />
+                  lazy-rules
+                  :rules="[emailRules,onEmailCheck]"
+                  :error="errormessage2.length > 0"
+                >
+                  <q-tooltip
+                    v-if="errormessage2.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage2 }}
+                    </div>
+                  </q-tooltip>
+                </q-input>
                 <q-select
                   v-model="form.branchId"
                   outlined
@@ -97,12 +135,6 @@
                   class="col q-pb-none"
                   @input="onInputFormRole"
                 />
-                <div class="text-negative">
-                  {{ errormessage }}
-                </div>
-                <div class="text-negative">
-                  {{ errormessage2 }}
-                </div>
 
                 <!-- <div class="text-weight-bold text-uppercase text-grey-5 q-mt-md">
                   Access to DesignCAD
@@ -115,7 +147,6 @@
                 <div class="text-weight-bold text-uppercase text-grey-5">
                   Scope Access
                 </div>
-
                 <!-- tick all -->
                 <q-checkbox
                   v-model="allPermission.selected"
@@ -123,7 +154,6 @@
                 />
 
                 <q-separator class="q-my-md" />
-
                 <div
                   v-for="permission in permissionOptions"
                   :key="permission.$id"
@@ -145,7 +175,7 @@
                   <q-btn
                     color="primary"
                     label="Submit"
-                    :disabled="errormessage.length > 0 || errormessage2.length > 0"
+                    :disabled="errormessage.length > 0 || errormessage2.length > 0 || errormessage3.length > 0"
                     @click="onAddUser"
                   />
                 </div>
@@ -159,6 +189,7 @@
 </template>
 
 <script>
+import { isValidPhoneNo } from './../../utils'
 import { minLength, required, email } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import Branch from './../../models/Branch'
@@ -180,7 +211,9 @@ export default {
 
   data() {
     return {
+      textRules: [val => val && val.length > 0],
       selectedUserId: '',
+      sccode: '',
       form: {
         username: '',
         password: '',
@@ -196,6 +229,7 @@ export default {
       },
       errormessage: '',
       errormessage2: '',
+      errormessage3: '',
       type: 'password',
 
       permissionOptions: [],
@@ -241,8 +275,7 @@ export default {
       return User.query().withAll().get()
     },
   },
-
-  watch: {
+watch: {
     'allPermission.selected': function(newVal) {
       if (!newVal) return
 
@@ -279,6 +312,7 @@ export default {
     reset() {
       this.errormessage = ''
       this.errormessage2 = ''
+      this.errormessage3 = ''
       this.form = {
         username: '',
         password: '',
@@ -295,15 +329,7 @@ export default {
     },
 
     async onAddUser() {
-      if (this.form.sccode) {
-        this.onSCCodeCheck()
-      }
-
-      this.onEmailCheck()
-      this.$v.form.$touch()
-
       const user = { ...this.form }
-
       const permissions = []
       const selectedPermissions = this.permissionOptions.filter(permission => permission.selected)
       selectedPermissions.forEach(permission => permissions.push(permission.getBodyRequest.uuid))
@@ -354,19 +380,25 @@ export default {
     },
 
     async onSCCodeCheck() {
+      this.$v.form.$touch()
       if (this.form.sccode.length <= 0) {
         return
       }
       await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
         .then(exists => {
           if (exists) {
-            this.errormessage = 'SCCode already exist'
+            this.errormessage = 'SC Code already exist'
           } else {
             this.errormessage = ''
           }
         })
     },
     async onEmailCheck() {
+      this.$v.form.$touch()
+      if (this.form.email.length <= 0) {
+        return
+      }
+
       await this.$store.dispatch('CheckEmailExist', this.form.email)
         .then(exists => {
           if (exists) {
@@ -376,6 +408,16 @@ export default {
           }
         })
     },
+
+    async onMobileForm() {
+      this.$v.form.$touch()
+      if (!isValidPhoneNo(this.form.mobile)) {
+        this.errormessage3 = 'Fill mobile with the following format (012-3456789)'
+      } else {
+        this.errormessage3 = ''
+      }
+    },
+
   }
 }
 </script>
