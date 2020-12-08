@@ -450,6 +450,7 @@ const app = {
 
       const accessibleMenus = menuConfig.filter(menu => hasPermission(userPermissions, menu.permissions))
 
+      /*
       // Filter buttons under module 
       // If button.tos.permissions = [], it needs no permission to access
       for (const menu of accessibleMenus) {
@@ -460,6 +461,7 @@ const app = {
         // If all button.tos are not accessible, filter the button out
         menu.buttons = menu.buttons.filter(button => button.tos.length)
       }
+      */
       dispatch('SetMenu', accessibleMenus)
     }
   }
