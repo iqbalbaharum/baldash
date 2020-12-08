@@ -6,4 +6,16 @@ export default class RoleRepository extends Repository {
   constructor() {
     super(Role, datasource)
   }
+
+  // Get all users of role {id}
+  async users(id, filter) {
+    return await this.datasource.get(
+      `roles/${id}/users`,
+      {
+        params: {
+          filter: filter
+        }
+      }
+    )
+  }
 }

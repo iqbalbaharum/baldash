@@ -62,7 +62,8 @@ const lead = {
           where: {
             state: 'QL',
             status: 'active',
-            branchId: rootState.user.branchId
+            branchId: rootState.user.branchId,
+            userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined
           }
         }
         
@@ -257,6 +258,21 @@ const lead = {
           .catch(err => {
             reject(err)
           })
+      })
+    },
+
+    UpdateLead({}, data) {
+      return new Promise((resolve, reject) => {
+        Lead.update({ where: data.uuid, data: data })
+        const lead = Lead.find(data.uuid)
+
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest)
+        .then(res => {
+          resolve(res.data)
+        })
+        .catch( err => {
+          reject(err)
+        })
       })
     }
   }

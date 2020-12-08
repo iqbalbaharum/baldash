@@ -24,7 +24,6 @@
               emit-value
               map-options
               stack-label
-              :display-value="`${selections[0].label}`"
             />
 
             <q-separator class="q-my-md" />
@@ -100,7 +99,7 @@
 </template>
 
 <script>
-
+import User from '../../models/User'
 import Branch from '../../models/Branch'
 import Profile from '../../models/Profile'
 import { mapGetters } from 'vuex'
@@ -136,6 +135,9 @@ export default {
     },
     selections() {
       const selections = this.$store.getters.tableSelection
+      if (!selections.length) return []
+      if (!(selections[0] instanceof User)) return []
+
       const opts = selections.map((selection) => {
         const container = []
         container.label = selection.name
@@ -177,6 +179,10 @@ export default {
       }
       this.form = { ...foundSelection }
       this.errormessage = ''
+    },
+    selections(newValue, oldValue) {
+      if (!newValue.length) return
+      this.selectedUserId = newValue[0].value
     }
   },
 

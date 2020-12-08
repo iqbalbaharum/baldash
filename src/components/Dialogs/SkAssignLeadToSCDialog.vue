@@ -66,9 +66,9 @@
               Assign leads to Sales Consultant
             </div>
             <q-select
-              v-model="form.branchId"
+              v-model="form.userId"
               outlined
-              :options="branches"
+              :options="salesConsultantsOptions"
               label="Selected sales consultant"
               emit-value
               map-options
@@ -88,6 +88,7 @@
               <q-btn
                 label="assign"
                 color="primary"
+                @click="onAssignLeads"
               />
             </div>
           </div>
@@ -98,7 +99,7 @@
 </template>
 
 <script>
-import Branch from './../../models/User'
+import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
 import Lead from './../../models/Lead'
 import { mapGetters } from 'vuex'
@@ -111,6 +112,7 @@ export default {
   data() {
     return {
       selectedLeadId: '',
+      salesConsultants: [],
       form: {}
     }
   },
@@ -119,18 +121,21 @@ export default {
     ...mapGetters([
       'tableSelection'
     ]),
-    branches() {
-      const branches = Branch.all()
-      const opts = branches.map((branch) => {
+    salesConsultantsOptions() {
+      if (!this.salesConsultants.length) return []
+
+      const opts = this.salesConsultants.map((user) => {
         const container = {}
-        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
-        container.value = branch.uuid
+        container.label = user.name
+        container.value = user.uuid
         return container
       })
       return opts
     },
     selections() {
       const selections = this.$store.getters.tableSelection
+      if (!selections.length) return []
+
       const opts = selections.map((selection) => {
         const container = []
         container.label = selection.name
@@ -143,7 +148,7 @@ export default {
     selectedBranchName() {
       if (!this.selectedBranchId) return ''
 
-      return this.branches.find(branch =>
+      return this.users.find(branch =>
         branch.value === this.selectedBranchId
       ).label
     }
@@ -153,7 +158,23 @@ export default {
     selectedLeadId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
+    },
+    selections(newValue, oldValue) {
+      if (!newValue.length) return
+
+      this.selectedLeadId = newValue[0].value
     }
+  },
+
+  async created() {
+    await this.$store.dispatch('GetAllRoles')
+    const id = Role.query().where('name', 'salesconsultant').first().$id
+    const filter = {
+      where: {
+        branchId: this.$store.state.user.branchId
+      }
+    }
+    this.salesConsultants = (await this.$store.dispatch('GetRoleUsers', { id, filter })).data
   },
 
   methods: {
@@ -161,17 +182,14 @@ export default {
       this.selectedLeadId = ''
       this.form = {}
     },
-    onClickRecommendation() {
-      this.selectedBranchId = ''
-    },
     async onAssignLeads() {
       const lead = { ...this.form }
-      console.log('lead', lead)
       try {
         Lead.update({
           where: lead.$id,
           data: lead
         })
+
         await this.$store.dispatch('AssignLeadToBranch', lead)
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchName}`)

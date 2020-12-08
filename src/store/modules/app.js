@@ -197,7 +197,7 @@ const MENU_CONFIG = [
       get: 'GetQualifiedLeads',
       delete: 'DeleteLead'
     },
-    default_datatab_title: `Qualified Leads`,
+    default_datatab_title: 'Qualified Leads',
     config: {
       selectiontype: 'single'
     },
