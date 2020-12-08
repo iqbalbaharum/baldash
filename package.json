@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@sentry/browser": "^5.29.0",
+    "@sentry/tracing": "^5.29.0",
+    "@sentry/vue": "^5.29.0",
     "@vuex-orm/core": "^0.36.3",
     "apexcharts": "^3.22.0",
     "axios": "^0.18.1",
