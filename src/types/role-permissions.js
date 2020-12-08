@@ -1,23 +1,26 @@
 import Permissions from './permissions'
 
-const PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS = [
-  Permissions.MODULE_USER_MANAGEMENT,
-  Permissions.MODULE_BRANCH_MANAGEMENT,
-  Permissions.MODULE_ITEM_LIST,
+const PERMISSIONS_ALL_MODULE_EXCEPT_ONLINE_LEADS = [
   Permissions.MODULE_QUALIFIED_LEADS,
   Permissions.MODULE_DESIGN_PROPOSAL,
   Permissions.MODULE_ORDER_CONFIRMATION,
   Permissions.MODULE_SERVICE_REPORT,
 ]
 
+const PERMISSIONS_ALL_MODULE = Object.values(Permissions).filter(p => p.includes('Module'))
+
 export default Object.freeze({
-  sysadmin: [Permissions.MODULE_ALL],
-  callcenter: [Permissions.MODULE_ALL],
-  marketing: [Permissions.MODULE_ALL],
-  salesconsultant: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
-  branchmanager: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
-  hQManager: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
-  hQsalessupport: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
-  hQAccountant: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
-  branchManager: [...PERMISSIONS_ALL_EXCEPT_ONLINE_LEADS],
+  sysadmin: [...PERMISSIONS_ALL_MODULE],
+  callcenter: [...PERMISSIONS_ALL_MODULE],
+  marketing: [...PERMISSIONS_ALL_MODULE],
+  hQManager: [...PERMISSIONS_ALL_MODULE],
+  hQsalessupport: [...PERMISSIONS_ALL_MODULE],
+  hQAccountant: [...PERMISSIONS_ALL_MODULE],
+
+  salesconsultant: [
+    ...PERMISSIONS_ALL_MODULE_EXCEPT_ONLINE_LEADS,
+  ],
+  branchManager: [
+    ...PERMISSIONS_ALL_MODULE_EXCEPT_ONLINE_LEADS,
+  ],
 })
