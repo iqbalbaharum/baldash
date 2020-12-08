@@ -2,6 +2,7 @@ import { getToken, setToken, removeToken } from './../../datasources/localstorag
 import User from './../../models/User'
 import Profile from './../../models/Profile'
 import UserRole from './../../models/UserRole'
+import UserPermission from './../../models/UserPermission'
 
 const user = {
   state: {
@@ -249,6 +250,19 @@ const user = {
             reject(err)
           })
       })
+    },
+
+    async GetUserPermissions({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.getUserPermissions(id)
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    
     },
 
     async GetUserRoles({ commit }, id) {

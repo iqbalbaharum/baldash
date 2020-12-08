@@ -68,6 +68,13 @@ export default class UserRepository extends Repository {
     })
   }
 
+  async getUserPermissions(id) {
+    return datasource({
+      method: 'get',
+      url: `users/${id}/permissions`,
+    })
+  }
+
   async getUserProfile(id) {
     return datasource({
       method: 'get',

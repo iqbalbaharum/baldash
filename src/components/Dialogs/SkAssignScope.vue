@@ -25,66 +25,68 @@
               map-options
               stack-label
             />
-            <div class="text-weight-bold text-uppercase text-grey-5">
-              Roles
-            </div>
             <q-separator class="q-my-md" />
-            <q-form ref="myForm" @submit="onAddUser">
-              <div class="q-gutter-sm justify">
-                <div class="col">
-                  <q-select
-                    v-model="form.role"
-                    outlined
-                    :options="options.roles"
-                    stack-label
-                    label="Roles"
-                    :error="$v.form.role.$error"
-                  />
-                </div>
-                <div class="text-negative">
-                  {{ errormessage }}
-                </div>
-                <div class="text-negative">
-                  {{ errormessage2 }}
-                </div>
-
-                <div class="text-weight-bold text-uppercase text-grey-5">
-                  Scope Access
-                </div>
-
-                <!-- tick all -->
-                <q-checkbox
-                  v-model="allPermission.selected"
-                  label="Select All"
-                />
-                <q-separator class="q-my-md" />
-
-                <div
-                  v-for="permission in permissionOptions"
-                  :key="permission.$id"
-                  class="text-weight-bold text-uppercase text-grey-5"
-                >
-                  <q-checkbox v-model="permission.selected" :label="permission.nameDisplay" />
-                </div>
-
-                <q-separator class="q-my-md" />
-
-                <div align="right">
-                  <q-btn
-                    v-close-popup
-                    flat
-                    color="primary"
-                    label="Cancel"
-                  />
-                  <q-btn
-                    color="primary"
-                    label="Submit"
-                    :disabled="errormessage.length > 0 || errormessage2.length > 0"
-                    @click="onAddUser"
-                  />
-                </div>
+            <template v-if="selectedUserId">
+              <div class="text-weight-bold text-uppercase text-grey-5">
+                Roles
               </div>
-            </q-form>
+              <q-form ref="myForm" @submit="onAddUser">
+                <div class="q-gutter-sm justify">
+                  <div class="col">
+                    <q-select
+                      v-model="form.role"
+                      outlined
+                      :options="options.roles"
+                      stack-label
+                      label="Roles"
+                      :error="$v.form.role.$error"
+                    />
+                  </div>
+                  <div class="text-negative">
+                    {{ errormessage }}
+                  </div>
+                  <div class="text-negative">
+                    {{ errormessage2 }}
+                  </div>
+
+                  <div class="text-weight-bold text-uppercase text-grey-5">
+                    Scope Access
+                  </div>
+
+                  <!-- tick all -->
+                  <q-checkbox
+                    v-model="allPermission.selected"
+                    label="Select All"
+                  />
+                  <q-separator class="q-my-md" />
+
+                  <div
+                    v-for="permission in permissionOptions"
+                    :key="permission.$id"
+                    class="text-weight-bold text-uppercase text-grey-5"
+                  >
+                    <q-checkbox v-model="permission.selected" :label="permission.nameDisplay" />
+                  </div>
+
+                  <q-separator class="q-my-md" />
+
+                  <div align="right">
+                    <q-btn
+                      v-close-popup
+                      flat
+                      color="primary"
+                      label="Cancel"
+                    />
+                    <q-btn
+                      color="primary"
+                      label="Submit"
+                      :disabled="errormessage.length > 0 || errormessage2.length > 0"
+                      @click="onAssignUser"
+                    />
+                  </div>
+                </div>
+              </q-form>
+            </template>
           </div>
         </q-card-section>
       </div>
@@ -93,6 +95,8 @@
 </template>
 
 <script>
+import Profile from '../../models/Profile'
+import { mapGetters } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import ModalDialog from './../ModalDialog'
@@ -137,6 +141,14 @@ export default {
   },
 
   computed: {
+    profile() {
+      const profile = Profile.query().where('userId', this.selectedUserId).first()
+      this.reassignProfile(profile)
+      return profile
+    },
+    ...mapGetters([
+      'tableSelection'
+    ]),
     users() {
       return User.query().withAll().get()
     },
@@ -176,10 +188,12 @@ export default {
         this.allPermission.selected = newVal.every(p => p.selected)
       }
     },
+
     async selectedUserId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       if (this.selectedUserId) {
-        await this.$store.dispatch('GetUserProfile', this.selectedUserId)
+        const initialPerm = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
+        console.log('perm', initialPerm.data)
       }
       this.form = { ...foundSelection }
       this.errormessage = ''
@@ -197,6 +211,7 @@ export default {
 
   methods: {
     reset() {
+      this.selectedUserId = ''
       this.errormessage = ''
       this.errormessage2 = ''
       this.form = {
@@ -208,19 +223,19 @@ export default {
       }
     },
 
-    async onAddUser() {
-      const user = { ...this.form }
-      user.role = user.role.value
+    async onAssignUser() {
+      // const user = { ...this.form }
+      // user.role = user.role.value
 
-      this.$refs.myForm.validate().then(async success => {
-        if (success) {
-          await this.$store.dispatch('RegisterUser', user)
-          this.$refs.dialog.$children[0].hide()
-          this.$notify('success', `User with name ${user.name} created!`)
-        } else {
-          this.$notify('error', 'All field is required')
-        }
-      })
+      // const initialRoles = []
+      let initialPermissions = []
+
+      try {
+        initialPermissions = await this.$store.dispatch('GetUserPermissions')
+        console.log('init perm', initialPermissions.data)
+      } catch (e) {
+        console.log(e)
+      }
     },
     async loadRoleOptions() {
       const loadRoles = await this.$store.dispatch('GetAllRoles')
