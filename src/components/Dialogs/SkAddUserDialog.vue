@@ -116,6 +116,12 @@
                   Scope Access
                 </div>
 
+                <!-- tick all -->
+                <q-checkbox
+                  v-model="allPermission.selected"
+                  label="Select All"
+                />
+
                 <div
                   v-for="permission in permissionOptions"
                   :key="permission.$id"
@@ -191,6 +197,9 @@ export default {
       type: 'password',
 
       permissionOptions: [],
+      allPermission: {
+        selected: false,
+      }
     }
   },
 
@@ -231,6 +240,24 @@ export default {
     },
   },
 
+  watch: {
+    'allPermission.selected': function(newVal) {
+      if (!newVal) return
+
+      this.permissionOptions.forEach(permission => {
+        permission.selected = true
+      })
+    },
+
+    permissionOptions: {
+      deep: true,
+
+      handler(newVal) {
+        this.allPermission.selected = newVal.every(p => p.selected)
+      }
+    }
+  },
+
   async created() {
     this.loadPermissionOptions()
   },
@@ -240,9 +267,7 @@ export default {
       try {
         await this.$store.dispatch('GetAllPermissions')
         this.permissionOptions = Permission.all().filter(permission =>
-          permission.name.includes('Module') ||
-          permission.name.includes('All') ||
-          permission.name === 'SKOpenExternalDesignCad'
+          permission.name.includes('Module')
         )
       } catch (e) {
         console.log(e)
@@ -316,10 +341,6 @@ export default {
       this.permissionOptions.forEach(permission => {
         permission.selected = !!permissionsForRole.includes(permission.name)
       })
-
-      const permissions = []
-      const selectedPermissions = this.permissionOptions.filter(permission => permission.selected)
-      selectedPermissions.forEach(permission => permissions.push(permission.getBodyRequest.uuid))
     },
 
     ondesignAccess() {
