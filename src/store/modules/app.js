@@ -210,7 +210,8 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-check',
             label: 'Select',
-            disabled: false,
+            disabled: (state) => state.app.tableSelection.length !== 1,
+            disabledTooltipText: 'Only one lead is allowed at a time'
           },
           {
             name: 'qualifyQL',
@@ -267,7 +268,7 @@ const MENU_CONFIG = [
             permissions: [Permissions.DESIGN_OPEN_EXTERNAL],
             icon: 'fas fa-pencil-ruler',
             label: 'Open External',
-            disabled: false,
+            disabled: false
           }
         ]
       },
@@ -439,7 +440,8 @@ const app = {
     async FilterMenus({ dispatch, rootState }) {
       // Safely deep clone the state without reference so we can modify it without mutating vuex data
       // https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/
-      const menuConfig = JSON.parse(JSON.stringify(MENU_CONFIG))
+      //const menuConfig = JSON.parse(JSON.stringify(MENU_CONFIG))
+      const menuConfig = MENU_CONFIG
       const userPermissions = rootState.user.permissions
 
       if (typeof userPermissions === 'undefined') return // TODO: Temporary, each user should have permissions
