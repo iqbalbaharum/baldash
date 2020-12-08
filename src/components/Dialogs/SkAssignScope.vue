@@ -14,6 +14,18 @@
         <q-card-section>
           <div class="q-gutter-sm justify">
             <div class="text-weight-bold text-uppercase text-grey-5">
+              Select a user
+            </div>
+            <q-select
+              v-model="selectedUserId"
+              outlined
+              :options="selections"
+              label="Selected user"
+              emit-value
+              map-options
+              stack-label
+            />
+            <div class="text-weight-bold text-uppercase text-grey-5">
               Roles
             </div>
             <q-separator class="q-my-md" />
@@ -35,7 +47,28 @@
                 <div class="text-negative">
                   {{ errormessage2 }}
                 </div>
+
+                <div class="text-weight-bold text-uppercase text-grey-5">
+                  Scope Access
+                </div>
+
+                <!-- tick all -->
+                <q-checkbox
+                  v-model="allPermission.selected"
+                  label="Select All"
+                />
                 <q-separator class="q-my-md" />
+
+                <div
+                  v-for="permission in permissionOptions"
+                  :key="permission.$id"
+                  class="text-weight-bold text-uppercase text-grey-5"
+                >
+                  <q-checkbox v-model="permission.selected" :label="permission.nameDisplay" />
+                </div>
+
+                <q-separator class="q-my-md" />
+
                 <div align="right">
                   <q-btn
                     v-close-popup
@@ -62,8 +95,10 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import User from './../../models/User'
-import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
+// import RolePermissionType from '../../types/role-permissions'
+import Permission from './../../models/Permission'
+import Role from '../../models/Role'
 
 export default {
 
@@ -87,6 +122,11 @@ export default {
       errormessage: '',
       errormessage2: '',
       type: 'password',
+
+      permissionOptions: [],
+      allPermission: {
+        selected: false,
+      }
     }
   },
 
@@ -103,11 +143,56 @@ export default {
     roles() {
       return Role.all()
     },
+    selections() {
+      const selections = this.$store.getters.tableSelection
+      if (!selections.length) return []
+      if (!(selections[0] instanceof User)) return []
 
+      const opts = selections.map((selection) => {
+        const container = []
+        container.label = selection.name
+        container.value = selection.uuid
+        return container
+      })
+
+      return opts
+    },
+
+  },
+
+  watch: {
+    'allPermission.selected': function(newVal) {
+      if (!newVal) return
+
+      this.permissionOptions.forEach(permission => {
+        permission.selected = true
+      })
+    },
+
+    permissionOptions: {
+      deep: true,
+
+      handler(newVal) {
+        this.allPermission.selected = newVal.every(p => p.selected)
+      }
+    },
+    async selectedUserId(newValue, oldValue) {
+      const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
+      if (this.selectedUserId) {
+        await this.$store.dispatch('GetUserProfile', this.selectedUserId)
+      }
+      this.form = { ...foundSelection }
+      this.errormessage = ''
+    },
+    selections(newValue, oldValue) {
+      if (!newValue.length) return
+      this.selectedUserId = newValue[0].value
+    }
   },
 
   async created() {
     this.loadRoleOptions()
+    this.loadPermissionOptions()
   },
 
   methods: {
@@ -145,6 +230,17 @@ export default {
           label: role.name.charAt(0).toUpperCase() + role.name.slice(1)
         })
       })
+    },
+
+    async loadPermissionOptions() {
+      try {
+        await this.$store.dispatch('GetAllPermissions')
+        this.permissionOptions = Permission.all().filter(permission =>
+          permission.name.includes('Module')
+        )
+      } catch (e) {
+        console.log(e)
+      }
     },
   }
 }
