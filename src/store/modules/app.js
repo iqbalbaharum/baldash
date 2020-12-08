@@ -209,7 +209,7 @@ const MENU_CONFIG = [
             name: 'assigntodesign',
             permissions: [],
             icon: 'fas fa-check',
-            label: 'Select',
+            label: 'To Design Proposal',
             disabled: (state) => state.app.tableSelection.length !== 1,
             disabledTooltipText: 'Only one lead is allowed at a time'
           },
