@@ -262,7 +262,18 @@ const user = {
             reject(err)
           })
       })
-    
+    },
+
+    async UpdateUserPermission({ commit, data }, id) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.updateUserPermissions(data)
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
     },
 
     async GetUserRoles({ commit }, id) {

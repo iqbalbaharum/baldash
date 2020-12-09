@@ -75,6 +75,13 @@ export default class UserRepository extends Repository {
     })
   }
 
+  async updateUserPermissions(id) {
+    return datasource({
+      method: 'post',
+      url: `users/${id}/roles/permission/reattach`,
+    })
+  }
+
   async getUserProfile(id) {
     return datasource({
       method: 'get',

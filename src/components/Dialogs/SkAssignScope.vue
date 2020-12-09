@@ -30,7 +30,7 @@
               <div class="text-weight-bold text-uppercase text-grey-5">
                 Roles
               </div>
-              <q-form ref="myForm" @submit="onAddUser">
+              <q-form ref="myForm" @submit="onAssignUser">
                 <div class="q-gutter-sm justify">
                   <div class="col">
                     <q-select
@@ -100,7 +100,6 @@ import { mapGetters } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import User from './../../models/User'
 import ModalDialog from './../ModalDialog'
-// import RolePermissionType from '../../types/role-permissions'
 import Permission from './../../models/Permission'
 import Role from '../../models/Role'
 
@@ -192,8 +191,14 @@ export default {
     async selectedUserId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       if (this.selectedUserId) {
-        const initialPerm = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
-        console.log('perm', initialPerm.data)
+        const res = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
+        this.permissionOptions.map(permission => {
+          for (const r of res.data) {
+            if (permission.uuid === r.uuid) {
+              permission.selected = true
+            }
+          }
+        })
       }
       this.form = { ...foundSelection }
       this.errormessage = ''
@@ -231,7 +236,7 @@ export default {
       let initialPermissions = []
 
       try {
-        initialPermissions = await this.$store.dispatch('GetUserPermissions')
+        initialPermissions = await this.$store.dispatch('UpdateUserPermission', { permissionOptions: this.permissionOptions })
         console.log('init perm', initialPermissions.data)
       } catch (e) {
         console.log(e)
@@ -253,6 +258,7 @@ export default {
         this.permissionOptions = Permission.all().filter(permission =>
           permission.name.includes('Module')
         )
+        console.log(this.permissionOptions)
       } catch (e) {
         console.log(e)
       }
