@@ -149,16 +149,15 @@
                 </div>
                 <!-- tick all -->
                 <q-checkbox
+                  class="text-uppercase"
                   v-model="allPermission.selected"
                   label="Select All"
                   @input="onClickAllPermissions"
                 />
-
-                <q-separator class="q-my-md" />
                 <div
                   v-for="permission in permissionOptions"
                   :key="permission.$id"
-                  class="text-weight-bold text-uppercase text-grey-5"
+                  class="text-uppercase"
                 >
                   <q-checkbox v-model="permission.selected" :label="permission.nameDisplay" />
                 </div>
