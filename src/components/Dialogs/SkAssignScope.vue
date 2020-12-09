@@ -56,8 +56,8 @@
 
                   <!-- tick all -->
                   <q-checkbox
-                    class="text-uppercase"
                     v-model="allPermission.selected"
+                    class="text-uppercase"
                     label="Select All"
                     @input="onClickAllPermissions"
                   />

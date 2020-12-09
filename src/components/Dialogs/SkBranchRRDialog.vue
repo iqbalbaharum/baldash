@@ -59,6 +59,14 @@
 
         <q-separator class="q-my-md" />
 
+        <div class="row justify-between q-mb-lg">
+          <q-input
+            v-model.number="rotation"
+            filled
+            dense
+            label="Rotation"
+          />
+        </div>
         <div class="row justify-between">
           <q-btn
             color="accent"
@@ -97,7 +105,8 @@ export default {
   data() {
     return {
       form: [],
-      branches: []
+      branches: [],
+      rotation: null,
     }
   },
 
@@ -121,11 +130,17 @@ export default {
       this.$store.dispatch('RefreshLeadCapacity')
     },
     onClickSave() {
-      for (const updBranch of this.form) {
-        this.$store.dispatch('UpdateBranch', updBranch)
+      try {
+        for (const updBranch of this.form) {
+          this.$store.dispatch('UpdateBranch', updBranch)
+        }
+        this.$store.dispatch('UpdateInnerRotation', this.rotation)
+        this.$refs.dialog.$children[0].hide()
+        this.$notify('success', `Inner rotation value has been updated!`)
+      } catch (e) {
+        console.log(e)
+        this.$notify('error', 'Inner rotaton failed to be updated!')
       }
-
-      this.$refs.dialog.$children[0].hide()
     }
   },
 }

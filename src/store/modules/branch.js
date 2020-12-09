@@ -81,6 +81,18 @@ const branch = {
       })
     },
 
+    UpdateInnerRotation({ commit, dispatch }, rotation) {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.updateInnerRotation(rotation)
+          .then(res => {
+            resolve(res)
+        })
+          .catch(err => {
+            reject(err)
+          }) 
+      })
+    },
+
     async CheckBranchCodeExist({ commit }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.branch.checkBranchCodeExist(data)

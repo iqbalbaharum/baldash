@@ -16,8 +16,18 @@ export default class BranchRepository extends Repository {
 
   async refreshBranchesLeadCapacity() {
     return datasource({
-      methods: 'get',
+      method: 'get',
       url: `/branches/capacity/refresh`
+    })
+  }
+
+  async updateInnerRotation(rotation) {
+    return datasource({
+      method: 'patch',
+      url: 'branches/inner-rotation',
+      data: {
+        rotation
+      }
     })
   }
 }
