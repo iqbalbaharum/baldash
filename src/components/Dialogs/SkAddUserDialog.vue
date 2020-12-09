@@ -151,6 +151,7 @@
                 <q-checkbox
                   v-model="allPermission.selected"
                   label="Select All"
+                  @input="onClickAllPermissions"
                 />
 
                 <q-separator class="q-my-md" />
@@ -275,7 +276,8 @@ export default {
       return User.query().withAll().get()
     },
   },
-watch: {
+
+  watch: {
     'allPermission.selected': function(newVal) {
       if (!newVal) return
 
@@ -287,8 +289,9 @@ watch: {
     permissionOptions: {
       deep: true,
 
-      handler(newVal) {
-        this.allPermission.selected = newVal.every(p => p.selected)
+      handler(permissions) {
+        const isAllSelected = permissions.every(p => p.selected)
+        this.allPermission.selected = isAllSelected
       }
     }
   },
@@ -332,21 +335,24 @@ watch: {
       const user = { ...this.form }
       const permissions = []
       const selectedPermissions = this.permissionOptions.filter(permission => permission.selected)
-      selectedPermissions.forEach(permission => permissions.push(permission.getBodyRequest.uuid))
+      selectedPermissions.forEach(permission => {
+        permissions.push(permission.getBodyRequest.uuid)
+      })
 
       this.$refs.myForm.validate().then(async success => {
         if (success) {
           const newUser = await this.$store.dispatch('RegisterUser', user)
           this.$refs.dialog.$children[0].hide()
-          this.$notify('success', `User with name ${user.name} created!`)
 
           // Assign all selected permissions to user
           for (const permission of permissions) {
-            this.$store.dispatch('AssignPermissionToUser', {
+            await this.$store.dispatch('AssignPermissionToUser', {
               userUuid: newUser.uuid,
               permissionUuid: permission
             })
           }
+
+          this.$notify('success', `User with name ${user.name} created!`)
         } else {
           this.$notify('error', 'All field is required')
         }
@@ -418,6 +424,22 @@ watch: {
       }
     },
 
+    onClickAllPermissions(value) {
+      if (value) {
+        this.permissionOptions.forEach(permission => {
+          permission.selected = true
+        })
+        return
+      }
+
+      if (this.form.role) {
+        this.onInputFormRole()
+      } else {
+        this.permissionOptions.forEach(permission => {
+          permission.selected = false
+        })
+      }
+    },
   }
 }
 </script>
