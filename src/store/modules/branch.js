@@ -70,7 +70,7 @@ const branch = {
               name: 'Branches',
               columns: Branch.columns,
               key: Branch.primaryKey,
-              data: data.model != null ? data.model.get() : Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
+              data: Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
             })
             resolve(res.data)
           })
