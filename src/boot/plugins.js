@@ -9,6 +9,7 @@ export default async({ Vue }) => {
 
   Sentry.init({
     Vue,
+    dsn: process.env.SENTRY_DSN,
     integrations: [
       new Integrations.BrowserTracing(),
     ],
