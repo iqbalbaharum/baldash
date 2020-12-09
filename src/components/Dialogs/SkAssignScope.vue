@@ -126,6 +126,7 @@ export default {
       errormessage2: '',
       type: 'password',
 
+      userRole: [],
       permissionOptions: [],
       allPermission: {
         selected: false,
@@ -191,12 +192,29 @@ export default {
     async selectedUserId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       if (this.selectedUserId) {
-        const res = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
+        // permissions
+        let res = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
         this.permissionOptions.map(permission => {
+          permission.selected = false
           for (const r of res.data) {
             if (permission.uuid === r.uuid) {
               permission.selected = true
             }
+          }
+        })
+
+        // roles
+        res = await this.$store.dispatch('GetUserRoles', this.selectedUserId)
+        this.options.roles.map(role => {
+          if (res.data) {
+            for (const r of res.data) {
+              if (role.uuid === r.uuid) {
+                this.form.role = role.uuid
+                console.log('rolenamer', role.name)
+              }
+            }
+          } else {
+            console.log('invalid')
           }
         })
       }
@@ -233,11 +251,15 @@ export default {
       // user.role = user.role.value
 
       // const initialRoles = []
-      let initialPermissions = []
+      // let initialPermissions = []
+      const permissionIds = this.permissionOptions.filter(permission => permission.selected)
+      permissionIds.map(permission => permission.uuid)
 
       try {
-        initialPermissions = await this.$store.dispatch('UpdateUserPermission', { permissionOptions: this.permissionOptions })
-        console.log('init perm', initialPermissions.data)
+        await this.$store.dispatch('UpdateUserPermission', {
+          permissionIds: permissionIds,
+          roleIds: [this.form.role]
+        })
       } catch (e) {
         console.log(e)
       }

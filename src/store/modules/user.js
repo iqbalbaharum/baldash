@@ -264,7 +264,7 @@ const user = {
       })
     },
 
-    async UpdateUserPermission({ commit, data }, id) {
+    async UpdateUserPermission({ commit }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.user.updateUserPermissions(data)
           .then(res => {
