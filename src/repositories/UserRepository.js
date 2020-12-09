@@ -76,13 +76,13 @@ export default class UserRepository extends Repository {
   }
 
   async updateUserPermissions(data) {
-    const { permissionIds, roleIds, userId } = data
+    const { permissionIds, rolesIds, userId } = data
     return datasource({
       method: 'post',
       url: `users/${userId}/roles/permission/reattach`,
       data: {
         permissionIds,
-        roleIds
+        rolesIds
       }
     })
   }

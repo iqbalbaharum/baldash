@@ -47,15 +47,8 @@ const MENU_CONFIG = [
           {
             name: 'assignScope',
             permissions: [],
-            icon: 'fas fa-user-tag',
-            label: 'Scope',
-            disabled: false
-          },
-          {
-            name: 'userassignrole',
-            permissions: [],
-            icon: 'fas fa-user-tag',
-            label: 'Assign Role',
+            icon: 'fas fa-key',
+            label: 'Scope & Roles',
             disabled: false
           },
         ]

@@ -40,6 +40,7 @@
                       stack-label
                       label="Roles"
                       :error="$v.form.role.$error"
+                      @input="onInputFormRole"
                     />
                   </div>
                   <div class="text-negative">
@@ -57,6 +58,7 @@
                   <q-checkbox
                     v-model="allPermission.selected"
                     label="Select All"
+                    @input="onClickAllPermissions"
                   />
                   <q-separator class="q-my-md" />
 
@@ -95,6 +97,7 @@
 </template>
 
 <script>
+import RolePermissionType from '../../types/role-permissions'
 import Profile from '../../models/Profile'
 import { mapGetters } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
@@ -116,17 +119,12 @@ export default {
       },
       selectedUserId: '',
       form: {
-        status: true,
-        module_access: '',
-        designCAD_access: '',
-        branchId: '',
-        role: '',
+        role: {},
       },
       errormessage: '',
       errormessage2: '',
       type: 'password',
 
-      userRole: [],
       permissionOptions: [],
       allPermission: {
         selected: false,
@@ -190,10 +188,9 @@ export default {
     },
 
     async selectedUserId(newValue, oldValue) {
-      const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       if (this.selectedUserId) {
         // permissions
-        let res = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
+        const res = await this.$store.dispatch('GetUserPermissions', this.selectedUserId)
         this.permissionOptions.map(permission => {
           permission.selected = false
           for (const r of res.data) {
@@ -204,21 +201,13 @@ export default {
         })
 
         // roles
-        res = await this.$store.dispatch('GetUserRoles', this.selectedUserId)
-        this.options.roles.map(role => {
-          if (res.data) {
-            for (const r of res.data) {
-              if (role.uuid === r.uuid) {
-                this.form.role = role.uuid
-                console.log('rolenamer', role.name)
-              }
-            }
-          } else {
-            console.log('invalid')
-          }
-        })
+        await this.$store.dispatch('GetUserRoles', this.selectedUserId)
+        const user = User.query().withAll().where('uuid', this.selectedUserId).first()
+        if (user.roles.length) {
+          const foundRoleOption = this.options.roles.find(role => role.value === user.roles[0].$id)
+          this.form.role = foundRoleOption
+        }
       }
-      this.form = { ...foundSelection }
       this.errormessage = ''
     },
     selections(newValue, oldValue) {
@@ -238,30 +227,29 @@ export default {
       this.errormessage = ''
       this.errormessage2 = ''
       this.form = {
-        status: true,
-        module_access: '',
-        designCAD_access: '',
-        branchId: '',
         role: '',
       }
     },
 
     async onAssignUser() {
-      // const user = { ...this.form }
-      // user.role = user.role.value
+      const selectedPermissions = this.permissionOptions.filter(permission => permission.selected)
+      const permissionIds = []
 
-      // const initialRoles = []
-      // let initialPermissions = []
-      const permissionIds = this.permissionOptions.filter(permission => permission.selected)
-      permissionIds.map(permission => permission.uuid)
+      for (const permission of selectedPermissions) {
+        permissionIds.push(permission.uuid)
+      }
 
       try {
         await this.$store.dispatch('UpdateUserPermission', {
+          userId: this.selectedUserId,
           permissionIds: permissionIds,
-          roleIds: [this.form.role]
+          rolesIds: [this.form.role.value]
         })
+        this.$refs.dialog.$children[0].hide()
+        this.$notify('success', 'User roles & permissions have been updated.')
       } catch (e) {
         console.log(e)
+        this.$notify('error', 'Error updating user roles & permissions. Try again.')
       }
     },
     async loadRoleOptions() {
@@ -280,9 +268,37 @@ export default {
         this.permissionOptions = Permission.all().filter(permission =>
           permission.name.includes('Module')
         )
-        console.log(this.permissionOptions)
       } catch (e) {
         console.log(e)
+      }
+    },
+
+    onInputFormRole() {
+      if (!this.form.role.value) return
+
+      let roleName = this.options.roles.find(role => role.value === this.form.role.value).label
+      roleName = roleName.charAt(0).toLowerCase() + roleName.slice(1)
+
+      const permissionsForRole = RolePermissionType[roleName]
+      this.permissionOptions.forEach(permission => {
+        permission.selected = !!permissionsForRole.includes(permission.name)
+      })
+    },
+
+    onClickAllPermissions(value) {
+      if (value) {
+        this.permissionOptions.forEach(permission => {
+          permission.selected = true
+        })
+        return
+      }
+
+      if (this.form.role) {
+        this.onInputFormRole()
+      } else {
+        this.permissionOptions.forEach(permission => {
+          permission.selected = false
+        })
       }
     },
   }
