@@ -233,7 +233,7 @@ const MENU_CONFIG = [
             disabled: false
           },
           {
-            name: 'requalifyqlead',
+            name: 'requalifyQL',
             permissions: [],
             icon: 'fas fa-star',
             label: 'Requalify',

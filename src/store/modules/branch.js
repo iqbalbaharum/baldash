@@ -66,7 +66,6 @@ const branch = {
         const branch = Branch.find(data.uuid)
         this.$repository.branch.updateById(branch.getId, branch.getBodyRequest)
           .then(res => {
-            resolve(res.data)
             dispatch('UpdateTab', {
               name: 'Branches',
               columns: Branch.columns,
@@ -104,7 +103,7 @@ const branch = {
                 name: 'Branches',
                 columns: Branch.columns,
                 key: Branch.primaryKey,
-                data: data.model != null ? data.model.get() : Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
+                data: Branch.query().where('code', (value) => value !== 'HQ').withAll().get()
               })
             )
           })
