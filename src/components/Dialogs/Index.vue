@@ -16,6 +16,7 @@
     <sk-disqualified-q-l-dialog />
     <sk-assign-scope />
     <sk-branch-RR-dialog />
+    <sk-requalify-q-l-dialog />
   </div>
 </template>
 
@@ -33,6 +34,7 @@ import skAssignUserRole from './SkAssignUserRole'
 import SkOpenKujialeDialog from './SkOpenKujialeDialog'
 import skDisqualifiedOLDialog from './SkDisqualifiedOLDialog'
 import skDisqualifiedQLDialog from './SkDisqualifiedQLDialog'
+import skRequalifyQLDialog from './SkRequalifyQLDialog'
 import skAssignLeadToScDialog from './SkAssignLeadToSCDialog'
 import skAssignScope from './SkAssignScope'
 import skBranchRRDialog from './SkBranchRRDialog'
@@ -55,7 +57,8 @@ export default {
     skDisqualifiedQLDialog,
     skAssignLeadToScDialog,
     skAssignScope,
-    skBranchRRDialog
+    skBranchRRDialog,
+    skRequalifyQLDialog,
   },
   data() {
     return {
