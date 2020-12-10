@@ -275,6 +275,22 @@ const MENU_CONFIG = [
             label: 'Insert Drawing Number',
             disabled: false,
           },
+          {
+            name: 'detailedQuotation',
+            permissions: [],
+            icon: 'fas fa-pencil-ruler',
+            label: 'Detailed Quotation',
+            disabled: (state) => state.app.tableSelection.length !== 1,
+            disabledTooltipText: 'Only one design is allowed at a time'
+          },
+          {
+            name: 'summaryQuotation',
+            permissions: [],
+            icon: 'fas fa-pencil-ruler',
+            label: 'Summary Quotation',
+            disabled: (state) => state.app.tableSelection.length !== 1,
+            disabledTooltipText: 'Only one design is allowed at a time'
+          },
         ]
       }
     ]
