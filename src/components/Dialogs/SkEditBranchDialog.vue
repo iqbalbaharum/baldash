@@ -220,7 +220,7 @@ export default {
     },
     selections() {
       const selections = this.$store.getters.tableSelection
-      console.log('selections', selections)
+      // console.log('selections', selections)
       const opts = selections.map((selection) => {
         const container = []
         container.label = selection.name

@@ -382,7 +382,7 @@ const app = {
     },
     async GetData({ state, dispatch }) {
       const menu = state.menus.filter(element => element.name === state.activeMenu)
-      if (menu[0].request.get) {
+      if (menu[0].request && menu[0].request.get) {
         await dispatch(menu[0].request.get, { name: menu[0].default_datatab_title })
       }
     },
