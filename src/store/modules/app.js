@@ -30,14 +30,16 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-edit',
             label: 'View/Edit',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No user selected'
           },
           {
             name: 'delete',
             permissions: [],
             icon: 'fas fa-trash-alt',
             label: 'Delete',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No user selected'
           },
         ]
       },
@@ -49,7 +51,8 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-key',
             label: 'Scope & Roles',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No user selected'
           },
         ]
       }
@@ -83,14 +86,16 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-edit',
             label: 'View/Edit',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No branch selected'
           },
           {
             name: 'delete',
             permissions: [],
             icon: 'fas fa-trash-alt',
             label: 'Delete',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No branch selected'
           },
         ]
       },
@@ -169,14 +174,16 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-user-tag',
             label: 'Assign To',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No lead selected.'
           },
           {
             name: 'disqualifyOL',
             permissions: [],
             icon: 'far fa-star',
             label: 'Disqualify',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No lead selected.'
           }
         ]
       }
@@ -204,14 +211,16 @@ const MENU_CONFIG = [
             icon: 'fas fa-check',
             label: 'To Design Proposal',
             disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: 'Only one lead is allowed at a time'
+            disabledTooltipText: (state) => state.app.tableSelection.length < 1?
+              'No lead selected' : 'Only one lead is allowed at a time.',
           },
           {
             name: 'qualifyQL',
             permissions: [],
             icon: 'fas fa-user-tag',
             label: 'Assign To',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No lead selected.'
           },
         ]
       },
@@ -230,14 +239,16 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-star',
             label: 'Requalify',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No lead selected.'
           },
           {
             name: 'disqualifyQL',
             permissions: [],
             icon: 'far fa-star',
             label: 'Disqualify',
-            disabled: false
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No lead selected.'
           },
         ]
       }
@@ -281,15 +292,16 @@ const MENU_CONFIG = [
             icon: 'fas fa-pencil-ruler',
             label: 'Detailed Quotation',
             disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: 'Only one design is allowed at a time'
+            disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
+              'No design selected' : 'Only one design is allowed at a time.',
           },
           {
             name: 'summaryQuotation',
             permissions: [],
             icon: 'fas fa-pencil-ruler',
             label: 'Summary Quotation',
-            disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: 'Only one design is allowed at a time'
+            disabled: (state) => state.app.tableSelection.length < 1,
+            disabledTooltipText: 'No design selected.'
           },
         ]
       }
