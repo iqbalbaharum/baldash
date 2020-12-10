@@ -28,6 +28,13 @@ export default class BranchRepository extends Repository {
     })
   }
 
+  async checkMobileExist(mobile) {
+    return datasource({
+      method: 'get',
+      url: `branch/telno/${mobile}/exists`,
+    })
+  }
+
   async updateInnerRotation(rotation) {
     return datasource({
       method: 'patch',

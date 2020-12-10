@@ -34,9 +34,21 @@
                   outlined
                   label="Branch Code"
                   lazy-rules
+                  debounce="1000"
                   :rules="[textRules, onBranchCodeCheck]"
                   :error="errormessage.length > 0"
-                />
+                >
+                  <q-tooltip
+                    v-if="errormessage.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage }}
+                    </div>
+                  </q-tooltip>
+                </q-input>
                 <q-select
                   v-model="form.type"
                   outlined
@@ -56,24 +68,63 @@
                   outlined
                   placeholder="07-2345678"
                   label="Telephone No."
-                  :rules="phoneNoRules"
-                />
+                  debounce="1000"
+                  :rules="[phoneNoRules, onMobileCheck]"
+                  :error="errormessage3.length > 0"
+                >
+                  <q-tooltip
+                    v-if="errormessage3.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage3 }}
+                    </div>
+                  </q-tooltip>
+                </q-input>
                 <q-input
                   v-model="form.faxno"
                   class="col q-pl-xs q-pb-none"
                   outlined
                   placeholder="07-2345678"
                   label="Fax No."
-                />
+                  debounce="1000"
+                  :rules="[onFaxCheck]"
+                  :error="errormessage2.length > 0"
+                >
+                  <q-tooltip
+                    v-if="errormessage2.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage2 }}
+                    </div>
+                  </q-tooltip>
+                </q-input>
               </div>
               <q-input
                 v-model="form.email"
                 outlined
                 label="Email"
-                :rules="emailRules"
+                debounce="1000"
+                :rules="[emailRules, onEmailCheck]"
+                :error="errormessage.length > 0"
                 class="col q-pb-none"
-              />
-
+              >
+                  <q-tooltip
+                    v-if="errormessage4.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage4 }}
+                    </div>
+                  </q-tooltip>
+              </q-input>
               <q-input
                 v-model="form.address1"
                 outlined
@@ -199,6 +250,8 @@ export default {
       },
       errormessage: '',
       errormessage2: '',
+      errormessage3: '',
+      errormessage4: '',
       opts: {
         types: [
           {
@@ -302,6 +355,21 @@ export default {
         }
       })
     },
+    async onEmailCheck() {
+      this.$v.form.$touch()
+      if (this.form.email.length <= 0) {
+        return
+      }
+
+      await this.$store.dispatch('CheckEmailExist', this.form.email)
+        .then(exists => {
+          if (exists) {
+            this.errormessage4 = 'Email already exist'
+          } else {
+            this.errormessage4 = ''
+          }
+        })
+    },
     async onBranchCodeCheck() {
       await this.$store.dispatch('CheckBranchCodeExist', this.form.code)
         .then(exists => {
@@ -319,6 +387,21 @@ export default {
             this.errormessage2 = 'Fax number already exist'
           } else {
             this.errormessage2 = ''
+          }
+        })
+    },
+    async onMobileCheck() {
+      this.$v.form.$touch()
+      if (this.form.telno.length <= 0) {
+        return
+      }
+
+      await this.$store.dispatch('CheckMobileBranchExist', this.form.telno)
+        .then(exists => {
+          if (exists) {
+            this.errormessage3 = 'Mobile already exist'
+          } else {
+            this.errormessage3 = ''
           }
         })
     },

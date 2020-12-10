@@ -53,6 +53,7 @@
                     outlined
                     label="SC Code"
                     lazy-rules
+                    debounce="1000"
                     :rules="[textRules,onSCCodeCheck]"
                     :error="errormessage.length > 0"
                   >
@@ -75,6 +76,7 @@
                     outlined
                     label="Telephone No."
                     lazy-rules
+                    debounce="1000"
                     :rules="[phoneNoRules,onMobileCheck]"
                     :error="errormessage3.length > 0"
                     unmasked-value
@@ -98,6 +100,7 @@
                   outlined
                   label="Email"
                   lazy-rules
+                  debounce="1000"
                   :rules="[emailRules,onEmailCheck]"
                   :error="errormessage2.length > 0"
                 >

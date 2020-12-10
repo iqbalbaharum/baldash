@@ -106,7 +106,18 @@ const branch = {
     },
     async CheckFaxExist({ commit }, data) {
       return new Promise((resolve, reject) => {
-        this.$repository.user.checkFaxExist(data)
+        this.$repository.branch.checkFaxExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    async CheckMobileBranchExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.checkMobileExist(data)
           .then(res => {
             resolve(res.data.exist)
           })
