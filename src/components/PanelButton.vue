@@ -11,7 +11,7 @@
       So we have to wrap the button with a div, and make the tooltip show when the div is hovered
       -->
       <q-tooltip v-if="isButtonDisabled(link)">
-        {{ link.disabledTooltipText }}
+        {{ buttonDisabledTooltipText(link) }}
       </q-tooltip>
 
       <q-btn
@@ -56,6 +56,14 @@ export default {
       if (typeof btn.disabled === 'function') { return btn.disabled(this.$store.state) }
 
       return btn.disabled
+    },
+    buttonDisabledTooltipText(btn) {
+      // Button.disabledTooltipText can be function too.
+      // Here we return the value of the function call if it is a function.
+      // We pass the store's state as parameter so the disabled function can do some processing.
+      if (typeof btn.disabledTooltipText === 'function') { return btn.disabledTooltipText(this.$store.state) }
+
+      return btn.disabledTooltipText
     },
   },
 }
