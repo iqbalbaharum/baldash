@@ -217,6 +217,28 @@ const lead = {
         })
       })
     },
+    async LeadCheckEmailExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.checkEmailExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    async LeadCheckMobileExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.checkMobileExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
 
     async DisqualifiedOnlineLead({ dispatch }, data) {
       return new Promise((resolve, reject) => {

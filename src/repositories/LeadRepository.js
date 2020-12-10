@@ -33,4 +33,18 @@ export default class LeadRepository extends Repository {
       url: `leads/branch-suggestion`,
     })
   }
+
+  async checkEmailExist(email) {
+    return datasource({
+      method: 'get',
+      url: `leads/email/${email}/exists`,
+    })
+  }
+
+  async checkMobileExist(mobile) {
+    return datasource({
+      method: 'get',
+      url: `leads/phone/${mobile}/exists`,
+    })
+  }
 }

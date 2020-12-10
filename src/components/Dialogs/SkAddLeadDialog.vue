@@ -32,16 +32,42 @@
                   outlined
                   label="Email"
                   type="email"
-                  :rules="emailRules"
-                />
+                  debounce="1000"
+                  :rules="[emailRules, onEmailCheck]"
+                  :error="errormessage2.length > 0"
+                >
+                    <q-tooltip
+                      v-if="errormessage2.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage3 }}
+                      </div>
+                    </q-tooltip>
+                </q-input>
                 <q-input
                   v-model="form.phone"
                   class="col q-pl-xs q-pb-none"
                   outlined
                   type="tel"
                   label="Mobile No."
-                  :rules="phoneNoRules"
-                />
+                  debounce="1000"
+                  :rules="[phoneNoRules, onMobileCheck]"
+                  :error="errormessage3.length > 0"
+                >
+                    <q-tooltip
+                      v-if="errormessage3.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage3 }}
+                      </div>
+                    </q-tooltip>
+                </q-input>
               </div>
               <q-select
                 v-model="form.property_type"
@@ -138,6 +164,8 @@ export default {
             value: 'retail'
           }]
       },
+      errormessage2: '',
+      errormessage3: '',
       form: {
         name: '',
         email: '',
@@ -198,6 +226,36 @@ export default {
       // } catch (e) {
       //   this.$notify('error', 'All field is required')
       // }
+    },
+    async onEmailCheck() {
+      this.$v.form.$touch()
+      if (this.form.email.length <= 0) {
+        return
+      }
+
+      await this.$store.dispatch('LeadCheckEmailExist', this.form.email)
+        .then(exists => {
+          if (exists) {
+            this.errormessage2 = 'Email already exist'
+          } else {
+            this.errormessage2 = ''
+          }
+        })
+    },
+    async onMobileCheck() {
+      this.$v.form.$touch()
+      if (this.form.phone.length <= 0) {
+        return
+      }
+
+      await this.$store.dispatch('LeadCheckMobileExist', this.form.phone)
+        .then(exists => {
+          if (exists) {
+            this.errormessage3 = 'Mobile already exist'
+          } else {
+            this.errormessage3 = ''
+          }
+        })
     },
   }
 }
