@@ -36,16 +36,16 @@
                   :rules="[emailRules, onEmailCheck]"
                   :error="errormessage2.length > 0"
                 >
-                    <q-tooltip
-                      v-if="errormessage2.length > 0"
-                      anchor="top middle"
-                      self="bottom middle"
-                      :offset="[10, 10]"
-                    >
-                      <div>
-                        {{ errormessage2 }}
-                      </div>
-                    </q-tooltip>
+                  <q-tooltip
+                    v-if="errormessage2.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage2 }}
+                    </div>
+                  </q-tooltip>
                 </q-input>
                 <q-input
                   v-model="form.phone"
@@ -57,16 +57,16 @@
                   :rules="[phoneNoRules, onMobileCheck]"
                   :error="errormessage3.length > 0"
                 >
-                    <q-tooltip
-                      v-if="errormessage3.length > 0"
-                      anchor="top middle"
-                      self="bottom middle"
-                      :offset="[10, 10]"
-                    >
-                      <div>
-                        {{ errormessage3 }}
-                      </div>
-                    </q-tooltip>
+                  <q-tooltip
+                    v-if="errormessage3.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage3 }}
+                    </div>
+                  </q-tooltip>
                 </q-input>
               </div>
               <q-select
