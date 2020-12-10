@@ -262,9 +262,21 @@ const MENU_CONFIG = [
             icon: 'fas fa-pencil-ruler',
             label: 'Open External',
             disabled: false
-          }
+          },
         ]
       },
+      {
+        category: 'Drawing',
+        tos: [
+          {
+            name: 'insertDrawingNumber',
+            permissions: [],
+            icon: 'fas fa-pencil-ruler',
+            label: 'Insert Drawing Number',
+            disabled: false,
+          },
+        ]
+      }
     ]
   },
   {
