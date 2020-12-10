@@ -220,6 +220,17 @@ const user = {
           })
       })
     },
+    async CheckMobileExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.checkMobileExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
 
     RegisterIndividual({ commit }, data) {
       return new Promise((resolve, reject) => {

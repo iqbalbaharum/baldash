@@ -104,6 +104,17 @@ const branch = {
           })
       })
     },
+    async CheckFaxExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.user.checkFaxExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
 
     DeleteBranch({ commit, dispatch }, id) {
       return new Promise((resolve, reject) => {

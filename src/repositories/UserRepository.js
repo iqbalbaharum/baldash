@@ -116,6 +116,13 @@ export default class UserRepository extends Repository {
     })
   }
 
+  async checkMobileExist(mobile) {
+    return datasource({
+      method: 'get',
+      url: `users/mobile/${mobile}/exists`,
+    })
+  }
+
   async assignUserRoles(userId, rid) {
     return datasource({
       method: 'post',

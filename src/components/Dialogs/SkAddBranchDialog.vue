@@ -33,10 +33,9 @@
                   class="col q-pb-none"
                   outlined
                   label="Branch Code"
-                  :bottom-slots="false"
-                  :error="false"
-                  :rules="textRules"
-                  @blur="onBranchCodeCheck"
+                  lazy-rules
+                  :rules="[textRules, onBranchCodeCheck]"
+                  :error="errormessage.length > 0"
                 />
                 <q-select
                   v-model="form.type"
@@ -199,6 +198,7 @@ export default {
         branchId: '',
       },
       errormessage: '',
+      errormessage2: '',
       opts: {
         types: [
           {
@@ -309,6 +309,16 @@ export default {
             this.errormessage = 'Branch Code already exist'
           } else {
             this.errormessage = ''
+          }
+        })
+    },
+    async onFaxCheck() {
+      await this.$store.dispatch('CheckFaxExist', this.form.faxno)
+        .then(exists => {
+          if (exists) {
+            this.errormessage2 = 'Fax number already exist'
+          } else {
+            this.errormessage2 = ''
           }
         })
     },

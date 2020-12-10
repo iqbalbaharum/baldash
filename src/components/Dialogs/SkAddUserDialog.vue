@@ -74,8 +74,8 @@
                     class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
-                    :rules="[phoneNoRules,onMobileForm]"
                     lazy-rules
+                    :rules="[phoneNoRules,onMobileCheck]"
                     :error="errormessage3.length > 0"
                     unmasked-value
                     placeholder="012-3456789"
@@ -230,6 +230,7 @@ export default {
       errormessage: '',
       errormessage2: '',
       errormessage3: '',
+      errormessage4: '',
       type: 'password',
 
       permissionOptions: [],
@@ -315,6 +316,7 @@ export default {
       this.errormessage = ''
       this.errormessage2 = ''
       this.errormessage3 = ''
+      this.errormessage4 = ''
       this.form = {
         username: '',
         password: '',
@@ -410,6 +412,21 @@ export default {
             this.errormessage2 = 'Email already exist'
           } else {
             this.errormessage2 = ''
+          }
+        })
+    },
+    async onMobileCheck() {
+      this.$v.form.$touch()
+      if (this.form.mobile.length <= 0) {
+        return
+      }
+
+      await this.$store.dispatch('CheckMobileExist', this.form.mobile)
+        .then(exists => {
+          if (exists) {
+            this.errormessage3 = 'Mobile already exist'
+          } else {
+            this.errormessage3 = ''
           }
         })
     },

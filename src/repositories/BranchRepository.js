@@ -13,6 +13,13 @@ export default class BranchRepository extends Repository {
       url: `branch/${branchcode}/exists`,
     })
   }
+  async checkFaxExist(fax) {
+    return datasource({
+      method: 'get',
+      // url: `users/sccode/${code}/exists`,
+      url: `branch/fax/${fax}/exists`,
+    })
+  }
 
   async refreshBranchesLeadCapacity() {
     return datasource({
