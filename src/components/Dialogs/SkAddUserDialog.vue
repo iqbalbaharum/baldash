@@ -33,7 +33,8 @@
                   class="col q-pb-none"
                   outlined
                   :type="type"
-                  :rules="textRules"
+                  :rules="[textRules,onPasswordCheck]"
+                  :error="errormessage5.length > 0"
                   label="Password"
                 >
                   <template v-slot:append>
@@ -44,6 +45,16 @@
                       @click="onClickShowPasswords"
                     />
                   </template>
+                  <q-tooltip
+                    v-if="errormessage5.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage5 }}
+                    </div>
+                  </q-tooltip>
                 </q-input>
 
                 <div class="row ">
@@ -71,16 +82,15 @@
                   <q-input
                     ref="mobile"
                     v-model="form.mobile"
-                    mask="### - #########"
                     class="col q-pl-xs q-pb-none"
                     outlined
                     label="Telephone No."
                     lazy-rules
-                    debounce="1000"
-                    :rules="[phoneNoRules,onMobileCheck]"
+                    debounce="5000"
+                    :rules="[onMobileCheck]"
                     :error="errormessage3.length > 0"
+                    mask="### - #########"
                     unmasked-value
-                    placeholder="012-3456789"
                   >
                     <q-tooltip
                       v-if="errormessage3.length > 0"
@@ -94,6 +104,7 @@
                     </q-tooltip>
                   </q-input>
                 </div>
+                {{ form.mobile }}
                 <q-input
                   v-model="form.email"
                   class="col q-pb-none"
@@ -157,6 +168,7 @@
                   label="Select All"
                   @input="onClickAllPermissions"
                 />
+                <q-separator class="q-my-md" />
                 <div
                   v-for="permission in permissionOptions"
                   :key="permission.$id"
@@ -214,7 +226,7 @@ export default {
 
   data() {
     return {
-      textRules: [val => val && val.length > 0],
+      textRules: [val => val && val.length > 0 && val.length < 13],
       selectedUserId: '',
       sccode: '',
       form: {
@@ -234,6 +246,7 @@ export default {
       errormessage2: '',
       errormessage3: '',
       errormessage4: '',
+      errormessage5: '',
       type: 'password',
 
       permissionOptions: [],
@@ -320,6 +333,7 @@ export default {
       this.errormessage2 = ''
       this.errormessage3 = ''
       this.errormessage4 = ''
+      this.errormessage5 = ''
       this.form = {
         username: '',
         password: '',
@@ -381,14 +395,6 @@ export default {
       })
     },
 
-    ondesignAccess() {
-      if (this.form.designCAD_access === true) {
-        const userPermissions = ['SKModuleDesignProposal']
-        // will then send to vuex
-        console.log(userPermissions)
-      }
-    },
-
     async onSCCodeCheck() {
       this.$v.form.$touch()
       if (this.form.sccode.length <= 0) {
@@ -420,7 +426,7 @@ export default {
     },
     async onMobileCheck() {
       this.$v.form.$touch()
-      if (this.form.mobile.length <= 0) {
+      if (this.form.mobile.length <= 0 && !isValidPhoneNo) {
         return
       }
 
@@ -432,6 +438,17 @@ export default {
             this.errormessage3 = ''
           }
         })
+    },
+
+    onPasswordCheck() {
+      this.$v.form.$touch()
+      if (this.form.password.length > 12) {
+        console.log('in')
+        this.errormessage5 = 'Password length must be from 4 to 12 characters'
+      } else {
+        this.errormessage5 = ''
+        console.log('out')
+      }
     },
 
     async onMobileForm() {
