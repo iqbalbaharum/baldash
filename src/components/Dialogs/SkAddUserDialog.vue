@@ -280,6 +280,7 @@ export default {
       const roles = Role.all()
       const opts = roles.map((role) => {
         const container = []
+        container.name = role.name.charAt(0).toUpperCase() + role.name.slice(1)
         container.label = role.displayName
         container.value = role.uuid
         return container
@@ -387,7 +388,7 @@ export default {
     },
 
     onInputFormRole() {
-      let roleName = this.roles.find(role => role.value === this.form.role).label
+      let roleName = this.roles.find(role => role.value === this.form.role).name
       roleName = roleName.charAt(0).toLowerCase() + roleName.slice(1)
 
       const permissionsForRole = RolePermissionType[roleName]
