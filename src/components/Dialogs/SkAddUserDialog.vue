@@ -88,7 +88,7 @@
                     lazy-rules
                     :rules="[onMobileCheck]"
                     :error="errormessage3.length > 0"
-                    mask="###-#########"
+                    mask="### - #########"
                     unmasked-value
                   >
                     <q-tooltip
@@ -103,7 +103,6 @@
                     </q-tooltip>
                   </q-input>
                 </div>
-                {{ form.mobile }}
                 <q-input
                   v-model="form.email"
                   class="col q-pb-none"
@@ -373,6 +372,9 @@ export default {
         } else {
           this.$notify('error', 'All field is required')
         }
+        this.permissionOptions.forEach(permission => {
+          permission.selected = false
+        })
       })
     },
 
@@ -441,7 +443,7 @@ export default {
 
     onPasswordCheck() {
       this.$v.form.$touch()
-      if (this.form.password.length <= 4 || this.form.password.length > 12) {
+      if (this.form.password.length < 4 || this.form.password.length > 12) {
         this.errormessage5 = 'Password length must be from 4 to 12 characters'
       } else {
         this.errormessage5 = ''
