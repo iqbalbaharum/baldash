@@ -9,6 +9,7 @@ export default class Role extends Model {
     return {
       uuid: this.attr(null),
       name: this.attr(''),
+      displayName: this.attr(''),
       createdAt: this.attr('')
     }
   }
