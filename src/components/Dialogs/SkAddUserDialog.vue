@@ -280,7 +280,7 @@ export default {
       const roles = Role.all()
       const opts = roles.map((role) => {
         const container = []
-        container.label = role.name.charAt(0).toUpperCase() + role.name.slice(1)
+        container.label = role.displayName
         container.value = role.uuid
         return container
       })
