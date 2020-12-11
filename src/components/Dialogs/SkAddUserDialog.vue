@@ -442,7 +442,7 @@ export default {
 
     onPasswordCheck() {
       this.$v.form.$touch()
-      if (this.form.password.length > 12) {
+      if (this.form.password.length <= 4 || this.form.password.length > 12) {
         console.log('in')
         this.errormessage5 = 'Password length must be from 4 to 12 characters'
       } else {
