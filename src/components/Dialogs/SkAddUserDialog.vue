@@ -455,9 +455,6 @@ export default {
     },
     async onMobileCheck() {
       this.$v.form.$touch()
-      if (this.form.mobile.length <= 0 && !isValidPhoneNo) {
-        return
-      }
 
       await this.$store.dispatch('CheckMobileExist', this.form.mobile)
         .then(exists => {
@@ -467,6 +464,9 @@ export default {
             this.errormessage3 = ''
           }
         })
+      if (this.form.mobile.length <= 9) {
+        this.errormessage3 = 'Fill mobile with the following format (012-3456789)'
+      }
     },
 
     onPasswordCheck() {
