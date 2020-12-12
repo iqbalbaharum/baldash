@@ -132,9 +132,21 @@
                   emit-value
                   map-options
                   stack-label
-                  :rules="[ val => val && val.length > 0 ]"
+                  :rules="[textRules, onBranchCheck]"
+                  :error="errormessage7.length > 0"
                   class="col q-pb-none"
-                />
+                >
+                  <q-tooltip
+                    v-if="errormessage7.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage7 }}
+                    </div>
+                  </q-tooltip>
+                </q-select>
                 <q-select
                   v-model="form.role"
                   outlined
@@ -143,11 +155,22 @@
                   emit-value
                   map-options
                   stack-label
-                  :rules="[ val => val && val.length > 0 ]"
+                  :rules="[textRules, onRoleCheck]"
+                  :error="errormessage6.length > 0"
                   class="col q-pb-none"
                   @input="onInputFormRole"
-                />
-
+                >
+                  <q-tooltip
+                    v-if="errormessage6.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage6 }}
+                    </div>
+                  </q-tooltip>
+                </q-select>
                 <!-- <div class="text-weight-bold text-uppercase text-grey-5 q-mt-md">
                   Access to DesignCAD
                 </div>
@@ -245,6 +268,8 @@ export default {
       errormessage3: '',
       errormessage4: '',
       errormessage5: '',
+      errormessage6: '',
+      errormessage7: '',
       type: 'password',
 
       permissionOptions: [],
@@ -333,6 +358,8 @@ export default {
       this.errormessage3 = ''
       this.errormessage4 = ''
       this.errormessage5 = ''
+      this.errormessage6 = ''
+      this.errormessage6 = ''
       this.form = {
         username: '',
         password: '',
@@ -428,9 +455,6 @@ export default {
     },
     async onMobileCheck() {
       this.$v.form.$touch()
-      if (this.form.mobile.length <= 0 && !isValidPhoneNo) {
-        return
-      }
 
       await this.$store.dispatch('CheckMobileExist', this.form.mobile)
         .then(exists => {
@@ -440,6 +464,9 @@ export default {
             this.errormessage3 = ''
           }
         })
+      if (this.form.mobile.length <= 9) {
+        this.errormessage3 = 'Fill mobile with the following format (012-3456789)'
+      }
     },
 
     onPasswordCheck() {
@@ -448,6 +475,24 @@ export default {
         this.errormessage5 = 'Password length must be from 4 to 12 characters'
       } else {
         this.errormessage5 = ''
+      }
+    },
+
+    onRoleCheck() {
+      this.$v.form.$touch()
+      if (this.form.role.length <= 0) {
+        this.errormessage6 = 'Field cant blank'
+      } else {
+        this.errormessage6 = ''
+      }
+    },
+
+    onBranchCheck() {
+      this.$v.form.$touch()
+      if (this.form.branchId.length <= 0) {
+        this.errormessage7 = 'Field cant blank'
+      } else {
+        this.errormessage7 = ''
       }
     },
 
