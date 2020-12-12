@@ -3,6 +3,7 @@
     ref="dialog"
     name="editbranch"
     @close-dialog="reset"
+    @show-dialog="onShowDialog"
   >
     <q-card style="width:1800px">
       <div>
@@ -152,8 +153,8 @@
                 <q-select
                   v-model="form.branchId"
                   outlined
-                  :options="branches"
                   label="Parent Branch"
+                  :disabled="true"
                   emit-value
                   map-options
                   stack-label
@@ -200,7 +201,8 @@ export default {
       form: {},
       fileUpload: null,
       logo: '',
-      branchName: ''
+      branchName: '',
+      selections: [],
     }
   },
 
@@ -208,38 +210,6 @@ export default {
     ...mapGetters([
       'tableSelection'
     ]),
-    branches() {
-      const branches = Branch.all()
-      const opts = branches.map((branch) => {
-        const container = []
-        container.label = branch.name.charAt(0).toUpperCase() + branch.name.slice(1)
-        container.value = branch.uuid
-        return container
-      })
-      return opts
-    },
-    selections() {
-      const selections = this.$store.getters.tableSelection
-      // console.log('selections', selections)
-      const opts = selections.map((selection) => {
-        const container = []
-        container.label = selection.name
-        container.value = selection.uuid
-        return container
-      })
-
-      return opts
-    },
-
-    getBranchName() {
-      this.branches.find(branch => {
-        if (branch.value === this.selectedBranchId) {
-          this.branchName = branch.label
-          return branch.label
-        }
-      })
-      return ''
-    }
   },
 
   watch: {
@@ -253,6 +223,22 @@ export default {
   },
 
   methods: {
+    async onShowDialog() {
+      if (!this.$store.getters.tableSelection.length) return
+
+      this.selections = this.$store.getters.tableSelection
+      this.selections = this.selections.map(selection => {
+        const container = {}
+        container.label = selection.name
+        container.value = selection.uuid
+        return container
+      })
+      this.selectedBranchId = this.selections[0].value
+
+      // For parent branch
+      const hqBranch = Branch.query().where('name', 'HQ').first()
+      this.branchName = hqBranch.name
+    },
     reset() {
       this.selectedBranchId = ''
       this.form = {}
