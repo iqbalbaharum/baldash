@@ -51,8 +51,10 @@ export default class User extends Model {
     { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
     { name: 'contact', label: 'Mobile No.', align: 'left', field: 'mobile', sortable: true },
     { name: 'branch', label: 'Branch', align: 'left', field: (row) => { if (row.branch) { return row.branch.name } }, sortable: true },
-    { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
-    { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
+    { name: 'roles', label: 'Roles', align: 'left', field: (row) => { if (row.roles.length) { return row.roles[0].displayName } }, sortable: true },
+    { name: 'SCCode', label: 'SC Code', align: 'left', field: (row) => { if (row.profile) { return row.profile.sccode } }, sortable: true }
+    // { name: 'createdAt', label: 'Created At', align: 'left', field: 'createdAt', sortable: true },
+    // { name: 'updatedAt', label: 'Updated At', align: 'left', field: 'updatedAt', sortable: true },
   ]
 }
 
