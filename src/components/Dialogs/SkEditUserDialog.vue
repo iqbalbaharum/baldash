@@ -265,7 +265,8 @@ export default {
         }
         this.$notify('success', `User with name ${this.form.name} updated!`)
       } catch (e) {
-        const message = e.response.message.error
+        console.log(e)
+        const message = e.response?.message?.error
         this.$notify('error', message)
       }
     },
