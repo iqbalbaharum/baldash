@@ -3,6 +3,7 @@
     ref="dialog"
     name="addbranch"
     @close-dialog="reset"
+    @show-dialog="onShowDialog"
   >
     <q-card style="width:1800px">
       <div>
@@ -181,8 +182,9 @@
               <q-select
                 v-model="form.branchId"
                 outlined
-                :options="branches"
-                label="Branch"
+                label="Parent Branch"
+                :disabled="true"
+                :display-value="branchName"
                 emit-value
                 map-options
                 stack-label
@@ -248,6 +250,8 @@ export default {
         GSTNo: '',
         branchId: '',
       },
+      branchName: '',
+      selections: [],
       errormessage: '',
       errormessage2: '',
       errormessage3: '',
@@ -317,6 +321,13 @@ export default {
   },
 
   methods: {
+    async onShowDialog() {
+      // For parent branch
+      const hqBranch = Branch.query().where('name', 'HQ').first()
+      this.form.branchId = hqBranch.uuid
+      this.branchName = hqBranch.name
+      console.log(this.branchName)
+    },
     reset() {
       this.errormessage = ''
       this.form = {
