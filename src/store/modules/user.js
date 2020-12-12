@@ -117,13 +117,19 @@ const user = {
       })
     },
 
-    GetAllUsers({ commit, dispatch }, data) {
+    GetAllUsers({ dispatch }, data) {
       return new Promise((resolve, reject) => {
         let filter = data !== undefined && data.filter ? data.filter : {
           include: [
             {
               relation: 'branch'
-            }
+            },
+            {
+              relation: 'profile'
+            },
+            {
+              relation: 'roles'
+            },
           ]
         }
 
@@ -172,9 +178,20 @@ const user = {
     },
 
     async UpdateUser({ commit, dispatch }, data) {
-      return new Promise((resolve, reject) => {
-        User.update({ where: data.uuid, data: data })
-        const user = User.find(data.uuid)
+      return new Promise(async (resolve, reject) => {
+        const user = User.query().withAll().where('uuid', data.uuid).first()
+        const updateData = {
+          name: data.name,
+          mobile: data.mobile,
+          profile: {
+            ...user.profile,
+            sccode: data.sccode,
+          }
+        }
+        // This returns the updated profile, but when we `User.query().withAll().get()`,
+        // the profile is not updated.
+        await User.update({ where: data.uuid, data: updateData  })
+
         this.$repository.user.updateById(user.getId, user.getBodyRequest)
           .then(res => {
             dispatch('UpdateTab', {
