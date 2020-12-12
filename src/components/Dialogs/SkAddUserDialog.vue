@@ -132,9 +132,21 @@
                   emit-value
                   map-options
                   stack-label
-                  :rules="[textRules]"
+                  :rules="[textRules, onBranchCheck]"
+                  :error="errormessage7.length > 0"
                   class="col q-pb-none"
-                />
+                >
+                  <q-tooltip
+                    v-if="errormessage7.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage7 }}
+                    </div>
+                  </q-tooltip>
+                </q-select>
                 <q-select
                   v-model="form.role"
                   outlined
@@ -257,6 +269,7 @@ export default {
       errormessage4: '',
       errormessage5: '',
       errormessage6: '',
+      errormessage7: '',
       type: 'password',
 
       permissionOptions: [],
@@ -345,6 +358,7 @@ export default {
       this.errormessage3 = ''
       this.errormessage4 = ''
       this.errormessage5 = ''
+      this.errormessage6 = ''
       this.errormessage6 = ''
       this.form = {
         username: '',
@@ -470,6 +484,15 @@ export default {
         this.errormessage6 = 'Field cant blank'
       } else {
         this.errormessage6 = ''
+      }
+    },
+
+    onBranchCheck() {
+      this.$v.form.$touch()
+      if (this.form.branchId.length <= 0) {
+        this.errormessage7 = 'Field cant blank'
+      } else {
+        this.errormessage7 = ''
       }
     },
 
