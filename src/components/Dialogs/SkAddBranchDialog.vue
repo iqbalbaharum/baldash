@@ -290,7 +290,6 @@ export default {
     },
     countries() {
       const countries = Country.all()
-      console.log('countries', Country.query().where('name', 'Malaysia').get())
       const countryOptions = countries.map(country => {
         const container = []
 
