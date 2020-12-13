@@ -23,7 +23,7 @@
                 outlined
                 label="Name"
                 lazy-rules
-                :rules="textRules"
+                :rules="[textRules]"
               />
               <div class="row">
                 <q-input
@@ -75,14 +75,14 @@
                 outlined
                 label="Property Type"
                 :options="opts.propType"
-                :rules="textRules"
+                :rules="[textRules]"
               />
               <q-input
                 v-model="form.location"
                 class="col q-pb-none"
                 outlined
                 label="Property Location"
-                :rules="textRules"
+                :rules="[textRules]"
               />
               <q-select
                 v-model="form.source_lead"
@@ -104,7 +104,7 @@
                 class="col q-pb-none"
                 emit-value
                 map-options
-                :rules="textRules"
+                :rules="[textRules]"
               />
               <q-separator />
               <div align="right">

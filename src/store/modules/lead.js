@@ -264,7 +264,6 @@ const lead = {
 
     AddQualifiedLead({ dispatch, rootState }, data) {
       data.branchId = rootState.user.branchId
-      data.userId = rootState.user.userId
       data.state = 'QL'
       data.status = 'active'
       return new Promise((resolve, reject) => {
@@ -305,9 +304,31 @@ const lead = {
       })
     },
 
+    AssignLeadToSC({ dispatch }, data) {
+      return new Promise(async (resolve, reject) => {
+        await Lead.update({ where: data.uuid, data: data })
+        const lead = Lead.find(data.uuid)
+
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest)
+        .then(res => {
+            dispatch('UpdateTab', {
+              name: 'Qualified Leads',
+              columns: Lead.columns,
+              key: Lead.primaryKey,
+              data: Lead.query().withAll().get()
+            })
+          resolve(res.data)
+        })
+        .catch( err => {
+          reject(err)
+        })
+      })
+     
+    },
+
     UpdateLead({}, data) {
-      return new Promise((resolve, reject) => {
-        Lead.update({ where: data.uuid, data: data })
+      return new Promise(async (resolve, reject) => {
+        await Lead.update({ where: data.uuid, data: data })
         const lead = Lead.find(data.uuid)
 
         this.$repository.lead.updateById(lead.getId, lead.getBodyRequest)
