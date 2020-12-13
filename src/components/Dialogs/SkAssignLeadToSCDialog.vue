@@ -3,6 +3,7 @@
     ref="dialog"
     name="qualifyQL"
     @close-dialog="reset"
+    @show-dialog="onShowDialog"
   >
     <q-card style="width:2000px">
       <div>
@@ -65,16 +66,22 @@
             <div class="text-weight-bold text-uppercase text-grey-5">
               Assign leads to Sales Consultant
             </div>
-            <q-select
-              v-model="form.userId"
-              outlined
-              :options="salesConsultantsOptions"
-              label="Selected sales consultant"
-              emit-value
-              map-options
-              stack-label
-              class="col"
-            />
+            <div>
+              <q-select
+                v-model="form.userId"
+                outlined
+                :options="salesConsultantsOptions"
+                label="Selected sales consultant"
+                :disable="!salesConsultantsOptions.length"
+                emit-value
+                map-options
+                stack-label
+                class="col"
+              />
+              <q-tooltip v-if="!salesConsultantsOptions.length">
+                There are no Sales Consultant in your branch.
+              </q-tooltip>
+            </div>
 
             <q-separator />
 
@@ -101,7 +108,7 @@
 <script>
 import Role from '../../models/Role'
 import ModalDialog from './../ModalDialog'
-import Lead from './../../models/Lead'
+// import Lead from './../../models/Lead'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -113,7 +120,8 @@ export default {
     return {
       selectedLeadId: '',
       salesConsultants: [],
-      form: {}
+      form: {},
+      selections: [],
     }
   },
 
@@ -132,24 +140,11 @@ export default {
       })
       return opts
     },
-    selections() {
-      const selections = this.$store.getters.tableSelection
-      if (!selections.length) return []
+    selectedSCName() {
+      if (!this.form.userId) return ''
 
-      const opts = selections.map((selection) => {
-        const container = []
-        container.label = selection.name
-        container.value = selection.uuid
-        return container
-      })
-
-      return opts
-    },
-    selectedBranchName() {
-      if (!this.selectedBranchId) return ''
-
-      return this.users.find(branch =>
-        branch.value === this.selectedBranchId
+      return this.salesConsultantsOptions.find(sc =>
+        sc.value === this.form.userId
       ).label
     }
   },
@@ -159,25 +154,31 @@ export default {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
     },
-    selections(newValue, oldValue) {
-      if (!newValue.length) return
-
-      this.selectedLeadId = newValue[0].value
-    }
-  },
-
-  async created() {
-    await this.$store.dispatch('GetAllRoles')
-    const id = Role.query().where('name', 'salesconsultant').first().$id
-    const filter = {
-      where: {
-        branchId: this.$store.state.user.branchId
-      }
-    }
-    this.salesConsultants = (await this.$store.dispatch('GetRoleUsers', { id, filter })).data
   },
 
   methods: {
+    async onShowDialog() {
+      this.selections = this.$store.getters.tableSelection
+      if (!this.selections.length) return
+
+      this.selections = this.selections.map((selection) => {
+        const container = []
+        container.label = selection.name
+        container.value = selection.uuid
+        return container
+      })
+      this.selectedLeadId = this.selections[0].value
+
+      await this.$store.dispatch('GetAllRoles')
+      const scRoleId = Role.query().where('name', 'salesconsultant').first().$id
+      const filter = {
+        where: {
+          branchId: this.$store.state.user.branchId
+        }
+      }
+      this.salesConsultants = (await this.$store.dispatch('GetRoleUsers', { id: scRoleId, filter })).data
+    },
+
     reset() {
       this.selectedLeadId = ''
       this.form = {}
@@ -185,15 +186,11 @@ export default {
     async onAssignLeads() {
       const lead = { ...this.form }
       try {
-        Lead.update({
-          where: lead.$id,
-          data: lead
-        })
-
-        await this.$store.dispatch('AssignLeadToBranch', lead)
+        await this.$store.dispatch('AssignLeadToSC', lead)
         this.$refs.dialog.$children[0].hide()
-        this.$notify('success', `Successfully assigned lead to branch ${this.selectedBranchName}`)
+        this.$notify('success', `Successfully assigned lead to ${this.selectedSCName}`)
       } catch (e) {
+        console.log(e)
         const message = e.response.message.error
         this.$notify('error', message)
       }

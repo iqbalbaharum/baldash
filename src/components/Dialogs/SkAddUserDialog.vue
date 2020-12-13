@@ -25,7 +25,7 @@
                   outlined
                   label="Full name"
                   lazy-rules
-                  :rules="textRules"
+                  :rules="[textRules]"
                 />
                 <q-input
                   ref="password"
