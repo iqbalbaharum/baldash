@@ -25,7 +25,8 @@
                   outlined
                   label="Full name"
                   lazy-rules
-                  :rules="[textRules]"
+                  :error="errormessage8.length > 0"
+                  :rules="[textRules, onNameCheck]"
                 />
                 <q-input
                   ref="password"
@@ -270,6 +271,7 @@ export default {
       errormessage5: '',
       errormessage6: '',
       errormessage7: '',
+      errormessage8: '',
       type: 'password',
 
       permissionOptions: [],
@@ -427,6 +429,7 @@ export default {
     async onSCCodeCheck() {
       this.$v.form.$touch()
       if (this.form.sccode.length <= 0) {
+        this.errormessage = 'Field cannot be blank'
         return
       }
       await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
@@ -484,6 +487,15 @@ export default {
         this.errormessage6 = 'Field cant blank'
       } else {
         this.errormessage6 = ''
+      }
+    },
+
+    onNameCheck() {
+      this.$v.form.$touch()
+      if (this.form.name.length <= 0) {
+        this.errormessage8 = 'Field cant blank'
+      } else {
+        this.errormessage8 = ''
       }
     },
 
