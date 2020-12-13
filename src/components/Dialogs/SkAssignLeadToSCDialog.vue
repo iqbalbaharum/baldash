@@ -153,7 +153,6 @@ export default {
     selectedLeadId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
-      console.log(this.form)
     },
   },
 
