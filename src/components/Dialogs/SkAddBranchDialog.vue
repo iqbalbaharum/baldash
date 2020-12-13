@@ -25,7 +25,7 @@
                 label="Branch Name"
                 :bottom-slots="false"
                 :hide-hint="true"
-                :rules="textRules"
+                :rules="[textRules]"
                 class="col q-pb-none"
               />
               <div class="row">
@@ -35,7 +35,7 @@
                   outlined
                   label="Branch Code"
                   lazy-rules
-                  debounce="1000"
+                  debounce="500"
                   :rules="[textRules, onBranchCodeCheck]"
                   :error="errormessage.length > 0"
                 >
@@ -58,7 +58,7 @@
                   emit-value
                   map-options
                   stack-label
-                  :rules="textRules"
+                  :rules="[textRules]"
                   class="col q-pl-xs q-pb-none"
                 />
               </div>
@@ -69,7 +69,8 @@
                   outlined
                   placeholder="07-2345678"
                   label="Telephone No."
-                  debounce="1000"
+                  mask="## - #########"
+                  unmasked-value
                   :rules="[phoneNoRules, onMobileCheck]"
                   :error="errormessage3.length > 0"
                 >
@@ -90,8 +91,9 @@
                   outlined
                   placeholder="07-2345678"
                   label="Fax No."
-                  debounce="1000"
-                  :rules="[onFaxCheck]"
+                  mask="## - #########"
+                  unmasked-value
+                  :rules="[phoneNoRules, onFaxCheck]"
                   :error="errormessage2.length > 0"
                 >
                   <q-tooltip
@@ -110,7 +112,7 @@
                 v-model="form.email"
                 outlined
                 label="Email"
-                debounce="1000"
+                debounce="500"
                 :rules="[emailRules, onEmailCheck]"
                 :error="errormessage.length > 0"
                 class="col q-pb-none"
@@ -131,7 +133,7 @@
                 outlined
                 label="Address"
                 aria-rowcount="2"
-                :rules="textRules"
+                :rules="[textRules]"
                 class="col q-pb-none"
               />
               <q-input
@@ -144,31 +146,34 @@
                 v-model="form.state"
                 outlined
                 label="State"
-                :rules="textRules"
+                :rules="[textRules]"
                 class="col q-pb-none"
               />
               <q-select
                 v-model="form.country"
                 outlined
                 label="Country"
+                use-input
                 emit-value
                 map-options
                 stack-label
-                :rules="textRules"
-                :options="countries"
+                :rules="[textRules]"
+                :options="countryOptions"
                 class="col q-pb-none"
+                @filter="filterFn"
               />
               <q-input
-                v-model.number="form.SSMNo"
+                v-model="form.SSMNo"
                 outlined
                 label="SSM No."
-                :rules="textRules"
+                :rules="[textRules]"
                 class="col q-pb-none"
               />
               <q-input
                 v-model="form.GSTNo"
                 outlined
                 label="GST No"
+                :rules="[textRules]"
                 class="col q-pb-none"
               />
               <q-file
@@ -234,6 +239,7 @@ export default {
   data() {
     return {
       fileUpload: null,
+      countryOptions: [],
 
       form: {
         name: '',
@@ -321,12 +327,25 @@ export default {
   },
 
   methods: {
+    filterFn(val, update) {
+      if (val === '') {
+        update(() => {
+          this.countryOptions = this.countries
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.countryOptions = this.countries.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+      })
+    },
     async onShowDialog() {
       // For parent branch
       const hqBranch = Branch.query().where('name', 'HQ').first()
       this.form.branchId = hqBranch.uuid
       this.branchName = hqBranch.name
-      console.log(this.branchName)
+      this.countryOptions = this.countries
     },
     reset() {
       this.errormessage = ''
@@ -354,7 +373,12 @@ export default {
         this.form.logo = res.name
       }
       this.$v.form.$touch()
-      const branch = { ...this.form }
+
+      const branch = {
+        ...this.form,
+        SSMNo: this.form.SSMNo.toString(),
+        GSTNo: this.form.GSTNo.toString(),
+      }
 
       this.$refs.myForm.validate().then(async success => {
         if (success) {
@@ -392,6 +416,8 @@ export default {
         })
     },
     async onFaxCheck() {
+      if (!this.form.faxno || !this.form.faxno.length) return
+
       await this.$store.dispatch('CheckFaxExist', this.form.faxno)
         .then(exists => {
           if (exists) {
