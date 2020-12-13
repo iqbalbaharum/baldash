@@ -70,11 +70,16 @@
                   outlined
                   label="Branch Code"
                 />
-                <q-input
+                <q-select
                   v-model="form.type"
-                  class="col q-pl-xs"
                   outlined
+                  :options="opts.types"
                   label="Branch Type"
+                  emit-value
+                  map-options
+                  stack-label
+                  :rules="[textRules]"
+                  class="col q-pl-xs q-pb-none"
                 />
               </div>
               <div class="row">
@@ -203,6 +208,18 @@ export default {
       logo: '',
       branchName: '',
       selections: [],
+      opts: {
+        types: [
+          {
+            label: 'Home Branch',
+            value: 'home'
+          },
+          {
+            label: 'Dealer Branch',
+            value: 'dealer'
+          }
+        ]
+      },
     }
   },
 
