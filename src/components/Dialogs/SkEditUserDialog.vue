@@ -41,6 +41,7 @@
                     outlined
                     label="Fullname"
                     :rules="[textRules]"
+                    :error="form.name <= 0 "
                   />
                 </div>
                 <div class="row">
