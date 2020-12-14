@@ -24,7 +24,19 @@
                 label="Name"
                 lazy-rules
                 :rules="[textRules]"
-              />
+                :error="errormessage4.length > 0"
+              >
+                <q-tooltip
+                  v-if="form.name.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-input>
               <div class="row">
                 <q-input
                   v-model="form.email"
@@ -33,7 +45,7 @@
                   label="Email"
                   type="email"
                   debounce="1000"
-                  :rules="[emailRules, onEmailCheck]"
+                  :rules="[onEmailCheck, emailRules]"
                   :error="errormessage2.length > 0"
                 >
                   <q-tooltip
@@ -54,7 +66,7 @@
                   type="tel"
                   label="Mobile No."
                   debounce="1000"
-                  :rules="[phoneNoRules, onMobileCheck]"
+                  :rules="[onMobileCheck, phoneNoRules]"
                   :error="errormessage3.length > 0"
                 >
                   <q-tooltip
@@ -76,14 +88,38 @@
                 label="Property Type"
                 :options="opts.propType"
                 :rules="[textRules]"
-              />
+                :error="errormessage5.length > 0"
+              >
+                <q-tooltip
+                  v-if="form.property_type.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-select>
               <q-input
                 v-model="form.location"
                 class="col q-pb-none"
                 outlined
                 label="Property Location"
-                :rules="[textRules]"
-              />
+                :rules="[onLocationCheck, textRules]"
+                :error="errormessage9.length > 0"
+              >
+                <q-tooltip
+                  v-if="form.location.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-input>
               <q-select
                 v-model="form.source_lead"
                 outlined
@@ -91,7 +127,19 @@
                 label="Source of Lead"
                 class="col q-pb-none"
                 :rules="[ val => val && val.length > 0 ]"
-              />
+                :error="errormessage6.length > 0"
+              >
+                <q-tooltip
+                  v-if="form.source_lead.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-select>
               <q-separator />
               <div class="text-weight-bold text-uppercase text-grey-5">
                 Customer Sales Type
@@ -105,7 +153,19 @@
                 emit-value
                 map-options
                 :rules="[textRules]"
-              />
+                :error="errormessage7.length > 0"
+              >
+                <q-tooltip
+                  v-if="form.type.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-select>
               <q-separator />
               <div align="right">
                 <q-btn
@@ -166,6 +226,12 @@ export default {
       },
       errormessage2: '',
       errormessage3: '',
+      errormessage4: '',
+      errormessage5: '',
+      errormessage6: '',
+      errormessage7: '',
+      errormessage8: '',
+      errormessage9: '',
       form: {
         name: '',
         email: '',
@@ -227,9 +293,19 @@ export default {
       //   this.$notify('error', 'All field is required')
       // }
     },
+    onLocationCheck() {
+      this.$v.form.$touch()
+      if (this.form.location.length <= 0) {
+        this.errormessage9 = 'Field cant blank'
+      } else {
+        console.log('dsad')
+        this.errormessage9 = ''
+      }
+    },
     async onEmailCheck() {
       this.$v.form.$touch()
       if (this.form.email.length <= 0) {
+        this.errormessage2 = 'Field cant be blank'
         return
       }
 
@@ -245,6 +321,7 @@ export default {
     async onMobileCheck() {
       this.$v.form.$touch()
       if (this.form.phone.length <= 0) {
+        this.errormessage3 = 'Field cant be blank'
         return
       }
 

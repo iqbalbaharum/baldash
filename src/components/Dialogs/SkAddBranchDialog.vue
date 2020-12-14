@@ -83,7 +83,7 @@
                   label="Telephone No."
                   mask="## - #########"
                   unmasked-value
-                  :rules="[onMobileCheck]"
+                  :rules="[onMobileCheck, phoneNoRules]"
                   :error="errormessage3.length > 0"
                 >
                   <q-tooltip
@@ -105,7 +105,7 @@
                   label="Fax No."
                   mask="## - #########"
                   unmasked-value
-                  :rules="[onFaxCheck]"
+                  :rules="[onFaxCheck, phoneNoRules]"
                   :error="errormessage2.length > 0"
                 >
                   <q-tooltip
