@@ -27,7 +27,18 @@
                   lazy-rules
                   :error="errormessage8.length > 0"
                   :rules="[textRules, onNameCheck]"
-                />
+                >
+                  <q-tooltip
+                    v-if="errormessage8.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage8 }}
+                    </div>
+                  </q-tooltip>
+                </q-input>
                 <q-input
                   ref="password"
                   v-model="form.password"
@@ -444,6 +455,7 @@ export default {
     async onEmailCheck() {
       this.$v.form.$touch()
       if (this.form.email.length <= 0) {
+        this.errormessage2 = 'Field cant be blank'
         return
       }
 
@@ -458,6 +470,10 @@ export default {
     },
     async onMobileCheck() {
       this.$v.form.$touch()
+      if (this.form.mobile.length <= 0) {
+        this.errormessage3 = 'Field cant be blank'
+        return
+      }
 
       await this.$store.dispatch('CheckMobileExist', this.form.mobile)
         .then(exists => {

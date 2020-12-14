@@ -25,9 +25,21 @@
                 label="Branch Name"
                 :bottom-slots="false"
                 :hide-hint="true"
-                :rules="[textRules]"
+                :rules="[onNameCheck]"
                 class="col q-pb-none"
-              />
+                :error="errormessage5.length > 0"
+              >
+                <q-tooltip
+                  v-if="errormessage5.length > 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    {{ errormessage5 }}
+                  </div>
+                </q-tooltip>
+              </q-input>
               <div class="row">
                 <q-input
                   v-model="form.code"
@@ -36,7 +48,7 @@
                   label="Branch Code"
                   lazy-rules
                   debounce="500"
-                  :rules="[textRules, onBranchCodeCheck]"
+                  :rules="[onBranchCodeCheck]"
                   :error="errormessage.length > 0"
                 >
                   <q-tooltip
@@ -71,7 +83,7 @@
                   label="Telephone No."
                   mask="## - #########"
                   unmasked-value
-                  :rules="[phoneNoRules, onMobileCheck]"
+                  :rules="[onMobileCheck]"
                   :error="errormessage3.length > 0"
                 >
                   <q-tooltip
@@ -93,7 +105,7 @@
                   label="Fax No."
                   mask="## - #########"
                   unmasked-value
-                  :rules="[phoneNoRules, onFaxCheck]"
+                  :rules="[onFaxCheck]"
                   :error="errormessage2.length > 0"
                 >
                   <q-tooltip
@@ -113,8 +125,8 @@
                 outlined
                 label="Email"
                 debounce="500"
-                :rules="[emailRules, onEmailCheck]"
-                :error="errormessage.length > 0"
+                :rules="[onEmailCheck, emailRules]"
+                :error="errormessage4.length > 0"
                 class="col q-pb-none"
               >
                 <q-tooltip
@@ -133,9 +145,21 @@
                 outlined
                 label="Address"
                 aria-rowcount="2"
-                :rules="[textRules]"
+                :rules="[onAddressCheck, textRules]"
                 class="col q-pb-none"
-              />
+                :error="errormessage6.length > 0"
+              >
+                <q-tooltip
+                  v-if="errormessage6.length > 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    {{ errormessage6 }}
+                  </div>
+                </q-tooltip>
+              </q-input>
               <q-input
                 v-model="form.address2"
                 outlined
@@ -148,7 +172,19 @@
                 label="State"
                 :rules="[textRules]"
                 class="col q-pb-none"
-              />
+                :error="errormessage6.length > 0"
+              >
+                <q-tooltip
+                  v-if="form.state.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-input>
               <q-select
                 v-model="form.country"
                 outlined
@@ -161,21 +197,57 @@
                 :options="countryOptions"
                 class="col q-pb-none"
                 @filter="filterFn"
-              />
+              >
+                <q-tooltip
+                  v-if="form.country.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                  :error="errormessage7.length > 0"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-select>
               <q-input
                 v-model="form.SSMNo"
                 outlined
                 label="SSM No."
                 :rules="[textRules]"
                 class="col q-pb-none"
-              />
+              >
+                <q-tooltip
+                  v-if="form.SSMNo.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                  :error="errormessage8.length > 0"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-input>
               <q-input
                 v-model="form.GSTNo"
                 outlined
                 label="GST No"
                 :rules="[textRules]"
                 class="col q-pb-none"
-              />
+              >
+                <q-tooltip
+                  v-if="form.GSTNo.length <= 0"
+                  anchor="top middle"
+                  self="bottom middle"
+                  :offset="[10, 10]"
+                  :error="errormessage9.length > 0"
+                >
+                  <div>
+                    Field cant be blank
+                  </div>
+                </q-tooltip>
+              </q-input>
               <q-file
                 ref="fileupload"
                 v-model="fileUpload"
@@ -262,6 +334,11 @@ export default {
       errormessage2: '',
       errormessage3: '',
       errormessage4: '',
+      errormessage5: '',
+      errormessage6: '',
+      errormessage7: '',
+      errormessage8: '',
+      errormessage9: '',
       opts: {
         types: [
           {
@@ -393,6 +470,7 @@ export default {
     async onEmailCheck() {
       this.$v.form.$touch()
       if (this.form.email.length <= 0) {
+        this.errormessage4 = 'Field cant be blank'
         return
       }
 
@@ -406,6 +484,11 @@ export default {
         })
     },
     async onBranchCodeCheck() {
+      if (this.form.code.length <= 0) {
+        this.errormessage = 'Field cant be blank'
+        return
+      }
+
       await this.$store.dispatch('CheckBranchCodeExist', this.form.code)
         .then(exists => {
           if (exists) {
@@ -415,8 +498,38 @@ export default {
           }
         })
     },
+    onAddressCheck() {
+      this.$v.form.$touch()
+      if (this.form.address1.length <= 0) {
+        this.errormessage6 = 'Field cant blank'
+      } else {
+        console.log('dsad')
+        this.errormessage6 = ''
+      }
+    },
+    onStateCheck() {
+      this.$v.form.$touch()
+      if (this.form.state.length <= 0) {
+        this.errormessage7 = 'Field cant blank'
+      } else {
+        console.log('dsad')
+        this.errormessage7 = ''
+      }
+    },
+    onNameCheck() {
+      this.$v.form.$touch()
+      if (this.form.name.length <= 0) {
+        this.errormessage5 = 'Field cant blank'
+      } else {
+        console.log('dsad')
+        this.errormessage5 = ''
+      }
+    },
     async onFaxCheck() {
-      if (!this.form.faxno || !this.form.faxno.length) return
+      if (this.form.faxno <= 0) {
+        this.errormessage2 = 'Field cant be blank'
+        return
+      }
 
       await this.$store.dispatch('CheckFaxExist', this.form.faxno)
         .then(exists => {
@@ -430,6 +543,7 @@ export default {
     async onMobileCheck() {
       this.$v.form.$touch()
       if (this.form.telno.length <= 0) {
+        this.errormessage3 = 'Field cant be blank'
         return
       }
 
