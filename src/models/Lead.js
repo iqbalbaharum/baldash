@@ -1,5 +1,6 @@
 import { Model } from '@vuex-orm/core'
 import Branch from './Branch'
+import User from './User'
 
 export default class Lead extends Model {
   static entity = 'leads'
@@ -28,7 +29,8 @@ export default class Lead extends Model {
       rejectReason: this.attr(''),
       noteToBranch: this.attr(''),
 
-      branch: this.belongsTo(Branch, 'branchId')
+      branch: this.belongsTo(Branch, 'branchId'),
+      salesConsultant: this.belongsTo(User, 'userId'),
     }
   }
 
@@ -47,6 +49,12 @@ export default class Lead extends Model {
     }
   }
 
+  get salesConsultantName() {
+    if (!this.salesConsultant) return 'Unassigned'
+
+    return this.salesConsultant.name
+  }
+
   get getBranchName() {
     return this.branch.name
   }
@@ -54,6 +62,7 @@ export default class Lead extends Model {
   static columns = [
     { name: 'name', label: 'Lead Name', align: 'left', field: 'name', sortable: true, editable: true },
     { name: 'status', label: 'Status', field: 'status', align: 'left', sortable: true },
+    { name: 'assigned_to', label: 'Assigned To', field: 'salesConsultantName', align: 'left', sortable: true },
     { name: 'email', label: 'E-Mail', align: 'left', field: 'email', sortable: false },
     { name: 'phone', label: 'Mobile No', field: 'phone', align: 'left', sortable: true, editable: true },
     { name: 'location', label: 'Property Location', field: 'location', align: 'left', sortable: true },
