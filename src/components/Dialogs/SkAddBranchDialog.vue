@@ -283,9 +283,6 @@
                 stack-label
                 class="col q-pb-none"
               />
-              <div v-if="errormessage.length !== 0" class="text-negative q-my-md">
-                {{ errormessage }}
-              </div>
               <q-separator class="q-my-md" />
               <div align="right">
                 <q-btn
