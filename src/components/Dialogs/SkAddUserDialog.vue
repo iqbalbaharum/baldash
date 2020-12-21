@@ -23,7 +23,7 @@
                   v-model="form.name"
                   class="col q-pb-none"
                   outlined
-                  label="Full name"
+                  label="Fullname"
                   lazy-rules
                   :error="errormessage8.length > 0"
                   :rules="[textRules, onNameCheck]"
@@ -122,7 +122,7 @@
                   label="Email"
                   lazy-rules
                   debounce="1000"
-                  :rules="[emailRules,onEmailCheck]"
+                  :rules="[onEmailCheck,emailRules]"
                   :error="errormessage2.length > 0"
                 >
                   <q-tooltip
@@ -223,7 +223,7 @@
                   <q-btn
                     color="primary"
                     label="Submit"
-                    :disabled="errormessage.length > 0 || errormessage2.length > 0 || errormessage3.length > 0"
+                    :disabled="errormessage.length > 0 || errormessage2.length > 0 || errormessage3.length > 0 || errormessage4.length > 0 || errormessage5.length > 0 || errormessage6.length > 0 || errormessage7.length > 0 || errormessage8.length > 0"
                     @click="onAddUser"
                   />
                 </div>

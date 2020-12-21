@@ -38,16 +38,29 @@
                 <div class="col">
                   <q-input
                     v-model="form.name"
+                    class="col q-pb-xs"
                     outlined
                     label="Fullname"
-                    :rules="[textRules]"
-                    :error="form.name <= 0 "
-                  />
+                    lazy-rules
+                    :error="errormessage8.length > 0"
+                    :rules="[onNameCheck, textRules]"
+                  >
+                    <q-tooltip
+                      v-if="errormessage8.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage8 }}
+                      </div>
+                    </q-tooltip>
+                  </q-input>
                 </div>
                 <div class="row">
                   <q-input
                     v-model="form.sccode"
-                    class="col"
+                    class="col q-pb-xs"
                     debounce="500"
                     outlined
                     label="SC Code"
@@ -61,7 +74,7 @@
 
                   <q-input
                     v-model="form.mobile"
-                    class="col q-pl-xs"
+                    class="col q-pb-xs"
                     mask="### - #########"
                     outlined
                     unmasked-value
@@ -78,10 +91,24 @@
                 <div class="col">
                   <q-input
                     v-model="form.email"
+                    class="col q-pb-xs"
                     outlined
                     label="Email"
-                    :rules="[emailRules || 'Wrong email format.']"
-                  />
+                    lazy-rules
+                    :rules="[onEmailCheck, emailRules]"
+                    :error="errormessage2.length > 0"
+                  >
+                    <q-tooltip
+                      v-if="errormessage2.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage2 }}
+                      </div>
+                    </q-tooltip>
+                  </q-input>
                 </div>
 
                 <div class="col">
@@ -133,6 +160,7 @@
 </template>
 
 <script>
+import { minLength, required, email } from 'vuelidate/lib/validators'
 import Branch from '../../models/Branch'
 import Profile from '../../models/Profile'
 import { mapGetters } from 'vuex'
@@ -166,7 +194,19 @@ export default {
         sccode: '',
         mobile: '',
       },
+      errormessage2: '',
+      errormessage8: '',
       selections: [],
+    }
+  },
+  validations: {
+    form: {
+      email: { required, email },
+      password: { required, minLength: minLength(3) },
+      mobile: { required, minLength: minLength(8) },
+      name: { required },
+      branchId: { required },
+      role: { required }
     }
   },
 
@@ -256,6 +296,7 @@ export default {
         sccode: '',
         mobile: '',
       }
+      this.errormessage8 = ''
     },
 
     async onUpdateUser() {
@@ -271,6 +312,22 @@ export default {
         this.$notify('error', message)
       }
     },
+    async onEmailCheck() {
+      this.$v.form.$touch()
+      if (this.form.email.length <= 0) {
+        this.errormessage2 = 'Field cant be blank'
+        return
+      }
+
+      await this.$store.dispatch('CheckEmailExist', this.form.email)
+        .then(exists => {
+          if (exists) {
+            this.errormessage2 = 'Email already exist'
+          } else {
+            this.errormessage2 = ''
+          }
+        })
+    },
 
     async onMobileCheck() {
       this.error.mobile = ''
@@ -284,6 +341,17 @@ export default {
         })
 
       return !this.error.mobile
+    },
+
+    onNameCheck() {
+      this.$v.form.$touch()
+      if (this.form.name.length <= 0) {
+        this.errormessage8 = 'Field cant blank'
+        console.log('dadsa', this.errormessage8)
+      } else {
+        this.errormessage8 = ''
+      }
+      console.log('here', this.errormessage8)
     },
 
     async onSCCodeCheck() {
