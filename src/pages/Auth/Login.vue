@@ -49,6 +49,7 @@
                 @click="login"
               />
             </div>
+            <! --
             <div class="q-mt-sm">
               <q-btn
                 text-color="primary"
@@ -58,6 +59,7 @@
                 no-caps
               />
             </div>
+            -->
           </form>
         </div>
       </div>
