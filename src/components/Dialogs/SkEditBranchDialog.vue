@@ -370,6 +370,16 @@
                   label="Cancel"
                 />
                 <q-btn
+                  color="grey"
+                  label="Reset Form"
+                  class="q-mx-sm"
+                  @click="resetToUser"
+                >
+                  <q-tooltip>
+                    Reset form to original attributes.
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
                   color="primary"
                   label="Update"
                   @click="onEditBranch"
@@ -396,6 +406,7 @@ export default {
   },
   data() {
     return {
+      selectedResetId: '',
       textRules: [val => val && val.length > 0 && val.length < 13],
       selectedBranchId: '',
       form: {},
@@ -448,6 +459,7 @@ export default {
   watch: {
     selectedBranchId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
+      this.selectedResetId = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
       this.form.branch = this.getBranchName
       // TODO - This is temporary until can figure out to read image from api directly
@@ -456,6 +468,12 @@ export default {
   },
 
   methods: {
+    resetToUser() {
+      this.form = { ...this.selectedResetId }
+      this.form.branch = this.getBranchName
+      // TODO - This is temporary until can figure out to read image from api directly
+      this.logo = `${process.env.MAIN_BE_URL}/containers/download/${this.form.logo}`
+    },
     async onShowDialog() {
       if (!this.$store.getters.tableSelection.length) return
 
