@@ -70,9 +70,21 @@
                   emit-value
                   map-options
                   stack-label
-                  :rules="[textRules]"
+                  :rules="[onCheckType, textRules]"
+                  :error="errormessage12.length > 0"
                   class="col q-pl-xs q-pb-none"
-                />
+                >
+                  <q-tooltip
+                    v-if="errormessage12.length > 0"
+                    anchor="top middle"
+                    self="bottom middle"
+                    :offset="[10, 10]"
+                  >
+                    <div>
+                      {{ errormessage12 }}
+                    </div>
+                  </q-tooltip>
+                </q-select>
               </div>
               <div class="row">
                 <q-input
@@ -84,7 +96,7 @@
                   mask="## - #########"
                   lazy-rules
                   unmasked-value
-                  :rules="[onMobileCheck, phoneNoRules]"
+                  :rules="[onMobileCheck]"
                   :error="errormessage3.length > 0"
                 >
                   <q-tooltip
@@ -106,7 +118,7 @@
                   label="Fax No."
                   mask="## - #########"
                   unmasked-value
-                  :rules="[onFaxCheck, phoneNoRules]"
+                  :rules="[onFaxCheck]"
                   :error="errormessage2.length > 0"
                 >
                   <q-tooltip
@@ -144,7 +156,7 @@
               <q-input
                 v-model="form.address1"
                 outlined
-                label="Address"
+                label="Address 1"
                 aria-rowcount="2"
                 :rules="[onAddressCheck, textRules]"
                 class="col q-pb-none"
@@ -164,7 +176,7 @@
               <q-input
                 v-model="form.address2"
                 outlined
-                label=""
+                label="Address 2"
                 class="col q-pb-none"
               />
               <q-input
@@ -320,6 +332,7 @@ export default {
 
       form: {
         name: '',
+        type: '',
         code: '',
         telno: '',
         faxno: '',
@@ -345,6 +358,7 @@ export default {
       errormessage8: '',
       errormessage9: '',
       errormessage10: '',
+      errormessage12: '',
       opts: {
         types: [
           {
@@ -560,8 +574,15 @@ export default {
       if (this.form.name.length <= 0) {
         this.errormessage5 = 'Field cant blank'
       } else {
-        console.log('dsad')
         this.errormessage5 = ''
+      }
+    },
+    onCheckType() {
+      this.$v.form.$touch()
+      if (this.form.type.length <= 0) {
+        this.errormessage12 = 'Field cant blank'
+      } else {
+        this.errormessage12 = ''
       }
     },
     async onFaxCheck() {
@@ -578,6 +599,9 @@ export default {
             this.errormessage2 = ''
           }
         })
+      if (this.form.faxno.length <= 7) {
+        this.errormessage2 = 'Fax No. must between 8-10 digits'
+      }
     },
     async onMobileCheck() {
       this.$v.form.$touch()
@@ -594,6 +618,9 @@ export default {
             this.errormessage3 = ''
           }
         })
+      if (this.form.telno.length <= 7) {
+        this.errormessage3 = 'Telephone No. must between 8-10 digits'
+      }
     },
   }
 }

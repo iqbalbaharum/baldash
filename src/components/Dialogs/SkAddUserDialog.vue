@@ -484,7 +484,7 @@ export default {
           }
         })
       if (this.form.mobile.length <= 9) {
-        this.errormessage3 = 'Fill mobile with the following format (012-3456789)'
+        this.errormessage3 = 'Telephone No. must between 10-11 digits'
       }
     },
 

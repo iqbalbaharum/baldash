@@ -139,7 +139,7 @@
                   :hide-hint="true"
                   label="Telephone No."
                   lazy-rules
-                  mask="### - ########"
+                  mask="## - ########"
                   unmasked-value
                   :error="errormessage4.length > 0"
                   :rules="[onMobileCheck, phoneNoRules]"
@@ -591,6 +591,9 @@ export default {
             this.errormessage5 = ''
           }
         })
+      if (this.form.faxno.length <= 7) {
+        this.errormessage5 = 'Fax No. must between 8-10 digits'
+      }
     },
     async onMobileCheck() {
       this.$v.form.$touch()
@@ -607,6 +610,9 @@ export default {
             this.errormessage4 = ''
           }
         })
+      if (this.form.telno.length <= 7) {
+        this.errormessage4 = 'Telephone No. must between 8-10 digits'
+      }
     },
   }
 }

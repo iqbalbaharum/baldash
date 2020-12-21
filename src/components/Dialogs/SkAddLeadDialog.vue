@@ -66,7 +66,7 @@
                   type="tel"
                   label="Telephone No."
                   lazy-rules
-                  :rules="[onMobileCheck, phoneNoRules]"
+                  :rules="[onMobileCheck]"
                   :error="errormessage3.length > 0"
                   mask="### - #########"
                   unmasked-value
@@ -341,7 +341,7 @@ export default {
           }
         })
       if (this.form.phone.length <= 9) {
-        this.errormessage3 = 'Fill mobile with the following format (012-3456789)'
+        this.errormessage3 = 'Telephone No. must between 8-10 digits'
       }
     },
     onPropertyCheck() {
