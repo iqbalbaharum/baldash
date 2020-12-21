@@ -2,7 +2,6 @@
   <modal-dialog
     ref="dialog"
     name="walkinlead"
-    @close-dialog="reset"
   >
     <q-card style="width:1800px">
       <div>
@@ -289,6 +288,7 @@ export default {
         if (success) {
           await this.$store.dispatch('AddQualifiedLead', lead)
           this.$notify('success', `User with name ${lead.name} created!`)
+          this.reset()
           this.$refs.dialog.$children[0].hide()
         } else {
           this.$notify('error', 'All field is required')

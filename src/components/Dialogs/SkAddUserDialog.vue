@@ -2,7 +2,6 @@
   <modal-dialog
     ref="dialog"
     name="adduser"
-    @close-dialog="reset"
   >
     <q-card style="width:1800px">
       <div>
@@ -410,6 +409,7 @@ export default {
           }
 
           this.$notify('success', `User with name ${user.name} created!`)
+          this.reset()
         } else {
           this.$notify('error', 'All field is required')
         }
