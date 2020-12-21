@@ -68,7 +68,7 @@ export default {
       opts: [
         {
           label: 'Disqualified',
-          value: { 'state': 'QL', 'status': 'disqualified' }
+          value: { 'state': 'QL', 'status': 'disqualified', 'branchId': this.$store.state.user.branchId }
         },
         {
           label: 'Not Active',

@@ -1,4 +1,5 @@
 import Lead from './../../models/Lead'
+import User from './../../models/User'
 
 const lead = {
   state: {
@@ -56,12 +57,17 @@ const lead = {
 
     async GetQualifiedLeads({ dispatch, rootState }, data) {
       await Lead.deleteAll()
+      // For branchManager, we have to populate User model before getting
+      // all Leads in order to have salesConsultant(User) relation.
+      if(!User.all().length) {
+        await dispatch('GetAllUsers', {})
+      }
 
       return new Promise((resolve, reject) => {
         let filter = data.filter !== undefined ? data.filter : {
           where: {
             state: 'QL',
-            status: 'active',
+            or: [{ status: 'active' }, { status: 'inactive' }],
             branchId: rootState.user.branchId,
             userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined
           }
@@ -147,7 +153,7 @@ const lead = {
           state: 'QL',
           status: 'active',
           branchId: data.branchId,
-          remark: data.remark
+          noteToBranch: data.noteToBranch
         }
         Lead.update({ where: data.uuid, data: leadState })
         const lead = Lead.find(data.uuid)
@@ -181,13 +187,7 @@ const lead = {
         Lead.update({ where: data.uuid, data: data })
         const lead = Lead.find(data.uuid)
         this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
-          dispatch('UpdateTab', {
-            name: 'Qualified Leads',
-            columns: Lead.columns,
-            key: Lead.primaryKey,
-            data: Lead.query().where('state', 'QL').where('status', 'disqualified').withAll().get()
-          })
-
+          dispatch('GetQualifiedLeads', {})
           resolve(res.data)
         })
         .catch(err => {
@@ -304,7 +304,7 @@ const lead = {
       })
     },
 
-    AssignLeadToSC({ dispatch }, data) {
+    AssignLeadToSC({ dispatch, rootState }, data) {
       return new Promise(async (resolve, reject) => {
         await Lead.update({ where: data.uuid, data: data })
         const lead = Lead.find(data.uuid)
@@ -315,7 +315,7 @@ const lead = {
               name: 'Qualified Leads',
               columns: Lead.columns,
               key: Lead.primaryKey,
-              data: Lead.query().withAll().get()
+              data: Lead.query().where('branchId', rootState.user.branchId).withAll().get()
             })
           resolve(res.data)
         })
