@@ -140,7 +140,7 @@
                   label="Telephone No."
                   mask="## - ########"
                   unmasked-value
-                  :rules="[onMobileCheck, phoneNoRules]"
+                  :rules="[onMobileCheck]"
                   :error="!!errormessage4"
                 >
                   <q-tooltip

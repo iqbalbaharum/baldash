@@ -64,7 +64,7 @@
                     debounce="500"
                     outlined
                     label="SC Code"
-                    :rules="[textRules, onSCCodeCheck]"
+                    :rules="[onSCCodeCheck, textRules]"
                     :error="!!error.sccode"
                   >
                     <q-tooltip v-if="error.sccode">
@@ -79,7 +79,7 @@
                     outlined
                     unmasked-value
                     label="Telephone No."
-                    :rules="[phoneNoRules, onMobileCheck]"
+                    :rules="[onMobileCheck]"
                     :error="!!error.mobile"
                   >
                     <q-tooltip v-if="error.mobile">
@@ -333,6 +333,11 @@ export default {
     async onMobileCheck() {
       this.error.mobile = ''
       if (this.form.mobile === this.user.mobile) return true
+      if (this.form.mobile.length <= 0) {
+        this.error.mobile = 'Field cant blank'
+      } else {
+        this.error.mobile = ''
+      }
 
       await this.$store.dispatch('CheckMobileExist', this.form.mobile)
         .then(exists => {
@@ -340,6 +345,9 @@ export default {
             this.error.mobile = 'Mobile already exist'
           }
         })
+      if (this.form.mobile.length <= 9) {
+        this.error.mobile = 'Telephone No. must between 10-11 digits'
+      }
 
       return !this.error.mobile
     },
@@ -358,6 +366,11 @@ export default {
     async onSCCodeCheck() {
       this.error.sccode = ''
       if (this.form.sccode === this.user.sccode) return true
+      if (this.form.sccode.length <= 0) {
+        this.error.sccode = 'Field cant blank'
+      } else {
+        this.error.sccode = ''
+      }
 
       await this.$store.dispatch('CheckSCCodeExist', this.form.sccode)
         .then(exists => {
