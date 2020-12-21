@@ -1,6 +1,7 @@
 import { Model } from '@vuex-orm/core'
 import Branch from './Branch'
 import User from './User'
+import { formatPhoneNo } from '../utils'
 
 export default class Lead extends Model {
   static entity = 'leads'
@@ -59,12 +60,17 @@ export default class Lead extends Model {
     return this.branch.name
   }
 
+  get displayTelNo() {
+    if (!this.phone) return ''
+    return formatPhoneNo(this.phone)
+  }
+
   static columns = [
     { name: 'name', label: 'Lead Name', align: 'left', field: 'name', sortable: true, editable: true },
     { name: 'status', label: 'Status', field: 'status', align: 'left', sortable: true },
     { name: 'assigned_to', label: 'Assigned To', field: 'salesConsultantName', align: 'left', sortable: true },
     { name: 'email', label: 'E-Mail', align: 'left', field: 'email', sortable: false },
-    { name: 'phone', label: 'Mobile No', field: 'phone', align: 'left', sortable: true, editable: true },
+    { name: 'phone', label: 'Telephone No', field: 'displayTelNo', align: 'left', sortable: true, editable: true },
     { name: 'location', label: 'Property Location', field: 'location', align: 'left', sortable: true },
     { name: 'property_type', label: 'Property Type', field: 'property_type', align: 'left', sortable: true },
     { name: 'age', required: true, label: 'Age Group', align: 'left', field: 'age', sortable: true },

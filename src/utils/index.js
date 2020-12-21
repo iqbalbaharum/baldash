@@ -26,3 +26,19 @@ export function isValidPhoneNo(val) {
   const mobileNoPattern = /^(\+?6?0?1)[0-46-9]-*[0-9]{7,8}$/
   return phoneNoPattern.test(val) || mobileNoPattern.test(val)
 }
+
+export function formatPhoneNo(val) {
+  const cleaned = val.toString().replace('-', '')
+  const isMobileNo = cleaned[1] === '1'
+  let match
+
+  if (isMobileNo) {
+    const mobileNoPattern = /^(\+?6?01\d)-*([0-9]{7,9})$/
+    match = cleaned.match(mobileNoPattern)
+  } else {
+    const telNoPattern = /^(\+?6?0\d)-*([0-9]{7,9})$/
+    match = cleaned.match(telNoPattern)
+  }
+
+  return match ? match[1].toString() + '-' + match[2].toString() : val
+}
