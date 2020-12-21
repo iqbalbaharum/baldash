@@ -12,7 +12,6 @@ const designcad = {
       return new Promise((resolve, reject) => {
         this.$services.kujiale.getSSOToken()
           .then(res => {
-            debugger
             resolve(res.data)
           })
           .catch(err => {

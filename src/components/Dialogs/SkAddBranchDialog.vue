@@ -281,7 +281,7 @@
                 <q-btn
                   color="primary"
                   label="Submit"
-                  :disabled="errormessage.length > 0"
+                  :disabled="errormessage.length > 0 || errormessage2.length > 0 || errormessage3.length > 0 || errormessage4.length > 0 || errormessage5.length > 0 || errormessage6.length > 0 || errormessage7.length > 0 || errormessage8.length > 0"
                   @click="onAddBranch"
                 />
               </div>
