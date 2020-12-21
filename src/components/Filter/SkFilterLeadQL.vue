@@ -2,6 +2,19 @@
   <q-menu v-model="isMenuOpen">
     <q-card style="width:500px">
       <q-card-section>
+        <div class="fit row wrap justify-start items-start content-start">
+          <q-input
+            v-model="form.name"
+            placeholder="Search Name"
+            class="full-width"
+            outlined
+          />
+        </div>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section>
         <div class="text-weight-bold text-uppercase text-grey-5">
           Status
         </div>
@@ -43,6 +56,9 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      form: {
+        name: ''
+      },
       filter: {
         include: 'leads',
         where: {
@@ -77,6 +93,12 @@ export default {
     },
     onClickFilter() {
       this.isMenuOpen = false
+
+      if (this.form.name.length > 0) {
+        this.filter.where.or.push({
+          name: this.form.name
+        })
+      }
       this.$store.dispatch('FilterTable', Object.assign({}, this.filter))
       this.onClickClearFilter()
     },
