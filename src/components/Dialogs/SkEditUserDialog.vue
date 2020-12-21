@@ -314,6 +314,7 @@ export default {
     },
     async onEmailCheck() {
       this.$v.form.$touch()
+      if (this.form.email === this.user.email) return true
       if (this.form.email.length <= 0) {
         this.errormessage2 = 'Field cant be blank'
         return

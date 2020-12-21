@@ -138,14 +138,13 @@
                   :bottom-slots="false"
                   :hide-hint="true"
                   label="Telephone No."
-                  lazy-rules
                   mask="## - ########"
                   unmasked-value
-                  :error="errormessage4.length > 0"
                   :rules="[onMobileCheck, phoneNoRules]"
+                  :error="!!errormessage4"
                 >
                   <q-tooltip
-                    v-if="errormessage4.length > 0"
+                    v-if="errormessage4"
                     anchor="top middle"
                     self="bottom middle"
                     :offset="[10, 10]"
@@ -526,6 +525,7 @@ export default {
     },
     async onEmailCheck() {
       this.$v.form.$touch()
+      if (this.form.email === this.selectedResetId.email) return true
       if (this.form.email.length <= 0) {
         this.errormessage6 = 'Field cant be blank'
         return
@@ -541,6 +541,7 @@ export default {
         })
     },
     async onBranchCodeCheck() {
+      if (this.form.code === this.selectedResetId.code) return true
       if (this.form.code.length <= 0) {
         this.errormessage2 = 'Field cant be blank'
         return
@@ -596,6 +597,7 @@ export default {
       }
     },
     async onFaxCheck() {
+      if (this.form.faxno === this.selectedResetId.faxno) return true
       if (this.form.faxno <= 0) {
         this.errormessage5 = 'Field cant be blank'
         return
@@ -614,7 +616,9 @@ export default {
       }
     },
     async onMobileCheck() {
-      this.$v.form.$touch()
+      this.errormessage4 = ''
+      if (this.form.telno === this.selectedResetId.telno) return true
+
       if (this.form.telno.length <= 0) {
         this.errormessage4 = 'Field cant be blank'
         return
@@ -631,6 +635,8 @@ export default {
       if (this.form.telno.length <= 7) {
         this.errormessage4 = 'Telephone No. must between 8-10 digits'
       }
+
+      return !this.errormessage4
     },
   }
 }
