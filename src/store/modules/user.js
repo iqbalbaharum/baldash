@@ -188,6 +188,12 @@ const user = {
             sccode: data.sccode,
           }
         }
+        const updateUser = {
+          name: data.name,
+          mobile: data.mobile,
+          email: data.email,
+          branchId: data.branchId
+        }
         // This returns the updated profile, but when we `User.query().withAll().get()`,
         // the profile is not updated.
         await User.update({ where: data.uuid, data: updateData  })
@@ -208,7 +214,22 @@ const user = {
             reject(err)
             dispatch('GetAllUsers')
           })
-        
+        this.$repository.user.updateUserId(user.getId, updateUser) 
+          .then(res => {
+            dispatch('UpdateTab', {
+              name: 'Users',
+              columns: User.columns,
+              key: User.primaryKey,
+              data: User.query().withAll().get()
+            })
+
+            dispatch('GetAllBranches')
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+            dispatch('GetAllUsers')
+          })
         if(data.sccode) {
           dispatch('UpdateUserProfile', data)
         }

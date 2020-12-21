@@ -230,7 +230,7 @@ export default {
     async selectedUserId(newValue, oldValue) {
       if (!newValue) return
 
-      const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
+      const foundSelection = this.$store.getters.tableSelection.find((selection) => selection.uuid === newValue)
       this.user = { ...foundSelection } // For reset to original
 
       try {

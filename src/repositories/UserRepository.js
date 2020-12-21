@@ -94,6 +94,14 @@ export default class UserRepository extends Repository {
     })
   }
 
+  async updateUserId(id, data) {
+    return datasource({
+      method: 'patch',
+      url: `user/${id}`,
+      data
+    })
+  }
+
   async updateUserProfile(id, data) {
     return datasource({
       method: 'patch',
