@@ -31,7 +31,7 @@
 
       <q-separator />
 
-      <q-card-section>
+      <!-- <q-card-section>
         <div class="text-weight-bold text-uppercase text-grey-5">
           Role
         </div>
@@ -46,7 +46,7 @@
             :false-value="null"
           />
         </div>
-      </q-card-section>
+      </q-card-section> -->
 
       <q-separator />
 
