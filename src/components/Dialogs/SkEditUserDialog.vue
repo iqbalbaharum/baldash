@@ -75,7 +75,7 @@
                   <q-input
                     v-model="form.mobile"
                     class="col q-pb-xs"
-                    mask="### - #########"
+                    mask="### - ########"
                     outlined
                     unmasked-value
                     label="Telephone No."
