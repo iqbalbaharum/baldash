@@ -3,6 +3,7 @@
     ref="dialog"
     name="requalifyQL"
     @close-dialog="reset"
+    @show-dialog="onShowDialog"
   >
     <q-card style="width:1800px">
       <div>
@@ -66,6 +67,7 @@
                 Reasons
               </div>
 
+              <!-- FIXME: Lead model should have requalifyReason property -->
               <q-input
                 v-model="form.rejectReason"
                 outlined
@@ -109,6 +111,7 @@ export default {
   },
   data() {
     return {
+      selections: [],
       selectedLeadId: '',
       form: {}
     }
@@ -128,17 +131,6 @@ export default {
       })
       return opts
     },
-    selections() {
-      const selections = this.$store.getters.tableSelection
-      const opts = selections.map((selection) => {
-        const container = []
-        container.label = selection.name
-        container.value = selection.uuid
-        return container
-      })
-
-      return opts
-    }
   },
   watch: {
     selectedLeadId(newValue, oldValue) {
@@ -152,19 +144,32 @@ export default {
   },
 
   methods: {
+    onShowDialog() {
+      if (!this.$store.getters.tableSelection.length) return
+
+      this.selections = this.$store.getters.tableSelection
+      this.selections = this.selections.map(selection => {
+        const container = {}
+        container.label = selection.name
+        container.value = selection.uuid
+        return container
+      })
+      this.selectedLeadId = this.selections[0].value
+    },
+
     reset() {
       this.selectedLeadId = ''
       this.form = {}
     },
     async onRequalifiedLead() {
       const lead = { ...this.form }
-      // this.selectedLeadId = this.$store.getters.tableSelection[0]
       try {
         await this.$store.dispatch('RequalifyQualifiedLead', lead)
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `${lead.name} have been requalified`)
       } catch (e) {
         console.log(e)
+        console.log(e.response)
         const message = e.response.message.error
         this.$notify('error', message)
       }
