@@ -51,8 +51,7 @@
             </div>
             <div class="q-mt-sm">
               <q-btn
-                color="white"
-                text-color="white"
+                text-color="primary"
                 flat
                 to="/forget"
                 label="I forgot my password"
