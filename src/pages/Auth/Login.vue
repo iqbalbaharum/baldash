@@ -49,17 +49,6 @@
                 @click="login"
               />
             </div>
-            <! --
-            <div class="q-mt-sm">
-              <q-btn
-                text-color="primary"
-                flat
-                to="/forget"
-                label="I forgot my password"
-                no-caps
-              />
-            </div>
-            -->
           </form>
         </div>
       </div>
