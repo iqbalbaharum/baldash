@@ -23,17 +23,17 @@
                 outlined
                 label="Name"
                 lazy-rules
-                :rules="[textRules]"
-                :error="errormessage4.length > 0"
+                :rules="[onNameCheck, textRules]"
+                :error="errormessage1.length > 0"
               >
                 <q-tooltip
-                  v-if="form.name.length <= 0"
+                  v-if="errormessage1.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage1 }}
                   </div>
                 </q-tooltip>
               </q-input>
@@ -64,10 +64,12 @@
                   class="col q-pl-xs q-pb-none"
                   outlined
                   type="tel"
-                  label="Mobile No."
-                  debounce="1000"
+                  label="Telephone No."
+                  lazy-rules
                   :rules="[onMobileCheck, phoneNoRules]"
                   :error="errormessage3.length > 0"
+                  mask="### - #########"
+                  unmasked-value
                 >
                   <q-tooltip
                     v-if="errormessage3.length > 0"
@@ -86,18 +88,19 @@
                 class="col q-pb-none"
                 outlined
                 label="Property Type"
+                lazy-rules
                 :options="opts.propType"
-                :rules="[textRules]"
-                :error="errormessage5.length > 0"
+                :rules="[onPropertyCheck, textRules]"
+                :error="errormessage4.length > 0"
               >
                 <q-tooltip
-                  v-if="form.property_type.length <= 0"
+                  v-if="errormessage4.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage4 }}
                   </div>
                 </q-tooltip>
               </q-select>
@@ -105,18 +108,19 @@
                 v-model="form.location"
                 class="col q-pb-none"
                 outlined
+                lazy-rules
                 label="Property Location"
                 :rules="[onLocationCheck, textRules]"
-                :error="errormessage9.length > 0"
+                :error="errormessage5.length > 0"
               >
                 <q-tooltip
-                  v-if="form.location.length <= 0"
+                  v-if="errormessage5.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage5 }}
                   </div>
                 </q-tooltip>
               </q-input>
@@ -126,17 +130,18 @@
                 :options="opts.leads"
                 label="Source of Lead"
                 class="col q-pb-none"
-                :rules="[ val => val && val.length > 0 ]"
+                lazy-rules
+                :rules="[onSourceCheck, textRules]"
                 :error="errormessage6.length > 0"
               >
                 <q-tooltip
-                  v-if="form.source_lead.length <= 0"
+                  v-if="errormessage6.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage6 }}
                   </div>
                 </q-tooltip>
               </q-select>
@@ -152,17 +157,18 @@
                 class="col q-pb-none"
                 emit-value
                 map-options
-                :rules="[textRules]"
+                lazy-rules
+                :rules="[onTypeCheck, textRules]"
                 :error="errormessage7.length > 0"
               >
                 <q-tooltip
-                  v-if="form.type.length <= 0"
+                  v-if="errormessage7.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage7 }}
                   </div>
                 </q-tooltip>
               </q-select>
@@ -177,6 +183,7 @@
                 <q-btn
                   color="primary"
                   label="Submit"
+                  :disabled="errormessage1.length > 0 || errormessage2.length > 0 || errormessage3.length > 0 || errormessage4.length > 0 || errormessage5.length > 0 || errormessage6.length > 0 || errormessage7.length > 0"
                   @click="onAddLead"
                 />
               </div>
@@ -224,6 +231,7 @@ export default {
             value: 'retail'
           }]
       },
+      errormessage1: '',
       errormessage2: '',
       errormessage3: '',
       errormessage4: '',
@@ -293,13 +301,12 @@ export default {
       //   this.$notify('error', 'All field is required')
       // }
     },
-    onLocationCheck() {
+    onNameCheck() {
       this.$v.form.$touch()
-      if (this.form.location.length <= 0) {
-        this.errormessage9 = 'Field cant blank'
+      if (this.form.name.length <= 0) {
+        this.errormessage1 = 'Field cant blank'
       } else {
-        console.log('dsad')
-        this.errormessage9 = ''
+        this.errormessage1 = ''
       }
     },
     async onEmailCheck() {
@@ -333,6 +340,41 @@ export default {
             this.errormessage3 = ''
           }
         })
+      if (this.form.phone.length <= 9) {
+        this.errormessage3 = 'Fill mobile with the following format (012-3456789)'
+      }
+    },
+    onPropertyCheck() {
+      this.$v.form.$touch()
+      if (this.form.property_type.length <= 0) {
+        this.errormessage4 = 'Field cant blank'
+      } else {
+        this.errormessage4 = ''
+      }
+    },
+    onLocationCheck() {
+      this.$v.form.$touch()
+      if (this.form.location.length <= 0) {
+        this.errormessage5 = 'Field cant blank'
+      } else {
+        this.errormessage5 = ''
+      }
+    },
+    onSourceCheck() {
+      this.$v.form.$touch()
+      if (this.form.source_lead.length <= 0) {
+        this.errormessage6 = 'Field cant blank'
+      } else {
+        this.errormessage6 = ''
+      }
+    },
+    onTypeCheck() {
+      this.$v.form.$touch()
+      if (this.form.type.length <= 0) {
+        this.errormessage7 = 'Field cant blank'
+      } else {
+        this.errormessage7 = ''
+      }
     },
   }
 }

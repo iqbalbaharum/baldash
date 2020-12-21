@@ -101,7 +101,7 @@
                   v-model="form.faxno"
                   class="col q-pl-xs q-pb-none"
                   outlined
-                  placeholder="07-2345678"
+                  placeholder="07-23456789"
                   label="Fax No."
                   mask="## - #########"
                   unmasked-value
