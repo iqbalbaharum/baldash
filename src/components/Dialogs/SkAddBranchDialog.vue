@@ -170,18 +170,19 @@
                 v-model="form.state"
                 outlined
                 label="State"
-                :rules="[textRules]"
+                lazy-rules
+                :error="errormessage7.length > 0"
+                :rules="[onStateCheck, textRules]"
                 class="col q-pb-none"
-                :error="errormessage6.length > 0"
               >
                 <q-tooltip
-                  v-if="form.state.length <= 0"
+                  v-if="errormessage7.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage7 }}
                   </div>
                 </q-tooltip>
               </q-input>
@@ -193,20 +194,21 @@
                 emit-value
                 map-options
                 stack-label
-                :rules="[textRules]"
+                lazy-rules
+                :error="errormessage8.length > 0"
+                :rules="[onCountryCheck, textRules]"
                 :options="countryOptions"
                 class="col q-pb-none"
                 @filter="filterFn"
               >
                 <q-tooltip
-                  v-if="form.country.length <= 0"
+                  v-if="errormessage8.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
-                  :error="errormessage7.length > 0"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage8 }}
                   </div>
                 </q-tooltip>
               </q-select>
@@ -214,18 +216,19 @@
                 v-model="form.SSMNo"
                 outlined
                 label="SSM No."
-                :rules="[textRules]"
+                lazy-rules
+                :error="errormessage9.length > 0"
+                :rules="[onSSMCheck, textRules]"
                 class="col q-pb-none"
               >
                 <q-tooltip
-                  v-if="form.SSMNo.length <= 0"
+                  v-if="errormessage9.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
-                  :error="errormessage8.length > 0"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage9 }}
                   </div>
                 </q-tooltip>
               </q-input>
@@ -233,18 +236,19 @@
                 v-model="form.GSTNo"
                 outlined
                 label="GST No"
-                :rules="[textRules]"
+                lazy-rules
+                :error="errormessage10.length > 0"
+                :rules="[onGSTCheck, textRules]"
                 class="col q-pb-none"
               >
                 <q-tooltip
-                  v-if="form.GSTNo.length <= 0"
+                  v-if="errormessage10.length > 0"
                   anchor="top middle"
                   self="bottom middle"
                   :offset="[10, 10]"
-                  :error="errormessage9.length > 0"
                 >
                   <div>
-                    Field cant be blank
+                    {{ errormessage10 }}
                   </div>
                 </q-tooltip>
               </q-input>
@@ -339,6 +343,7 @@ export default {
       errormessage7: '',
       errormessage8: '',
       errormessage9: '',
+      errormessage10: '',
       opts: {
         types: [
           {
@@ -426,6 +431,15 @@ export default {
     },
     reset() {
       this.errormessage = ''
+      this.errormessage2 = ''
+      this.errormessage3 = ''
+      this.errormessage4 = ''
+      this.errormessage5 = ''
+      this.errormessage6 = ''
+      this.errormessage7 = ''
+      this.errormessage8 = ''
+      this.errormessage9 = ''
+      this.errormessage10 = ''
       this.form = {
         name: '',
         code: '',
@@ -514,6 +528,30 @@ export default {
       } else {
         console.log('dsad')
         this.errormessage7 = ''
+      }
+    },
+    onCountryCheck() {
+      this.$v.form.$touch()
+      if (this.form.country.length <= 0) {
+        this.errormessage8 = 'Field cant blank'
+      } else {
+        this.errormessage8 = ''
+      }
+    },
+    onSSMCheck() {
+      this.$v.form.$touch()
+      if (this.form.SSMNo.length <= 0) {
+        this.errormessage9 = 'Field cant blank'
+      } else {
+        this.errormessage9 = ''
+      }
+    },
+    onGSTCheck() {
+      this.$v.form.$touch()
+      if (this.form.GSTNo.length <= 0) {
+        this.errormessage10 = 'Field cant blank'
+      } else {
+        this.errormessage10 = ''
       }
     },
     onNameCheck() {

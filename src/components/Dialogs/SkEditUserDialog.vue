@@ -40,9 +40,21 @@
                     v-model="form.name"
                     outlined
                     label="Fullname"
-                    :rules="[textRules]"
-                    :error="form.name <= 0 "
-                  />
+                    lazy-rules
+                    :error="errormessage8.length > 0"
+                    :rules="[textRules, onNameCheck]"
+                  >
+                    <q-tooltip
+                      v-if="errormessage8.length > 0"
+                      anchor="top middle"
+                      self="bottom middle"
+                      :offset="[10, 10]"
+                    >
+                      <div>
+                        {{ errormessage8 }}
+                      </div>
+                    </q-tooltip>
+                  </q-input>
                 </div>
                 <div class="row">
                   <q-input
@@ -166,6 +178,7 @@ export default {
         sccode: '',
         mobile: '',
       },
+      errormessage8: '',
       selections: [],
     }
   },
@@ -256,6 +269,7 @@ export default {
         sccode: '',
         mobile: '',
       }
+      this.errormessage8 = ''
     },
 
     async onUpdateUser() {
@@ -284,6 +298,17 @@ export default {
         })
 
       return !this.error.mobile
+    },
+
+    onNameCheck() {
+      this.$v.form.$touch()
+      if (this.form.name.length <= 0) {
+        this.errormessage8 = 'Field cant blank'
+        console.log('dadsa', this.errormessage8)
+      } else {
+        this.errormessage8 = ''
+      }
+      console.log('here', this.errormessage8)
     },
 
     async onSCCodeCheck() {

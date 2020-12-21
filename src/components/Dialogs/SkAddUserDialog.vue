@@ -23,7 +23,7 @@
                   v-model="form.name"
                   class="col q-pb-none"
                   outlined
-                  label="Full name"
+                  label="Fullname"
                   lazy-rules
                   :error="errormessage8.length > 0"
                   :rules="[textRules, onNameCheck]"
