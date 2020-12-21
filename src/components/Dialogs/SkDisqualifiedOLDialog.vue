@@ -3,6 +3,7 @@
     ref="dialog"
     name="disqualifyOL"
     @close-dialog="reset"
+    @show-dialog="onShowDialog"
   >
     <q-card style="width:1800px">
       <div>
@@ -153,6 +154,18 @@ export default {
   },
 
   methods: {
+    onShowDialog() {
+      if (!this.$store.getters.tableSelection.length) return
+
+      this.selections = this.$store.getters.tableSelection
+      this.selections = this.selections.map(selection => {
+        const container = {}
+        container.label = selection.name
+        container.value = selection.uuid
+        return container
+      })
+      this.selectedLeadId = this.selections[0].value
+    },
     reset() {
       this.selectedLeadId = ''
       this.form = {}
