@@ -196,7 +196,7 @@ const lead = {
       })
     },
 
-    async DisqualifiedQualifiedLead({ dispatch }, data) {
+    async DisqualifiedQualifiedLead({ dispatch, rootState }, data) {
       return new Promise((resolve, reject) => {
         data.state = 'QL'
         data.status = 'disqualified'
@@ -207,7 +207,7 @@ const lead = {
             name: 'Qualified Leads',
             columns: Lead.columns,
             key: Lead.primaryKey,
-            data: Lead.query().where('state', 'QL').where('status', 'active').withAll().get()
+            data: Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
           })
 
           resolve(res.data)
