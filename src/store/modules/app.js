@@ -453,6 +453,7 @@ const app = {
 
       for (const condition of query.where.or) {
         for (const key in condition) {
+          if(condition[key])
           model = model.where(key, condition[key])
         }
       }
