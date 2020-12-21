@@ -1,5 +1,6 @@
 import { Model } from '@vuex-orm/core'
 import Lead from './Lead'
+import { formatPhoneNo } from '../utils'
 
 export default class Branch extends Model {
   static entity = 'branches'
@@ -58,12 +59,30 @@ export default class Branch extends Model {
     }
   }
 
+  get displayType() {
+    const typeToDisplayType = {
+      dealer: 'Dealer Branch',
+      home: 'Home Branch',
+    }
+    return typeToDisplayType[this.type]
+  }
+
+  get displayTelNo() {
+    if (!this.telno) return ''
+    return formatPhoneNo(this.telno)
+  }
+
+  get displayFaxNo() {
+    if (!this.faxno) return ''
+    return formatPhoneNo(this.faxno)
+  }
+
   static columns = [
     { name: 'name', required: true, label: 'Name', align: 'left', field: 'name', sortable: true },
     { name: 'code', label: 'Code', align: 'left', field: 'code', sortable: true },
-    { name: 'type', label: 'Type', align: 'left', field: 'type', sortable: true },
-    { name: 'telno', label: 'Tel. No', align: 'left', field: 'telno', sortable: true },
-    { name: 'faxno', label: 'Fax No.', align: 'left', field: 'faxno', sortable: true },
+    { name: 'type', label: 'Type', align: 'left', field: 'displayType', sortable: true },
+    { name: 'telno', label: 'Telephone No', align: 'left', field: 'displayTelNo', sortable: true },
+    { name: 'faxno', label: 'Fax No.', align: 'left', field: 'displayFaxNo', sortable: true },
     { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
     { name: 'address1', label: 'Address Line 1', align: 'left', field: 'address1', sortable: true },
     { name: 'address2', label: 'Address Line 2', align: 'left', field: 'address2', sortable: true },

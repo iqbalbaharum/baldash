@@ -3,6 +3,7 @@ import Role from './Role'
 import Branch from './Branch'
 import Profile from './Profile'
 import UserRole from './UserRole'
+import { formatPhoneNo } from '../utils'
 
 export default class User extends Model {
   static entity = 'user'
@@ -46,10 +47,15 @@ export default class User extends Model {
     }
   }
 
+  get displayTelNo() {
+    if (!this.mobile) return ''
+    return formatPhoneNo(this.mobile)
+  }
+
   static columns = [
     { name: 'name', required: true, label: 'User Name', align: 'left', field: 'name', sortable: true },
     { name: 'email', label: 'Email', align: 'left', field: 'email', sortable: true },
-    { name: 'contact', label: 'Mobile No.', align: 'left', field: 'mobile', sortable: true },
+    { name: 'contact', label: 'Telephone No', align: 'left', field: 'displayTelNo', sortable: true },
     { name: 'branch', label: 'Branch', align: 'left', field: (row) => { if (row.branch) { return row.branch.name } }, sortable: true },
     { name: 'roles', label: 'Roles', align: 'left', field: (row) => { if (row.roles.length) { return row.roles[0].displayName } }, sortable: true },
     { name: 'SCCode', label: 'SC Code', align: 'left', field: (row) => { if (row.profile) { return row.profile.sccode } }, sortable: true }
