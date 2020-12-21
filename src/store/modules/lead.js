@@ -61,7 +61,7 @@ const lead = {
         let filter = data.filter !== undefined ? data.filter : {
           where: {
             state: 'QL',
-            status: 'active',
+            or: [{ status: 'active' }, { status: 'inactive' }],
             branchId: rootState.user.branchId,
             userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined
           }
@@ -147,7 +147,7 @@ const lead = {
           state: 'QL',
           status: 'active',
           branchId: data.branchId,
-          remark: data.remark
+          noteToBranch: data.noteToBranch
         }
         Lead.update({ where: data.uuid, data: leadState })
         const lead = Lead.find(data.uuid)
