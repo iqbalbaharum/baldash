@@ -77,10 +77,14 @@ const lead = {
           .then(res => {
             Lead.insert({ data: res.data })
 
+            const columns = rootState.user.roles.includes('salesconsultant')?
+              Lead.columns.filter(col => col.name !==  'assigned_to') :
+              Lead.columns
+
             if(data.name) {
               dispatch('NewTab', {
                 name: data.name,
-                columns: Lead.columns,
+                columns,
                 key: Lead.primaryKey,
                 data: data.model != null ? data.model.get() : Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
               })
@@ -203,9 +207,13 @@ const lead = {
         Lead.update({ where: data.uuid, data: data })
         const lead = Lead.find(data.uuid)
         this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
+          const columns = rootState.user.roles.includes('salesconsultant')?
+            Lead.columns.filter(col => col.name !==  'assigned_to') :
+            Lead.columns
+
           dispatch('UpdateTab', {
             name: 'Qualified Leads',
-            columns: Lead.columns,
+            columns,
             key: Lead.primaryKey,
             data: Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
           })
@@ -274,7 +282,7 @@ const lead = {
               name: 'Qualified Leads',
               columns: Lead.columns,
               key: Lead.primaryKey,
-              data: Lead.query().withAll().get()
+              data: Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
             })
             resolve(res.data)
           })
