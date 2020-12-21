@@ -82,6 +82,7 @@
                   placeholder="07-2345678"
                   label="Telephone No."
                   mask="## - #########"
+                  lazy-rules
                   unmasked-value
                   :rules="[onMobileCheck, phoneNoRules]"
                   :error="errormessage3.length > 0"

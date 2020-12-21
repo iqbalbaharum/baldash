@@ -13,6 +13,12 @@ export default class BranchRepository extends Repository {
       url: `branch/${branchcode}/exists`,
     })
   }
+  async checkEmailBranchExist(email) {
+    return datasource({
+      method: 'get',
+      url: `branch/email/${email}/exists`,
+    })
+  }
   async checkFaxExist(fax) {
     return datasource({
       method: 'get',
