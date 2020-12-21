@@ -39,6 +39,17 @@ const branch = {
           })
       })
     },
+    async CheckEmailBranchExist({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.checkEmailBranchExist(data)
+          .then(res => {
+            resolve(res.data.exist)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
 
     RegisterBranch({ commit, dispatch }, data) {
       return new Promise((resolve, reject) => {

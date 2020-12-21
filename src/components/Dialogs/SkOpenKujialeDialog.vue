@@ -53,6 +53,7 @@ export default {
   methods: {
     async onClickOpenDesign() {
       const token = await this.$store.dispatch('GetSSOToken')
+      console.log(token)
       if (token.c === '0' && token.d) {
         window.open(`https://www.kujiale.com/v/auth?accesstoken=${token.d}&dest=0`, '_blank')
       }
