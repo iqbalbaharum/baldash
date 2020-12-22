@@ -1,7 +1,7 @@
 import { Model } from '@vuex-orm/core'
 import Branch from './Branch'
 import User from './User'
-import { formatPhoneNo } from '../utils'
+// import { formatPhoneNo } from '../utils'
 
 export default class Lead extends Model {
   static entity = 'leads'
@@ -62,7 +62,16 @@ export default class Lead extends Model {
 
   get displayTelNo() {
     if (!this.phone) return ''
-    return formatPhoneNo(this.phone)
+    var cleaned = ('' + this.phone).replace(/\D/g, '')
+    if (cleaned[0] !== '0') {
+      cleaned = cleaned.substring(0) + '0' + cleaned.substring(0, cleaned.length)
+      console.log('das', cleaned)
+    }
+    var match = cleaned.match(/^(\d{3})(\d{7})$/)
+    if (match) {
+      return match[1] + '-' + match[2]
+    }
+    // return formatPhoneNo(this.phone)
   }
 
   static columns = [
