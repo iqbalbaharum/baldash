@@ -3,6 +3,7 @@
     ref="dialog"
     name="rrbranch"
     @show-dialog="setupBranchesList"
+    @close-dialog="reset"
   >
     <q-card style="width:1800px">
       <q-card-section class="bg-grey-10">
@@ -43,9 +44,15 @@
                 v-model.number="form[index].priority"
                 filled
                 dense
+                :min="1"
                 type="number"
-                @input="validatePriorityInput($event, index)"
-              />
+                :error="hasSamePriorities(form[index].priority, index)
+                  || isValidPriorityValue(form[index].priority, index)"
+              >
+                <template v-slot:error>
+                  {{ errors[index] }}
+                </template>
+              </q-input>
             </q-item-section>
 
             <q-item-section class="col">
@@ -112,6 +119,7 @@
             <q-btn
               color="primary"
               label="Save"
+              :disabled="isSaveButtonDisabled"
               @click="onClickSave"
             />
           </div>
@@ -135,12 +143,17 @@ export default {
     return {
       form: [],
       branches: [],
+      errors: [],
       branchesInInnerRotation: [],
       innerRotationNumber: 0,
     }
   },
 
   computed: {
+    isSaveButtonDisabled() {
+      return this.form.some((branch, index) => this.hasSamePriorities(branch.priority, index) ||
+                                               this.isValidPriorityValue(branch.priority, index))
+    }
   },
 
   methods: {
@@ -173,7 +186,6 @@ export default {
       try {
         for (const updBranch of this.form) {
           await this.$store.dispatch('UpdateBranch', updBranch)
-          if (updBranch.isInInnerRR) console.log('in inner rotaiton', updBranch)
         }
 
         const innerRotationBranches = this.form
@@ -184,7 +196,6 @@ export default {
               nums: this.innerRotationNumber,
             }
           })
-        console.log(innerRotationBranches)
         await this.$store.dispatch('UpdateInnerRotation', innerRotationBranches)
 
         this.$refs.dialog.$children[0].hide()
@@ -195,14 +206,37 @@ export default {
       }
     },
 
-    // FIXME: Find a better way to validate
-    validatePriorityInput(e, i) {
-      e = parseInt(e)
+    hasSamePriorities(priority, index) {
+      priority = parseInt(priority)
+      const priorities = this.form.map(b => b.priority)
+      priorities.splice(index, 1)
 
-      if (e < 1) {
-        this.form[i].priority = 1
-        console.log(this.form[i].priority)
+      if (priorities.some(p => p === priority)) {
+        this.errors[index] = 'No similar priorities.'
+        return true
       }
+
+      return false
+    },
+
+    isValidPriorityValue(priority, index) {
+      priority = parseInt(priority)
+
+      if (priority < 1) {
+        this.errors[index] = 'Priority must be more than 1.'
+        return true
+      }
+
+      if (Number.isNaN(priority)) {
+        this.errors[index] = 'Priority required.'
+        return true
+      }
+
+      return false
+    },
+
+    reset() {
+      this.form = []
     },
   },
 }
