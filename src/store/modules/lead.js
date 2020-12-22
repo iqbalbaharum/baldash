@@ -81,19 +81,23 @@ const lead = {
               Lead.columns.filter(col => col.name !==  'assigned_to') :
               Lead.columns
 
+            const dataQuery = rootState.user.roles.includes('sysadmin')?
+              Lead.query().where('state', 'QL').where('status', 'active').withAll():
+              Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll()
+
             if(data.name) {
               dispatch('NewTab', {
                 name: data.name,
                 columns,
                 key: Lead.primaryKey,
-                data: data.model != null ? data.model.get() : Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
+                data: data.model != null ? data.model.get() : dataQuery.get()
               })
             } else {
               dispatch('UpdateTab', {
                 name: 'Qualified Leads',
                 columns: Lead.columns,
                 key: Lead.primaryKey,
-                data: Lead.query().where('state', 'QL').where('status', 'active').where('branchId', rootState.user.branchId).withAll().get()
+                data: dataQuery.get()
               })
             }
 
