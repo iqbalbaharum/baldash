@@ -130,17 +130,19 @@ const lead = {
         this.$repository.lead.listing(filter)
           .then(res => {
             Lead.insert({ data: res.data })
+
+            const columns = Lead.columns.filter(col => col.name !==  'assigned_to')
             if(data.name) {
               dispatch('NewTab', {
                 name: data.name,
-                columns: Lead.columns,
+                columns,
                 key: Lead.primaryKey,
                 data: data.model != null ? data.model.get() : Lead.query().where('state', 'OL').where('status', 'raw').withAll().get()
               })
             } else {
               dispatch('UpdateTab', {
                 name: 'Online Leads',
-                columns: Lead.columns,
+                columns,
                 key: Lead.primaryKey,
                 data: Lead.query().where('state', 'OL').where('status', 'raw').withAll().get()
               })
