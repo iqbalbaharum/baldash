@@ -67,7 +67,7 @@ const lead = {
         let filter = data.filter !== undefined ? data.filter : {
           where: {
             state: 'QL',
-            branchId: rootState.user.branchId,
+            branchId: rootState.user.roles.includes('sysadmin')? undefined : rootState.user.branchId,
             userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined,
             or: [{ status: 'active' }, { status: 'inactive' }],
           }

@@ -2,7 +2,6 @@
   <modal-dialog
     ref="dialog"
     name="addbranch"
-    @close-dialog="reset"
     @show-dialog="onShowDialog"
   >
     <q-card style="width:1800px">
@@ -284,9 +283,6 @@
                 stack-label
                 class="col q-pb-none"
               />
-              <div v-if="errormessage.length !== 0" class="text-negative q-my-md">
-                {{ errormessage }}
-              </div>
               <q-separator class="q-my-md" />
               <div align="right">
                 <q-btn
@@ -491,6 +487,7 @@ export default {
           await this.$store.dispatch('RegisterBranch', branch)
           this.$refs.dialog.$children[0].hide()
           this.$notify('success', `Branch with name ${branch.name} created!`)
+          this.reset()
         } else {
           this.$notify('error', 'All field is required')
         }

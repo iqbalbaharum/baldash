@@ -138,14 +138,13 @@
                   :bottom-slots="false"
                   :hide-hint="true"
                   label="Telephone No."
-                  lazy-rules
                   mask="## - ########"
                   unmasked-value
-                  :error="errormessage4.length > 0"
-                  :rules="[onMobileCheck, phoneNoRules]"
+                  :rules="[onMobileCheck]"
+                  :error="!!errormessage4"
                 >
                   <q-tooltip
-                    v-if="errormessage4.length > 0"
+                    v-if="errormessage4"
                     anchor="top middle"
                     self="bottom middle"
                     :offset="[10, 10]"
@@ -370,6 +369,16 @@
                   label="Cancel"
                 />
                 <q-btn
+                  color="grey"
+                  label="Reset Form"
+                  class="q-mx-sm"
+                  @click="resetToUser"
+                >
+                  <q-tooltip>
+                    Reset form to original attributes.
+                  </q-tooltip>
+                </q-btn>
+                <q-btn
                   color="primary"
                   label="Update"
                   @click="onEditBranch"
@@ -396,6 +405,7 @@ export default {
   },
   data() {
     return {
+      selectedResetId: '',
       textRules: [val => val && val.length > 0 && val.length < 13],
       selectedBranchId: '',
       form: {},
@@ -448,6 +458,7 @@ export default {
   watch: {
     selectedBranchId(newValue, oldValue) {
       const foundSelection = this.tableSelection.find((selection) => selection.uuid === newValue)
+      this.selectedResetId = this.tableSelection.find((selection) => selection.uuid === newValue)
       this.form = { ...foundSelection }
       this.form.branch = this.getBranchName
       // TODO - This is temporary until can figure out to read image from api directly
@@ -456,6 +467,12 @@ export default {
   },
 
   methods: {
+    resetToUser() {
+      this.form = { ...this.selectedResetId }
+      this.form.branch = this.getBranchName
+      // TODO - This is temporary until can figure out to read image from api directly
+      this.logo = `${process.env.MAIN_BE_URL}/containers/download/${this.form.logo}`
+    },
     async onShowDialog() {
       if (!this.$store.getters.tableSelection.length) return
 
@@ -508,6 +525,7 @@ export default {
     },
     async onEmailCheck() {
       this.$v.form.$touch()
+      if (this.form.email === this.selectedResetId.email) return true
       if (this.form.email.length <= 0) {
         this.errormessage6 = 'Field cant be blank'
         return
@@ -523,6 +541,7 @@ export default {
         })
     },
     async onBranchCodeCheck() {
+      if (this.form.code === this.selectedResetId.code) return true
       if (this.form.code.length <= 0) {
         this.errormessage2 = 'Field cant be blank'
         return
@@ -578,6 +597,7 @@ export default {
       }
     },
     async onFaxCheck() {
+      if (this.form.faxno === this.selectedResetId.faxno) return true
       if (this.form.faxno <= 0) {
         this.errormessage5 = 'Field cant be blank'
         return
@@ -596,7 +616,9 @@ export default {
       }
     },
     async onMobileCheck() {
-      this.$v.form.$touch()
+      this.errormessage4 = ''
+      if (this.form.telno === this.selectedResetId.telno) return true
+
       if (this.form.telno.length <= 0) {
         this.errormessage4 = 'Field cant be blank'
         return
@@ -613,6 +635,8 @@ export default {
       if (this.form.telno.length <= 7) {
         this.errormessage4 = 'Telephone No. must between 8-10 digits'
       }
+
+      return !this.errormessage4
     },
   }
 }

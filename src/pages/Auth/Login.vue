@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="fullscreen column bg-black text-white">
-      <div class="col-2 q-pa-lg flex flex-center">
-        SKCRM
+    <div class="fullscreen column text-black">
+      <div class="row item-centers text-center flex flex-center">
+          <img src="../../assets/sigkit-xs.png" />
       </div>
       <div class="col item-centers text-center q-pa-md flex flex-center">
         <div>
@@ -10,11 +10,9 @@
             <q-input
               ref="email"
               v-model.trim="form.email"
-              dark
               outlined
               standout
               label="Email"
-              color="text-white"
               :error="$v.form.email.$error"
               error-message="Need a valid email"
             />
@@ -22,7 +20,6 @@
             <q-input
               ref="password"
               v-model="form.password"
-              dark
               outlined
               standout
               label="Password"
@@ -45,21 +42,11 @@
 
             <div class="q-gutter-sm">
               <q-btn
-                color="white"
-                text-color="blue"
+                color="primary"
+                text-color="white"
                 label="Sign In"
                 no-caps
                 @click="login"
-              />
-            </div>
-            <div class="q-mt-sm">
-              <q-btn
-                color="white"
-                text-color="white"
-                flat
-                to="/forget"
-                label="I forgot my password"
-                no-caps
               />
             </div>
           </form>
