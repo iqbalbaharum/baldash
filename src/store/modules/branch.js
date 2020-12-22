@@ -39,6 +39,31 @@ const branch = {
           })
       })
     },
+
+    async GetBranchesInInnerRotation() {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.inInnerRotation()
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
+    async GetInnerRotationNumber() {
+      return new Promise((resolve, reject) => {
+        this.$repository.branch.innerRotationNumber()
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
     async CheckEmailBranchExist({ commit }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.branch.checkEmailBranchExist(data)
