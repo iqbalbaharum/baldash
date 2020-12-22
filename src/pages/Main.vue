@@ -38,12 +38,25 @@
       selection="multiple"
       :selected.sync="selection"
       :pagination.sync="pagination"
+      :filter="search"
       @update:fullscreen="(value) => isTableFullscreen = value"
     >
       <template v-slot:top="props">
         <filter-plugins />
 
         <q-space />
+
+        <q-input
+          v-model="search"
+          dense
+          debounce="300"
+          placeholder="Search"
+          class="q-mr-md"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
 
         <q-btn
           flat
@@ -71,6 +84,7 @@ export default {
   },
   data() {
     return {
+      search: '',
       isTableFullscreen: false,
       pagination: {
         rowsPerPage: 0
