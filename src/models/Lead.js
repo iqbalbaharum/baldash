@@ -64,7 +64,7 @@ export default class Lead extends Model {
     if (!this.phone) return ''
     var cleaned = ('' + this.phone).replace(/\D/g, '')
     if (cleaned[0] !== '0') {
-      cleaned = cleaned.concat('0')
+      cleaned = cleaned.insert(0, '0')
       console.log('das', cleaned)
     }
     var match = cleaned.match(/^(\d{3})(\d{7})$/)
