@@ -46,10 +46,11 @@
                 dense
                 :min="1"
                 type="number"
-                :error="validatePriorityInput(form[index].priority, index)"
+                :error="hasSamePriorities(form[index].priority, index)
+                  || isValidPriorityValue(form[index].priority, index)"
               >
                 <template v-slot:error>
-                  No similar priorities.
+                  {{ errors[index] }}
                 </template>
               </q-input>
             </q-item-section>
@@ -142,6 +143,7 @@ export default {
     return {
       form: [],
       branches: [],
+      errors: [],
       branchesInInnerRotation: [],
       innerRotationNumber: 0,
     }
@@ -149,7 +151,8 @@ export default {
 
   computed: {
     isSaveButtonDisabled() {
-      return this.form.some((branch, index) => this.validatePriorityInput(branch.priority, index))
+      return this.form.some((branch, index) => this.hasSamePriorities(branch.priority, index) ||
+                                               this.isValidPriorityValue(branch.priority, index))
     }
   },
 
@@ -205,12 +208,34 @@ export default {
       }
     },
 
-    validatePriorityInput(priority, index) {
+    hasSamePriorities(priority, index) {
       priority = parseInt(priority)
       const priorities = this.form.map(b => b.priority)
       priorities.splice(index, 1)
 
-      return priorities.some(p => p === priority)
+      if (priorities.some(p => p === priority)) {
+        this.errors[index] = 'No similar priorities.'
+        return true
+      }
+
+      return false
+    },
+
+    isValidPriorityValue(priority, index) {
+      priority = parseInt(priority)
+      console.log(priority, typeof priority)
+
+      if (priority < 1) {
+        this.errors[index] = 'Priority must be more than 1.'
+        return true
+      }
+
+      if (Number.isNaN(priority)) {
+        this.errors[index] = 'Priority required.'
+        return true
+      }
+
+      return false
     },
 
     reset() {
