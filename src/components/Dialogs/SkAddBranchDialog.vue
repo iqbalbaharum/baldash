@@ -92,7 +92,7 @@
                   outlined
                   placeholder="07-2345678"
                   label="Telephone No."
-                  mask="## - #########"
+                  mask="## - ########"
                   lazy-rules
                   unmasked-value
                   :rules="[onMobileCheck]"
@@ -115,7 +115,7 @@
                   outlined
                   placeholder="07-23456789"
                   label="Fax No."
-                  mask="## - #########"
+                  mask="## - ########"
                   unmasked-value
                   :rules="[onFaxCheck]"
                   :error="errormessage2.length > 0"

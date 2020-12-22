@@ -192,7 +192,7 @@ export default {
           .filter(branch => branch.isInInnerRR)
           .map(branch => {
             return {
-              branchUuid: branch.uuid,
+              branchId: branch.uuid,
               nums: this.innerRotationNumber,
             }
           })

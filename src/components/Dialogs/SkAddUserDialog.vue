@@ -99,7 +99,7 @@
                     lazy-rules
                     :rules="[onMobileCheck]"
                     :error="errormessage3.length > 0"
-                    mask="### - #########"
+                    mask="### - ########"
                     unmasked-value
                   >
                     <q-tooltip
