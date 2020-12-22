@@ -45,9 +45,21 @@ export default class BranchRepository extends Repository {
     return datasource({
       method: 'patch',
       url: 'branches/inner-rotation',
-      data: {
-        rotation
-      }
+      data: rotation
+    })
+  }
+
+  async innerRotationNumber() {
+    return datasource({
+      method: 'get',
+      url: 'branch/inner-rotation/rotation'
+    })
+  }
+
+  async inInnerRotation() {
+    return datasource({
+      method: 'get',
+      url: 'branch/inner-rotation/branchces'
     })
   }
 }

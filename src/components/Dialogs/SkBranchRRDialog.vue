@@ -5,6 +5,11 @@
     @show-dialog="setupBranchesList"
   >
     <q-card style="width:1800px">
+      <q-card-section class="bg-grey-10">
+        <div class="text-white text-h6">
+          Arrange Branches
+        </div>
+      </q-card-section>
       <div class="q-pa-md">
         <q-list v-if="form.length > 0">
           <q-item class="row">
@@ -17,7 +22,11 @@
             </q-item-section>
 
             <q-item-section class="col-2">
-              Include?
+              Include In Rotation
+            </q-item-section>
+
+            <q-item-section class="col-2">
+              Include In Inner Rotation
             </q-item-section>
 
             <q-item-section class="col-2">
@@ -35,6 +44,7 @@
                 filled
                 dense
                 type="number"
+                @input="validatePriorityInput($event, index)"
               />
             </q-item-section>
 
@@ -44,6 +54,13 @@
 
             <q-item-section class="col-2">
               <q-checkbox v-model="form[index].isInRR" />
+            </q-item-section>
+
+            <q-item-section class="col-2">
+              <q-checkbox v-model="form[index].isInInnerRR" :disable="!form[index].isInRR" />
+              <q-tooltip v-if="!form[index].isInRR">
+                Branch not included in rotation
+              </q-tooltip>
             </q-item-section>
 
             <q-item-section class="col-2">
@@ -60,12 +77,24 @@
         <q-separator class="q-my-md" />
 
         <div class="row justify-between q-mb-lg">
-          <q-input
-            v-model.number="rotation"
-            filled
-            dense
-            label="Rotation"
-          />
+          <div class="text-weight-bold text-uppercase text-grey-5">
+            Inner Rotation Number
+          </div>
+          <div class="full-width">
+            <q-tooltip v-if="!form.filter(b => b.isInInnerRR).length">
+              No branch included in inner rotation
+            </q-tooltip>
+            <q-slider
+              v-model="innerRotationNumber"
+              :min="0"
+              :max="10"
+              :step="1"
+              :disable="!form.filter(b => b.isInInnerRR).length"
+              snap
+              markers
+              label
+            />
+          </div>
         </div>
         <div class="row justify-between">
           <q-btn
@@ -106,7 +135,8 @@ export default {
     return {
       form: [],
       branches: [],
-      rotation: null,
+      branchesInInnerRotation: [],
+      innerRotationNumber: 0,
     }
   },
 
@@ -116,32 +146,64 @@ export default {
   methods: {
     async setupBranchesList() {
       this.branches = await Branch.query().where('code', (value) => value !== 'HQ').orderBy('priority', 'ASC').get()
+
+      this.branchesInInnerRotation = (await this.$store.dispatch('GetBranchesInInnerRotation')).data
+      if (!this.branchesInInnerRotation) this.branchesInInnerRotation = []
+
+      this.innerRotationNumber = (await this.$store.dispatch('GetInnerRotationNumber')).data
+      if (!this.innerRotationNumber) this.innerRotationNumber = 0
+
       for (const branch of this.branches) {
         this.form.push({
           uuid: branch.uuid,
           type: branch.type,
           priority: branch.priority,
           isInRR: branch.isInRR ? branch.isInRR : false,
+          isInInnerRR: this.branchesInInnerRotation.includes(branch.uuid),
           leadcapacity: branch.leadcapacity ? branch.leadcapacity : 0
         })
       }
     },
+
     onClickRefreshCapacity() {
       this.$store.dispatch('RefreshLeadCapacity')
     },
-    onClickSave() {
+
+    async onClickSave() {
       try {
         for (const updBranch of this.form) {
-          this.$store.dispatch('UpdateBranch', updBranch)
+          await this.$store.dispatch('UpdateBranch', updBranch)
+          if (updBranch.isInInnerRR) console.log('in inner rotaiton', updBranch)
         }
-        this.$store.dispatch('UpdateInnerRotation', this.rotation)
+
+        const innerRotationBranches = this.form
+          .filter(branch => branch.isInInnerRR)
+          .map(branch => {
+            return {
+              branchUuid: branch.uuid,
+              nums: this.innerRotationNumber,
+            }
+          })
+        console.log(innerRotationBranches)
+        await this.$store.dispatch('UpdateInnerRotation', innerRotationBranches)
+
         this.$refs.dialog.$children[0].hide()
         this.$notify('success', `Inner rotation value has been updated!`)
       } catch (e) {
         console.log(e)
         this.$notify('error', 'Inner rotaton failed to be updated!')
       }
-    }
+    },
+
+    // FIXME: Find a better way to validate
+    validatePriorityInput(e, i) {
+      e = parseInt(e)
+
+      if (e < 1) {
+        this.form[i].priority = 1
+        console.log(this.form[i].priority)
+      }
+    },
   },
 }
 </script>
