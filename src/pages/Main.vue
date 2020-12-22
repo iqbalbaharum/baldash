@@ -84,7 +84,6 @@ export default {
   },
   data() {
     return {
-      search: '',
       isTableFullscreen: false,
       pagination: {
         rowsPerPage: 0
@@ -99,7 +98,8 @@ export default {
     ]),
     ...mapState({
       activeMenu: state => state.app.activeMenu,
-      tableSelection: state => state.app.tableSelection
+      tableSelection: state => state.app.tableSelection,
+      tableSearch: state => state.app.tableSearch,
     }),
     currentTab: {
       set(value) {
@@ -123,6 +123,14 @@ export default {
       },
       get() {
         return this.tableSelection
+      }
+    },
+    search: {
+      set(search) {
+        this.$store.dispatch('SetSearch', search)
+      },
+      get() {
+        return this.tableSearch
       }
     },
     computedTableHeight: function() {

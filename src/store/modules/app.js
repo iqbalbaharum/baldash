@@ -332,6 +332,7 @@ const app = {
     tableSelection: [],
     dialog: '',
     datatabs: [],
+    tableSearch: '',
     activeDataTab: 0,
   },
   mutations: {
@@ -352,11 +353,17 @@ const app = {
         tabToUpdate.data = tab.data
       }
     },
+    SET_SEARCH: (state, search) => {
+      state.tableSearch = search
+    },
     SET_ACTIVE_DATATAB: (state, index) => {
 			state.activeDataTab = index
     },
     RESET_DATATABS: (state) => {
       state.datatabs = []
+    },
+    RESET_SEARCH: (state) => {
+      state.tableSearch = ''
     },
 		NEW_TAB: (state, tab) => {
 			state.datatabs.push(tab)
@@ -372,9 +379,13 @@ const app = {
     SetMenu({ commit }, menus) {
       commit('SET_MENUS', menus)
     },
+    SetSearch({ commit }, search) {
+      commit('SET_SEARCH', search)
+    },
     async SetActiveMenu({ commit, dispatch, state }, activeMenu) {
       commit('SET_ACTIVE_MENU', activeMenu)
       commit('RESET_DATATABS')
+      commit('RESET_SEARCH')
       dispatch('GetData')
 
       // reset datatab index to 0 everytime change tab
