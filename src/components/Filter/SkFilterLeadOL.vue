@@ -10,6 +10,18 @@
               class="full-width"
               outlined
             />
+            <q-input
+            v-model="form.email"
+            placeholder="Search Email"
+            class="full-width"
+            outlined
+          />
+          <q-input
+            v-model="form.phone"
+            placeholder="Search Telephone No."
+            class="full-width"
+            outlined
+          />
           </div>
         </q-card-section>
 
@@ -59,7 +71,9 @@ export default {
     return {
       isMenuOpen: false,
       form: {
-        name: ''
+        name: '',
+        email: '',
+        phone: ''
       },
       filter: {
         include: 'leads',
@@ -91,6 +105,16 @@ export default {
       if (this.form.name.length > 0) {
         this.filter.where.or.push({
           name: this.form.name
+        })
+      }
+      if (this.form.email.length > 0) {
+        this.filter.where.or.push({
+          email: this.form.email
+        })
+      }
+      if (this.form.phone.length > 0) {
+        this.filter.where.or.push({
+          phone: this.form.phone
         })
       }
       this.$store.dispatch('FilterTable', Object.assign({}, this.filter))

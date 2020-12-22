@@ -9,6 +9,18 @@
             class="full-width"
             outlined
           />
+          <q-input
+            v-model="form.email"
+            placeholder="Search Email"
+            class="full-width"
+            outlined
+          />
+          <q-input
+            v-model="form.mobile"
+            placeholder="Search Telephone No."
+            class="full-width"
+            outlined
+          />
         </div>
       </q-card-section>
 
@@ -80,7 +92,9 @@ export default {
       form: {
         branchId: [],
         roleId: [],
-        name: ''
+        name: '',
+        email: '',
+        mobile: ''
       },
       isMenuOpen: false,
       filter: {
@@ -120,6 +134,8 @@ export default {
   methods: {
     onClickClearFilter() {
       this.form.name = ''
+      this.form.mobile = ''
+      this.form.email = ''
 
       this.filter = {
         branch: {
@@ -143,6 +159,16 @@ export default {
       if (this.form.name.length > 0) {
         this.filter.branch.where.or.push({
           name: this.form.name
+        })
+      }
+      if (this.form.mobile.length > 0) {
+        this.filter.branch.where.or.push({
+          mobile: this.form.mobile
+        })
+      }
+      if (this.form.email.length > 0) {
+        this.filter.branch.where.or.push({
+          email: this.form.email
         })
       }
       this.$store.dispatch('FilterTable', Object.assign({}, this.filter.branch))

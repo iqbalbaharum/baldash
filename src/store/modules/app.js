@@ -459,8 +459,11 @@ const app = {
       }
       
       delete query.include
+      console.log(query)
+      console.log('model', model)
       
       const menu = state.menus.filter(element => element.name === state.activeMenu)
+      console.log(state.activeMenu)
       if (menu[0].request.get) {
         await dispatch(menu[0].request.get, {
           name: `Filter (${state.datatabs.length})`,
@@ -469,7 +472,6 @@ const app = {
         })
       }
     },
-
     // Generate menu list based on user permissions and menu configuration
     async FilterMenus({ dispatch, rootState }) {
       // Safely deep clone the state without reference so we can modify it without mutating vuex data
