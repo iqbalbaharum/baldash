@@ -1,7 +1,7 @@
 import { Model } from '@vuex-orm/core'
 import Branch from './Branch'
 import User from './User'
-// import { formatPhoneNo } from '../utils'
+import { formatPhoneNo } from '../utils'
 
 export default class Lead extends Model {
   static entity = 'leads'
