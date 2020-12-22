@@ -3,6 +3,7 @@
     ref="dialog"
     name="rrbranch"
     @show-dialog="setupBranchesList"
+    @close-dialog="reset"
   >
     <q-card style="width:1800px">
       <q-card-section class="bg-grey-10">
@@ -43,9 +44,14 @@
                 v-model.number="form[index].priority"
                 filled
                 dense
+                :min="1"
                 type="number"
-                @input="validatePriorityInput($event, index)"
-              />
+                :error="validatePriorityInput(form[index].priority, index)"
+              >
+                <template v-slot:error>
+                  No similar priorities.
+                </template>
+              </q-input>
             </q-item-section>
 
             <q-item-section class="col">
@@ -112,6 +118,7 @@
             <q-btn
               color="primary"
               label="Save"
+              :disabled="isSaveButtonDisabled"
               @click="onClickSave"
             />
           </div>
@@ -141,6 +148,9 @@ export default {
   },
 
   computed: {
+    isSaveButtonDisabled() {
+      return this.form.some((branch, index) => this.validatePriorityInput(branch.priority, index))
+    }
   },
 
   methods: {
@@ -195,14 +205,17 @@ export default {
       }
     },
 
-    // FIXME: Find a better way to validate
-    validatePriorityInput(e, i) {
-      e = parseInt(e)
+    validatePriorityInput(priority, index) {
+      priority = parseInt(priority)
+      const priorities = this.form.map(b => b.priority)
+      priorities.splice(index, 1)
 
-      if (e < 1) {
-        this.form[i].priority = 1
-        console.log(this.form[i].priority)
-      }
+      return priorities.some(p => p === priority)
+    },
+
+    reset() {
+      console.log('reset')
+      this.form = []
     },
   },
 }
