@@ -186,7 +186,6 @@ export default {
       try {
         for (const updBranch of this.form) {
           await this.$store.dispatch('UpdateBranch', updBranch)
-          if (updBranch.isInInnerRR) console.log('in inner rotaiton', updBranch)
         }
 
         const innerRotationBranches = this.form
@@ -197,7 +196,6 @@ export default {
               nums: this.innerRotationNumber,
             }
           })
-        console.log(innerRotationBranches)
         await this.$store.dispatch('UpdateInnerRotation', innerRotationBranches)
 
         this.$refs.dialog.$children[0].hide()
@@ -223,7 +221,6 @@ export default {
 
     isValidPriorityValue(priority, index) {
       priority = parseInt(priority)
-      console.log(priority, typeof priority)
 
       if (priority < 1) {
         this.errors[index] = 'Priority must be more than 1.'
@@ -239,7 +236,6 @@ export default {
     },
 
     reset() {
-      console.log('reset')
       this.form = []
     },
   },
