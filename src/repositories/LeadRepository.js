@@ -59,4 +59,11 @@ export default class LeadRepository extends Repository {
       }
     })
   }
+
+  async getDrawing() {
+    return datasource({
+      method: 'get',
+      url: `designs`
+    })
+  }
 }

@@ -28,24 +28,42 @@
                   label="Drawing Number"
                   :rules="textRules"
                 />
-                <q-separator class="q-my-md" />
 
-                <!-- Action buttons -->
-                <div align="right">
-                  <q-btn
-                    v-close-popup
-                    flat
-                    color="primary"
-                    label="Cancel"
-                  />
+                <div v-if="totalPrice === null" align="left">
                   <q-btn
                     color="primary"
                     label="Calculate"
                     @click="onClickSubmit"
                   />
                 </div>
+                <q-separator class="q-my-md" />
+                <div v-if="totalPrice !== null" class="text-weight-bold text-uppercase text-grey-5">
+                  Total quotation price
+                </div>
+                <q-input
+                  v-if="totalPrice !== null"
+                  v-model="totalPrice"
+                  class="col q-pb-none"
+                  outlined
+                  label="Total Price (RM)"
+                  disable
+                />
+                <q-separator class="q-my-md" />
               </div>
             </q-form>
+            <!-- Action buttons -->
+            <div align="right">
+              <q-btn
+                v-close-popup
+                flat
+                color="primary"
+                label="Cancel"
+              />
+              <q-btn
+                color="primary"
+                label="Continue to Detailed Quotation"
+              />
+            </div>
           </div>
         </q-card-section>
       </div>
@@ -108,9 +126,8 @@ export default {
       // TODO
       const lead = { ...this.form }
       lead.drawingId = this.drawingId
-      console.log(lead)
       try {
-        await this.$store.dispatch('CalculateDrawing', lead)
+        this.totalPrice = await this.$store.dispatch('CalculateDrawing', lead)
         this.$notify('success', `Successfully calculate drawing`)
       } catch (e) {
         console.log(e.response)

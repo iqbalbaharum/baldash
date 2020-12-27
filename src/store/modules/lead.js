@@ -357,6 +357,18 @@ const lead = {
       })
     },
 
+    GetDrawing({ dispatch }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.getDrawing()
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
     AddQualifiedLead({ dispatch, rootState }, data) {
       data.branchId = rootState.user.branchId
       data.state = 'QL'

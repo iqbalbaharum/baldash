@@ -30,7 +30,7 @@
             <q-separator />
 
             <div class="text-weight-bold text-uppercase text-grey-5">
-                Lead Details
+              Lead Details
             </div>
 
             <div class="col ">
