@@ -258,7 +258,10 @@ const MENU_CONFIG = [
     name: 'designproposal',
     permissions: [Permissions.MODULE_DESIGN_PROPOSAL],
     label: 'Design Proposal',
-    default_data: 'GetAllLeads',
+    request: {
+      get: 'GetDesignLeads'
+    },
+    default_data: 'GetDesignLeads',
     default_datatab_title: 'DesignCAD',
     config: {
       selectiontype: 'single'
@@ -284,7 +287,9 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-pencil-ruler',
             label: 'Insert Drawing Number',
-            disabled: false,
+            disabled: (state) => state.app.tableSelection.length !== 1,
+            disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
+              'No lead selected' : 'Only one design is allowed at a time.',
           },
           {
             name: 'detailedQuotation',
@@ -293,15 +298,16 @@ const MENU_CONFIG = [
             label: 'Detailed Quotation',
             disabled: (state) => state.app.tableSelection.length !== 1,
             disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
-              'No design selected' : 'Only one design is allowed at a time.',
+              'No lead selected' : 'Only one design is allowed at a time.',
           },
           {
             name: 'summaryQuotation',
             permissions: [],
             icon: 'fas fa-pencil-ruler',
             label: 'Summary Quotation',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No design selected.'
+            disabled: (state) => state.app.tableSelection.length !== 1,
+            disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
+              'No lead selected' : 'Only one design is allowed at a time.',
           },
         ]
       }

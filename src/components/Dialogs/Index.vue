@@ -18,6 +18,7 @@
     <sk-branch-RR-dialog />
     <sk-requalify-q-l-dialog />
     <sk-add-drawing-number-dialog />
+    <sk-assign-lead-to-design />
   </div>
 </template>
 
@@ -40,6 +41,7 @@ import skAssignLeadToScDialog from './SkAssignLeadToSCDialog'
 import skAssignScope from './SkAssignScope'
 import skBranchRRDialog from './SkBranchRRDialog'
 import skAddDrawingNumberDialog from './SkAddDrawingNumberDialog'
+import skAssignLeadToDesign from './SkAssignLeadToDesign'
 
 export default {
 
@@ -62,6 +64,7 @@ export default {
     skBranchRRDialog,
     skRequalifyQLDialog,
     skAddDrawingNumberDialog,
+    skAssignLeadToDesign,
   },
   data() {
     return {

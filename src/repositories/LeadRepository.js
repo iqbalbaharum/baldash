@@ -47,4 +47,16 @@ export default class LeadRepository extends Repository {
       url: `leads/phone/${mobile}/exists`,
     })
   }
+
+  async calculateDrawing(data) {
+    const { uuid, drawingId } = data
+    return datasource({
+      method: 'post',
+      url: `kujiale/calculate`,
+      data: {
+        drawingId: drawingId,
+        leadId: uuid
+      }
+    })
+  }
 }

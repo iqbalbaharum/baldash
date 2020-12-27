@@ -1,3 +1,4 @@
+import DesignLead from 'src/models/DesignLead'
 import Lead from './../../models/Lead'
 import User from './../../models/User'
 
@@ -102,6 +103,50 @@ const lead = {
             }
 
             resolve(Lead.query().get())
+          })
+          .catch(err => {
+            console.log(err)
+            reject(err)
+          })
+      })
+    },
+
+    async GetDesignLeads({ dispatch, rootState }, data) {
+      await Lead.deleteAll()
+
+      return new Promise((resolve, reject) => {
+        let filter = data.filter !== undefined ? data.filter : {
+          where: {
+            state: 'LD',
+            branchId: rootState.user.roles.includes('sysadmin')? undefined : rootState.user.branchId,
+            userId: rootState.user.roles.includes('salesconsultant')? rootState.user.userId : undefined,
+          }
+        }
+        
+        this.$repository.lead.listing(filter)
+          .then(res => {
+            DesignLead.insert({ data: res.data })
+            const dataQuery = rootState.user.roles.includes('sysadmin')?
+              DesignLead.query().where('state', 'LD').withAll():
+              DesignLead.query().where('state', 'LD').where('branchId', rootState.user.branchId).withAll()
+
+            if(data.name) {
+              dispatch('NewTab', {
+                name: data.name,
+                columns: DesignLead.columns,
+                key: DesignLead.primaryKey,
+                data: data.model != null ? data.model.get() : dataQuery.get()
+              })
+            } else {
+              dispatch('UpdateTab', {
+                name: 'Design Leads',
+                columns: DesignLead.columns,
+                key: DesignLead.primaryKey,
+                data: dataQuery.get()
+              })
+            }
+
+            resolve(DesignLead.query().get())
           })
           .catch(err => {
             console.log(err)
@@ -231,6 +276,30 @@ const lead = {
         })
       })
     },
+
+    async AssignLeadToDesign({ dispatch, rootState }, data) {
+      return new Promise((resolve, reject) => {
+        let leadState = {
+          state: 'LD',
+          status: 'design',
+        }
+        Lead.update({ where: data.uuid, data: leadState })
+        const lead = Lead.find(data.uuid)
+        this.$repository.lead.updateById(lead.getId, lead.getBodyRequest).then(async res => {
+          dispatch('UpdateTab', {
+            name: 'Qualified Leads',
+            columns: Lead.columns,
+            key: Lead.primaryKey,
+            data: Lead.query().where('state', 'QL').where('status', 'active').withAll().get()
+          })
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+      })
+    },
+
     async LeadCheckEmailExist({ commit }, data) {
       return new Promise((resolve, reject) => {
         this.$repository.lead.checkEmailExist(data)
@@ -273,6 +342,18 @@ const lead = {
         .catch(err => {
           reject(err)
         })
+      })
+    },
+
+    CalculateDrawing({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.calculateDrawing(data)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+          })
       })
     },
 
