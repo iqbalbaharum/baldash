@@ -113,8 +113,8 @@ export default {
         await this.$store.dispatch('CalculateDrawing', lead)
         this.$notify('success', `Successfully calculate drawing`)
       } catch (e) {
-        console.log(e)
-        const message = e.response.message
+        console.log(e.response)
+        const message = e.response.data.error.message
         this.$notify('error', message)
       }
     },
