@@ -3,7 +3,7 @@ import { getToken } from './localstorage.storage'
 
 const axiosInstance = axios.create({
   baseURL: process.env.MAIN_BE_URL,
-  timeout: 10000
+  timeout: 40000
 })
 
 axiosInstance.interceptors.request.use(
