@@ -62,6 +62,7 @@
               <q-btn
                 color="primary"
                 label="Continue to Detailed Quotation"
+                :disable="totalPrice === null"
               />
             </div>
           </div>
