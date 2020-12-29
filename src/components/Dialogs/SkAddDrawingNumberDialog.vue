@@ -29,14 +29,14 @@
                   :rules="textRules"
                 />
 
-                <div v-if="totalPrice === null" align="left">
+                <div align="left">
                   <q-btn
                     color="primary"
                     label="Calculate"
                     @click="onClickSubmit"
                   />
                 </div>
-                <q-separator class="q-my-md" />
+                <q-separator v-if="totalPrice !== null" class="q-my-md" />
                 <div v-if="totalPrice !== null" class="text-weight-bold text-uppercase text-grey-5">
                   Total quotation price
                 </div>
@@ -128,6 +128,7 @@ export default {
       lead.drawingId = this.drawingId
       try {
         this.totalPrice = await this.$store.dispatch('CalculateDrawing', lead)
+        this.totalPrice = this.totalPrice.toFixed(2)
         this.$notify('success', `Successfully calculate drawing`)
       } catch (e) {
         console.log(e.response)
