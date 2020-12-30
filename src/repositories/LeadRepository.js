@@ -60,10 +60,32 @@ export default class LeadRepository extends Repository {
     })
   }
 
-  async getDrawing() {
+  async getDrawings(filter) {
     return datasource({
       method: 'get',
-      url: `designs`
+      url: `designs`,
+      params: {
+        filter: filter
+      }
+    })
+  }
+
+  async getDesigns(designId) {
+    return datasource({
+      method: 'get',
+      url: `designs/${designId}`
+    })
+  }
+
+  async getDetailedQuotation(data) {
+    const { uuid, drawingId } = data
+    return datasource({
+      method: 'post',
+      url: `kujiale/detailedQuotation`,
+      data: {
+        drawingId: drawingId,
+        leadId: uuid
+      }
     })
   }
 }

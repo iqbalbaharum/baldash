@@ -1,5 +1,6 @@
 import MainLayout from 'layouts/MainLayout'
 import SKLayout from 'layouts/SKLayout'
+import SKQuotationLayout from 'layouts/SKQuotationLayout'
 
 const routes = [
 
@@ -15,6 +16,22 @@ const routes = [
       {
         path: '/',
         component: () => import('pages/Main.vue')
+      }
+    ]
+  },
+
+  {
+    path: `/detailed-quotation/:designId`,
+    meta: {
+      title: 'Detailed Quotation',
+      sidebar: false,
+      roles: []
+    },
+    component: SKQuotationLayout,
+    children: [
+      {
+        path: '/',
+        component: () => import('pages/DetailedQuotation.vue')
       }
     ]
   },

@@ -357,9 +357,51 @@ const lead = {
       })
     },
 
-    GetDrawing({ dispatch }, data) {
+    GetDrawings({ dispatch }, data) {
+      console.log('data', data.uuid)
       return new Promise((resolve, reject) => {
-        this.$repository.lead.getDrawing()
+        let filter = data !== undefined && data.filter ? data.filter : {
+          include: [
+            {
+              relation: 'quotationDetails'
+            },
+            {
+              relation: 'orderInfo'
+            },
+            {
+              relation: 'brandGoods'
+            }
+          ],
+          where: {
+            leadId: data.uuid
+          }
+        }
+
+        this.$repository.lead.getDrawings(filter)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
+    GetDesigns({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.getDesigns(data)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+
+    GetDetailedQuotation({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        this.$repository.lead.getDetailedQuotation(data)
           .then(res => {
             resolve(res.data)
           })
