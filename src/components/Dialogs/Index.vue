@@ -19,6 +19,7 @@
     <sk-requalify-q-l-dialog />
     <sk-add-drawing-number-dialog />
     <sk-assign-lead-to-design />
+    <change-status />
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import skAssignScope from './SkAssignScope'
 import skBranchRRDialog from './SkBranchRRDialog'
 import skAddDrawingNumberDialog from './SkAddDrawingNumberDialog'
 import skAssignLeadToDesign from './SkAssignLeadToDesign'
+import changeStatus from './ChangeStatus'
 
 export default {
 
@@ -65,6 +67,7 @@ export default {
     skRequalifyQLDialog,
     skAddDrawingNumberDialog,
     skAssignLeadToDesign,
+    changeStatus
   },
   data() {
     return {

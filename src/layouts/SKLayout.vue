@@ -7,7 +7,7 @@
     >
       <q-header bordered class="bg-white">
         <q-toolbar class="bg-black">
-          <img src="~assets/sklogo.png" width="100">
+          <span class="text-white text-weight-bold text-uppercase">letservis.com</span>
           <q-space />
           <q-btn
             label="Logout"

@@ -10,6 +10,7 @@ import QualifiedLeadsRepository from './QualifiedLeadsRepository'
 import ContainerRepository from './ContainerRepository'
 import PermissionRepository from './PermissionRepository'
 import CountryRepository from './CountryRepository'
+import EntityRepository from './EntityRepository'
 
 export default {
   // userRepository: bind('userRepository', RepositoryInterface)
@@ -24,4 +25,5 @@ export default {
   container: new ContainerRepository(),
   permission: new PermissionRepository(),
   country: new CountryRepository(),
+  entity: new EntityRepository()
 }

@@ -122,14 +122,8 @@ const user = {
         let filter = data !== undefined && data.filter ? data.filter : {
           include: [
             {
-              relation: 'branch'
-            },
-            {
               relation: 'profile'
-            },
-            {
-              relation: 'roles'
-            },
+            }
           ]
         }
 

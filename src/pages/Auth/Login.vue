@@ -2,7 +2,7 @@
   <div>
     <div class="fullscreen column text-black">
       <div class="row item-centers text-center flex flex-center">
-        <img src="../../assets/sigkit-xs.png">
+        <img src="~assets/lslogo.png" width="400">
       </div>
       <div class="col item-centers text-center q-pa-md flex flex-center">
         <div>

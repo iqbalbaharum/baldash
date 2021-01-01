@@ -18,6 +18,7 @@ import container from './modules/container'
 import designcad from './modules/designcad'
 import permission from './modules/permission'
 import country from './modules/country'
+import entities from './modules/entity'
 
 Vue.use(Vuex)
 
@@ -47,6 +48,7 @@ export default function(/* { ssrContext } */) {
       designcad,
       permission,
       country,
+      entities
     },
     getters,
     plugins: [VuexORM.install(database)],

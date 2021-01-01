@@ -5,7 +5,7 @@ const MENU_CONFIG = [
   {
     name: 'usermanagement',
     permissions: [Permissions.MODULE_USER_MANAGEMENT],
-    label: 'SK Management',
+    label: 'User Management',
     request: {
       get: 'GetAllUsers',
       delete: 'DeleteUser'
@@ -23,7 +23,7 @@ const MENU_CONFIG = [
             permissions: [],
             icon: 'fas fa-user-plus',
             label: 'Add User',
-            disabled: false
+            disabled: true
           },
           {
             name: 'edituser',
@@ -58,277 +58,33 @@ const MENU_CONFIG = [
       }
     ]
   },
+  
   {
-    name: 'branch',
-    permissions: [Permissions.MODULE_BRANCH_MANAGEMENT],
-    label: 'Branch',
+    name: 'entity',
+    permissions: [Permissions.MODULE_ALL],
+    label: 'Request',
     request: {
-      get: 'GetAllBranches',
-      delete: 'DeleteBranch'
+      get: 'GetAllEntities'
     },
-    default_datatab_title: 'Branches',
+    default_datatab_title: 'Vehicle',
     config: {
-      selectiontype: 'multiple'
+      selectiontype: 'single'
     },
     buttons: [
       {
-        category: 'Management',
+        category: 'Status',
         tos: [
           {
-            name: 'addbranch',
-            permissions: [],
-            icon: 'fas fa-user-plus',
-            label: 'Add Branch',
-            disabled: false
-          },
-          {
-            name: 'editbranch',
-            permissions: [],
-            icon: 'fas fa-edit',
-            label: 'View/Edit',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No branch selected'
-          },
-          {
-            name: 'delete',
-            permissions: [],
-            icon: 'fas fa-trash-alt',
-            label: 'Delete',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No branch selected'
-          },
-        ]
-      },
-      {
-        category: 'Auto Suggestion',
-        tos: [
-          {
-            name: 'rrbranch',
-            icon: 'fas fa-filter',
-            label: 'Arrange Branches',
-            disabled: false
-          },
-        ]
-      },
-    ]
-  },
-  {
-    name: 'item',
-    permissions: [Permissions.MODULE_ITEM_LIST],
-    label: 'Item List',
-    request: {
-      get: 'GetAllItems',
-      delete: 'DeleteBranch'
-    },
-    default_datatab_title: 'Item List',
-    config: {
-      selectiontype: 'multiple'
-    },
-    buttons: [
-      {
-        category: 'Template',
-        tos: [
-          {
-            name: 'importitemlist',
+            name: 'changeentitystatus',
             permissions: [],
             icon: 'fas fa-upload',
-            label: 'Import',
+            label: 'Change Status',
             disabled: false,
           },
-          {
-            name: 'downloadsample',
-            permissions: [],
-            icon: 'fas fa-download',
-            label: 'Download',
-            disabled: false
-          },
-          {
-            name: 'importitemhistory',
-            permissions: [],
-            icon: 'fas fa-history',
-            label: 'Import History',
-            disabled: false,
-          }
         ]
       },
     ]
-  },
-  {
-    name: 'onlineleads',
-    permissions: [Permissions.MODULE_ONLINE_LEADS],
-    label: 'Online Leads',
-    request: {
-      get: 'GetOnlineLeads',
-      delete: 'DeleteLead'
-    },
-    default_datatab_title: 'Online Leads',
-    config: {
-      selectiontype: 'multiple'
-    },
-    buttons: [
-      {
-        category: 'Leads',
-        tos: [
-          {
-            name: 'qualifyOL',
-            permissions: [],
-            icon: 'fas fa-user-tag',
-            label: 'Assign To',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No lead selected.'
-          },
-          {
-            name: 'disqualifyOL',
-            permissions: [],
-            icon: 'far fa-star',
-            label: 'Disqualify',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No lead selected.'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    name: 'qualifiedleads',
-    permissions: [Permissions.MODULE_QUALIFIED_LEADS],
-    label: 'Qualified Leads',
-    request: {
-      get: 'GetQualifiedLeads',
-      delete: 'DeleteLead'
-    },
-    default_datatab_title: 'Qualified Leads',
-    config: {
-      selectiontype: 'single'
-    },
-    buttons: [
-      {
-        category: 'Assignment',
-        tos: [
-          {
-            name: 'assigntodesign',
-            permissions: [],
-            icon: 'fas fa-check',
-            label: 'To Design Proposal',
-            disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: (state) => state.app.tableSelection.length < 1?
-              'No lead selected' : 'Only one lead is allowed at a time.',
-          },
-          {
-            name: 'qualifyQL',
-            permissions: [],
-            icon: 'fas fa-user-tag',
-            label: 'Assign To',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No lead selected.'
-          },
-        ]
-      },
-      {
-        category: 'Leads',
-        tos: [
-          {
-            name: 'walkinlead',
-            permissions: [],
-            icon: 'fas fa-walking',
-            label: 'Walk In',
-            disabled: false
-          },
-          {
-            name: 'requalifyQL',
-            permissions: [],
-            icon: 'fas fa-star',
-            label: 'Requalify',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No lead selected.'
-          },
-          {
-            name: 'disqualifyQL',
-            permissions: [],
-            icon: 'far fa-star',
-            label: 'Disqualify',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No lead selected.'
-          },
-        ]
-      }
-    ]
-  },
-  {
-    name: 'designproposal',
-    permissions: [Permissions.MODULE_DESIGN_PROPOSAL],
-    label: 'Design Proposal',
-    request: {
-      get: 'GetDesignLeads'
-    },
-    default_data: 'GetDesignLeads',
-    default_datatab_title: 'DesignCAD',
-    config: {
-      selectiontype: 'single'
-    },
-    buttons: [
-      {
-        category: 'DesignCAD',
-        tos: [
-          {
-            name: 'opendesigncad',
-            permissions: [Permissions.DESIGN_OPEN_EXTERNAL],
-            icon: 'fas fa-pencil-ruler',
-            label: 'Open External',
-            disabled: false
-          },
-        ]
-      },
-      {
-        category: 'Drawing',
-        tos: [
-          {
-            name: 'insertDrawingNumber',
-            permissions: [],
-            icon: 'fas fa-pencil-ruler',
-            label: 'Insert Drawing Number',
-            disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
-              'No lead selected' : 'Only one design is allowed at a time.',
-          },
-          {
-            name: 'detailedQuotation',
-            permissions: [],
-            icon: 'fas fa-pencil-ruler',
-            label: 'Detailed Quotation',
-            disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
-              'No lead selected' : 'Only one design is allowed at a time.',
-          },
-          {
-            name: 'summaryQuotation',
-            permissions: [],
-            icon: 'fas fa-pencil-ruler',
-            label: 'Summary Quotation',
-            disabled: (state) => state.app.tableSelection.length !== 1,
-            disabledTooltipText: (state) => state.app.tableSelection.length < 1? 
-              'No lead selected' : 'Only one design is allowed at a time.',
-          },
-        ]
-      }
-    ]
-  },
-  {
-    name: 'orderconfirmation',
-    permissions: [Permissions.MODULE_ORDER_CONFIRMATION],
-    label: 'Order Confirmation',
-    config: {
-      selectiontype: 'single'
-    },
-  },
-  {
-    name: 'servicereport',
-    permissions: [Permissions.MODULE_SERVICE_REPORT],
-    label: 'Service Report',
-    config: {
-      selectiontype: 'single'
-    },
-  },
+  }
 ]
 
 const app = {

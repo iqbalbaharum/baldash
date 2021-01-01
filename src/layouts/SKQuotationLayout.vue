@@ -7,7 +7,6 @@
     >
       <q-header bordered class="bg-white">
         <q-toolbar class="bg-black">
-          <img src="~assets/sklogo.png" width="100">
           <q-space />
         </q-toolbar>
       </q-header>
