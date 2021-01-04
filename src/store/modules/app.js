@@ -13,50 +13,7 @@ const MENU_CONFIG = [
     default_datatab_title: 'Users',
     config: {
       selectiontype: 'multiple'
-    },
-    buttons: [
-      {
-        category: 'User',
-        tos: [
-          {
-            name: 'adduser',
-            permissions: [],
-            icon: 'fas fa-user-plus',
-            label: 'Add User',
-            disabled: true
-          },
-          {
-            name: 'edituser',
-            permissions: [],
-            icon: 'fas fa-edit',
-            label: 'View/Edit',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No user selected'
-          },
-          {
-            name: 'delete',
-            permissions: [],
-            icon: 'fas fa-trash-alt',
-            label: 'Delete',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No user selected'
-          },
-        ]
-      },
-      {
-        category: 'Access',
-        tos: [
-          {
-            name: 'assignScope',
-            permissions: [],
-            icon: 'fas fa-key',
-            label: 'Scope & Roles',
-            disabled: (state) => state.app.tableSelection.length < 1,
-            disabledTooltipText: 'No user selected'
-          },
-        ]
-      }
-    ]
+    }
   },
   
   {
@@ -66,7 +23,7 @@ const MENU_CONFIG = [
     request: {
       get: 'GetAllEntities'
     },
-    default_datatab_title: 'Vehicle',
+    default_datatab_title: 'Requests',
     config: {
       selectiontype: 'single'
     },

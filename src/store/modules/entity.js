@@ -31,6 +31,31 @@ const entity = {
           })
       })
     },
+
+    ChangeStatus({ dispatch }, data) {
+      return new Promise((resolve, reject) => {
+
+        Entity.update({ where: data.uuid, data: data })
+        const entity = Entity.find(data.uuid)
+        this.$repository.entity.updateById(entity.getId, entity.getBodyRequest)
+          .then(res => {
+            Entity.insert({ data: res.data })
+            if(data.name) {
+              dispatch('UpdateTab', {
+                name: 'Requests',
+                columns: Entity.columns,
+                key: Entity.primaryKey,
+                data: Entity.query().withAll().get()
+              })
+            }
+            resolve(Entity.query().get())
+          })
+          .catch(err => {
+            reject(err)
+            dispatch('GetAllEntities')
+          })
+      })
+    }
   }
 }
 
