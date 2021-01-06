@@ -1,4 +1,5 @@
 import { Model } from '@vuex-orm/core'
+import { date } from 'quasar'
 
 export default class Entity extends Model {
   static entity = 'entity'
@@ -24,11 +25,13 @@ export default class Entity extends Model {
   get getBodyRequest() {
     return {
       state: this.state,
-      status: this.status
+      status: this.status,
+      metadata: this.metadata
     }
   }
 
   static columns = [
+    { name: 'date', label: 'Date', align: 'left', field: (row) => date.formatDate(row.createdAt, 'ddd, DD/MM/YYYY HH:mm A'), sortable: true },
     { name: 'user', required: true, label: 'Requester', align: 'left', field: (row) => row.metadata.contactName, sortable: true },
     { name: 'contact', required: true, label: 'Contact Number', align: 'left', field: (row) => row.metadata.contactNumber, sortable: true },
     { name: 'type', label: 'Vehicle Type', align: 'left', field: (row) => row.metadata.type, sortable: true },

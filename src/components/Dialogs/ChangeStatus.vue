@@ -33,15 +33,23 @@
               Request detail
             </div>
 
-            <q-select
-              v-model="form.status"
-              :options="opts.status"
-              label="New Status"
-              emit-value
-              map-options
-              filled
-              stack-label
-            />
+            <div class="q-gutter-y-md">
+              <q-select
+                v-model="form.status"
+                :options="opts.status"
+                label="New Status"
+                emit-value
+                map-options
+                filled
+                stack-label
+              />
+
+              <q-input
+                v-model="form.metadata.runnerName"
+                label="Runner"
+                filled
+              />
+            </div>
 
             <q-separator class="q-my-md" />
 
@@ -97,6 +105,10 @@ export default {
           {
             label: 'Complete',
             value: 'complete'
+          },
+          {
+            label: 'Cancel',
+            value: 'cancel'
           }
         ]
       }
@@ -131,6 +143,12 @@ export default {
     },
 
     async onChangeStatus() {
+      switch (this.form.status) {
+        case 'cancel':
+        case 'complete':
+          this.form.state = 'end'
+      }
+
       try {
         this.$store.dispatch('ChangeStatus', this.form)
         this.$refs.dialog.$children[0].hide()

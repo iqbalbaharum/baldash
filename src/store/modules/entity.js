@@ -20,7 +20,7 @@ const entity = {
                 name: data.name,
                 columns: Entity.columns,
                 key: Entity.primaryKey,
-                data: data.model != null ? data.model.get() : Entity.query().withAll().get()
+                data: data.model != null ? data.model.get() : Entity.query().withAll().orderBy('createdAt', 'desc').get()
               })
             }
             resolve(Entity.query().get())
